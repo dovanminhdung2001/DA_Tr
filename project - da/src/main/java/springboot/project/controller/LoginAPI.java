@@ -41,8 +41,8 @@ public class LoginAPI {
         // tạo ra 1 token trả về client
         User user = userService.findByPhone(phone);
 
-//        if (user.getRole().getId() == 2)
-//            return ResponseEntity.ok(new MessageResponseDTO(jwtTokenService.createToken(phone, doctorUserService.f)))
+        if (user.getRole().getId() == 2)
+            return ResponseEntity.ok(new MessageResponseDTO(jwtTokenService.createToken(phone), doctorUserService.findByUser(user)));
 
         return ResponseEntity.ok(new MessageResponseDTO(jwtTokenService.createToken(phone), user));
     }

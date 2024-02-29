@@ -14,7 +14,7 @@ import springboot.project.service.DoctorUserService;
 import springboot.project.service.UserService;
 
 @RestController
-@RequestMapping("/api/doctor")
+@RequestMapping("/api/doctor1")
 public class DoctorUserController {
     @Autowired
     private DoctorUserService doctorUserService;
@@ -28,7 +28,7 @@ public class DoctorUserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestParam DoctorUserDTO dto) {
+    public ResponseEntity<?> create(@RequestBody DoctorUserDTO dto) {
         return ResponseEntity.ok(doctorUserService.create(dto));
     }
 }

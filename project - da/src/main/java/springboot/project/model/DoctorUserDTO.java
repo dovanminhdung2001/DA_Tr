@@ -1,5 +1,6 @@
 package springboot.project.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import springboot.project.entity.Clinic;
 import springboot.project.entity.Role;
 import springboot.project.entity.Specialization;
@@ -24,6 +25,8 @@ public class DoctorUserDTO {
     private Boolean isActive;
     private String phone;
     private Integer roleId;
+    private Role role;
+    @JsonFormat(pattern = "dd/MM/yyy")
     private Date birthDate;
     private String generalIntroduction;
 
@@ -36,9 +39,10 @@ public class DoctorUserDTO {
     private User user;
 
     private Clinic clinic;
+    private Integer clinicId;
 
     private Specialization specialization;
-
+    private Integer specializationId;
     public DoctorUserDTO() {
     }
 
@@ -144,6 +148,14 @@ public class DoctorUserDTO {
         this.password = password;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public Date getDob() {
         return dob;
     }
@@ -242,6 +254,22 @@ public class DoctorUserDTO {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public Integer getClinicId() {
+        return clinicId;
+    }
+
+    public void setClinicId(Integer clinicId) {
+        this.clinicId = clinicId;
+    }
+
+    public Integer getSpecializationId() {
+        return specializationId;
+    }
+
+    public void setSpecializationId(Integer specializationId) {
+        this.specializationId = specializationId;
     }
 
     public void setRoleId(Integer roleId) {

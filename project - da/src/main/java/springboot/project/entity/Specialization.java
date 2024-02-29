@@ -122,11 +122,11 @@ public class Specialization {
         this.deletedAt = deletedAt;
     }
 
-    public int getNumberSearch() {
+    public Integer getNumberSearch() {
         return numberSearch;
     }
 
-    public void setNumberSearch(int numberSearch) {
+    public void setNumberSearch(Integer numberSearch) {
         this.numberSearch = numberSearch;
     }
 

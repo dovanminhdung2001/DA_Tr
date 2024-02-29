@@ -56,6 +56,13 @@ public class DoctorUser {
         this.numberChoose = numberChoose;
     }
 
+    public DoctorUser(int numberChoose, Clinic clinic, Specialization specialization, User user) {
+        this.numberChoose = numberChoose;
+        this.clinic = clinic;
+        this.specialization = specialization;
+        this.user = user;
+    }
+
     public int getId() {
         return id;
     }
