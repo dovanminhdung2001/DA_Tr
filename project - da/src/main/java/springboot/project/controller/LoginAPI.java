@@ -44,13 +44,13 @@ public class LoginAPI {
     // đăng kí tài khoản user
     @PostMapping("/api/register/user")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
-        // kiểm tra email đã tồn tại hay chưa ?
+        // kiểm tra phone đã tồn tại hay chưa ?
         if (userService.existsByPhone(userDTO.getPhone())) {
             return ResponseEntity.badRequest().body(new MessageResponseDTO("Error: Phone is already !"));
         }
 
-//        if (userDTO.getRole().getId() != 3)
-//            return ResponseEntity.badRequest().body("Wrong role");
+        if (userDTO.getRole().getId() != 3)
+            return ResponseEntity.badRequest().body("Wrong role");
 
         User user = userService.addUser(userDTO);
         return ResponseEntity.ok(user);

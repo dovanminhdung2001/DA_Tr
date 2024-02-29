@@ -21,7 +21,7 @@ public class DoctorUserDTO {
     private String avatar;
     private String cccd;
     private String description;
-    private String isActive;
+    private Boolean isActive;
     private String phone;
     private Integer roleId;
 
@@ -208,11 +208,11 @@ public class DoctorUserDTO {
         this.description = description;
     }
 
-    public String getIsActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(String isActive) {
+    public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
 

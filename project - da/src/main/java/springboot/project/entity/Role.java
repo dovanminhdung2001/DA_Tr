@@ -24,6 +24,10 @@ public class Role {
         this.name = name;
     }
 
+    public Role(Integer roleId) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

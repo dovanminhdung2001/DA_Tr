@@ -46,7 +46,7 @@ public class User {
     private Patient patient;
 
     @Column(name = "isActive")
-    private boolean isActive;
+    private Boolean isActive;
 
     private String cccd;
 
@@ -54,9 +54,23 @@ public class User {
     public User() {
     }
 
+    public User(String name, String email, String password, String address, String phone, String avatar, String gender, String description, Role role, Boolean isActive, String cccd) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.address = address;
+        this.phone = phone;
+        this.avatar = avatar;
+        this.gender = gender;
+        this.description = description;
+        this.role = role;
+        this.isActive = isActive;
+        this.cccd = cccd;
+    }
+
     public User(String name, String email, String password, String address,
                 String phone, String avatar, String gender, String description,
-                Patient patient, Role role, boolean isActive) {
+                Patient patient, Role role, Boolean isActive) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -70,6 +84,8 @@ public class User {
         this.isActive = isActive;
 
     }
+
+
 
     public int getId() {
         return id;
@@ -151,11 +167,11 @@ public class User {
         this.role = role;
     }
 
-    public boolean isActive() {
+    public Boolean isActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         isActive = active;
     }
 
