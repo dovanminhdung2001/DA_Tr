@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import springboot.project.entity.User;
 import springboot.project.model.MessageResponseDTO;
 import springboot.project.model.UserDTO;
+import springboot.project.service.DoctorUserService;
 import springboot.project.service.JwtTokenService;
 import springboot.project.service.UserService;
 
@@ -27,7 +28,8 @@ public class LoginAPI {
 
     @Autowired
     AuthenticationManager authenticationManager;
-
+    @Autowired
+    DoctorUserService doctorUserService;
     @Autowired
     UserService userService;
 
@@ -38,6 +40,10 @@ public class LoginAPI {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(phone, password));
         // tạo ra 1 token trả về client
         User user = userService.findByPhone(phone);
+
+//        if (user.getRole().getId() == 2)
+//            return ResponseEntity.ok(new MessageResponseDTO(jwtTokenService.createToken(phone, doctorUserService.f)))
+
         return ResponseEntity.ok(new MessageResponseDTO(jwtTokenService.createToken(phone), user));
     }
 

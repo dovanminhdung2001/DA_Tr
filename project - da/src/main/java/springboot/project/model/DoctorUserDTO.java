@@ -24,7 +24,7 @@ public class DoctorUserDTO {
     private Boolean isActive;
     private String phone;
     private Integer roleId;
-
+    private Date birthDate;
     private String generalIntroduction;
 
     private String trainingProcess;
@@ -226,6 +226,22 @@ public class DoctorUserDTO {
 
     public Integer getRoleId() {
         return roleId;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     public void setRoleId(Integer roleId) {

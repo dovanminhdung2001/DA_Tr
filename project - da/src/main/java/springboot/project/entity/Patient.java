@@ -61,6 +61,10 @@ public class Patient {
         this.address = address;
     }
 
+    public Patient(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
     public int getId() {
         return id;
     }

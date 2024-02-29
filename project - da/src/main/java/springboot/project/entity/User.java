@@ -46,7 +46,12 @@ public class User {
     private Patient patient;
 
     @Column(name = "isActive")
-    private Boolean isActive;
+    private Boolean isActive = false;
+
+    @Column(name = "birth_date")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @CreatedDate
+    private Date birthDate;
 
     private String cccd;
 
@@ -54,7 +59,7 @@ public class User {
     public User() {
     }
 
-    public User(String name, String email, String password, String address, String phone, String avatar, String gender, String description, Role role, Boolean isActive, String cccd) {
+    public User(String name, String email, String password, String address, String phone, String avatar, String gender, String description, Role role, Boolean isActive, String cccd, Date birthDate) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -66,6 +71,7 @@ public class User {
         this.role = role;
         this.isActive = isActive;
         this.cccd = cccd;
+        this.birthDate = birthDate;
     }
 
     public User(String name, String email, String password, String address,
@@ -86,6 +92,17 @@ public class User {
     }
 
 
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
 
     public int getId() {
         return id;

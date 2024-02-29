@@ -1,5 +1,6 @@
 package springboot.project.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import springboot.project.entity.DoctorUser;
 import springboot.project.entity.Patient;
 import springboot.project.entity.Role;
@@ -39,6 +40,10 @@ public class UserDTO {
     private String cccd;
 
     private Integer createdBy;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date birthDate;
+    private Date createdAt;
+    private Date updatedAt;
     public UserDTO() {
     }
 
@@ -195,5 +200,13 @@ public class UserDTO {
 
     public void setCreatedBy(Integer createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 }

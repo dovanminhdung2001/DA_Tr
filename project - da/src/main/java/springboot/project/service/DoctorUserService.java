@@ -2,6 +2,7 @@ package springboot.project.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import springboot.project.entity.User;
 import springboot.project.model.DoctorUserDTO;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface DoctorUserService {
 
     DoctorUserDTO create(DoctorUserDTO dto);
     DoctorUserDTO findById(Integer id);
+    DoctorUserDTO findByUser(User user);
 }

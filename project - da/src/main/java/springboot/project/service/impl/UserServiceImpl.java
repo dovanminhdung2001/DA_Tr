@@ -34,13 +34,9 @@ public class UserServiceImpl implements UserService {
         user.setDescription(userDTO.getDescription());
         user.setRole(userDTO.getRole());
         user.setCccd(userDTO.getCccd());
-
+        user.setActive(true);
         user = userRepository.save(user);
-
-        Patient patient = userDTO.getPatient();
-        patient.setUser(user);
-        patient = patientRepository.save(patient);
-        user.setPatient(patient);
+        user.setBirthDate(userDTO.getBirthDate());
 
         return user;
     }

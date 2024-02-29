@@ -11,6 +11,7 @@ import springboot.project.entity.User;
 import springboot.project.model.DoctorUserDTO;
 import springboot.project.service.ClinicService;
 import springboot.project.service.DoctorUserService;
+import springboot.project.service.UserService;
 
 @RestController
 @RequestMapping("/api/doctor")
@@ -19,7 +20,8 @@ public class DoctorUserController {
     private DoctorUserService doctorUserService;
     @Autowired
     private ClinicService clinicService;
-
+    @Autowired
+    private UserService userService;
     @GetMapping("/list")
     public ResponseEntity<?> page(@RequestParam Pageable pageable) {
         return ResponseEntity.ok(doctorUserService.page(pageable));
@@ -27,24 +29,6 @@ public class DoctorUserController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestParam DoctorUserDTO dto) {
-        User user = new User(
-                dto.getName(),
-                dto.getEmail(),
-                dto.getPassword(),
-                dto.getAddress(),
-                dto.getPhone(),
-                dto.getAvatar(),
-                dto.getGender(),
-                dto.getDescription(),
-                new Role(dto.getRoleId()),
-                dto.getIsActive(),
-                dto.getCccd()
-        );
-
-        DoctorUser doctorUser = new DoctorUser(
-
-        );
-
-        return null;
+        return ResponseEntity.ok(doctorUserService.create(dto));
     }
 }
