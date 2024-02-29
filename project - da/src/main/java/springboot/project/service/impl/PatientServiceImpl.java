@@ -55,6 +55,4 @@ public class PatientServiceImpl implements PatientService {
         patientDTO.setDescription(lists.toString());
         return patientDTO;
     }
-
-
 }

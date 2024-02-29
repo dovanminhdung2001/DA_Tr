@@ -47,7 +47,6 @@ public class ClinicServiceImpl implements ClinicService {
         clinic.setIntroductionHTML(dto.getIntroductionHTML());
         clinic.setIntroductionMarkdown(dto.getIntroductionMarkdown());
         clinic.setImage(dto.getImage());
-        clinic.setWokingTime(dto.getWorkingTime());
 //        clinic.setExaminationCosts(dto.getExaminationCosts());
 //        clinic.setDoctorUsers();
 
@@ -73,8 +72,6 @@ public class ClinicServiceImpl implements ClinicService {
                 dto.getIntroductionMarkdown(),
                 dto.getDescription(),
                 dto.getImage(),
-                dto.getWorkingTime(),
-                dto.getExaminationCosts(),
                 dto.getDoctorUserList(),
                 dto.getCreatedAt()
         );

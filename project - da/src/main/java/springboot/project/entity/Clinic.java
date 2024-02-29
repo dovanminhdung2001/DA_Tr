@@ -35,12 +35,6 @@ public class Clinic {
     @Column(name = "image")
     private String image;
 
-    @Column(name = "woking_time")
-    private String wokingTime;
-
-    @Column(name = "examination_costs")
-    private Integer examinationCosts;
-
     @OneToMany(mappedBy = "clinic")
     @JsonIgnore
     private List<DoctorUser> doctorUsers;
@@ -54,13 +48,11 @@ public class Clinic {
     public Clinic() {
     }
 
-    public Clinic(String name, String address, String phone, String introductionHTML,int numberChoose,String wokingTime,
-                  int examinationCosts,String introductionMarkdown, String description, String image, Date createdAt) {
+    public Clinic(String name, String address, String phone, String introductionHTML,int numberChoose,
+                  String introductionMarkdown, String description, String image, Date createdAt) {
         this.name = name;
         this.address = address;
         this.phone = phone;
-        this.examinationCosts = examinationCosts;
-        this.wokingTime = wokingTime;
         this.numberChoose = numberChoose;
         this.introductionHTML = introductionHTML;
         this.introductionMarkdown = introductionMarkdown;
@@ -69,7 +61,7 @@ public class Clinic {
         this.createdAt = createdAt;
     }
 
-    public Clinic(String name, String address, String phone, String introductionHTML, String introductionMarkdown, String description, String image, String wokingTime, Integer examinationCosts, List<DoctorUser> doctorUsers, Date createdAt) {
+    public Clinic(String name, String address, String phone, String introductionHTML, String introductionMarkdown, String description, String image, List<DoctorUser> doctorUsers, Date createdAt) {
         this.name = name;
         this.address = address;
         this.phone = phone;
@@ -77,8 +69,6 @@ public class Clinic {
         this.introductionMarkdown = introductionMarkdown;
         this.description = description;
         this.image = image;
-        this.wokingTime = wokingTime;
-        this.examinationCosts = examinationCosts;
         this.doctorUsers = doctorUsers;
         this.createdAt = createdAt;
     }
@@ -163,21 +153,6 @@ public class Clinic {
         this.numberChoose = numberChoose;
     }
 
-    public String getWokingTime() {
-        return wokingTime;
-    }
-
-    public void setWokingTime(String wokingTime) {
-        this.wokingTime = wokingTime;
-    }
-
-    public Integer getExaminationCosts() {
-        return examinationCosts;
-    }
-
-    public void setExaminationCosts(Integer examinationCosts) {
-        this.examinationCosts = examinationCosts;
-    }
 
     public List<DoctorUser> getDoctorUsers() {
         return doctorUsers;

@@ -1,9 +1,11 @@
 package springboot.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "doctor_users")
@@ -40,6 +42,10 @@ public class DoctorUser {
 
     @Column(name = "number_choose")
     private int numberChoose;
+
+    @OneToMany(mappedBy = "doctorUser")
+    private List<DoctorDate> doctorDates;
+
     public DoctorUser() {
     }
 
