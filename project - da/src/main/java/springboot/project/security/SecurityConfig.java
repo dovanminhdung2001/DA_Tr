@@ -42,12 +42,19 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+         http.csrf().disable();
+        http.cors().configurationSource(request -> {
+            CorsConfiguration configuration = new CorsConfiguration();
+            configuration.setAllowedOrigins(Arrays.asList("http://**"));
+            configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+            configuration.setAllowedHeaders(Arrays.asList("**"));
+            return configuration;
+        });
         http.authorizeHttpRequests(configurer ->
                         configurer.requestMatchers("/api/admin/**").hasAnyRole("ADMIN")
                                 .requestMatchers("/api/doctor/**").hasAnyRole("DOCTOR", "ADMIN")
                                 .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
-                                .anyRequest().permitAll())
-                .csrf().disable().cors().disable();
+                                .anyRequest().permitAll()) ;
 
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
