@@ -13,7 +13,7 @@ import springboot.project.service.ClinicService;
 import springboot.project.service.DoctorUserService;
 import springboot.project.service.UserService;
 
-@CrossOrigin(origins = "**")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/doctor1")
 public class DoctorUserController {

@@ -16,7 +16,7 @@ import springboot.project.service.UserService;
 
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
-@CrossOrigin(origins = "**")
+@CrossOrigin(origins = "*")
 @RestController
 @Slf4j
 public class LoginAPI {
