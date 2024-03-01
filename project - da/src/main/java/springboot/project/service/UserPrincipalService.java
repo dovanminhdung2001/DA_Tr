@@ -49,14 +49,14 @@ public class UserPrincipalService implements UserDetailsService {
         if (null == user.getPatient()){
             return accountDTO;
         } else {
-            accountDTO.setHistoryBreath(user.getPatient().getTestResults().getDescription());
+            accountDTO.setHistoryBreath(user.getPatient().getTestResults().get(0).getDescription());
         }
 
-        if (user.getPatient().getSchedule() == null){
-            return accountDTO;
-        } else {
-            accountDTO.setSchedules(user.getPatient().getSchedule());
-        }
+//        if (user.getPatient().getSchedule() == null){
+//            return accountDTO;
+//        } else {
+//            accountDTO.setSchedules(user.getPatient().getSchedule());
+//        }
 
         return accountDTO;
     }

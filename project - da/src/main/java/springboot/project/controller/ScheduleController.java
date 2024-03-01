@@ -1,5 +1,6 @@
 package springboot.project.controller;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import springboot.project.service.ScheduleService;
 
 @CrossOrigin(origins = "*")
 @RestController
+@RequestMapping("/api/schedule")
 public class ScheduleController {
     @Autowired
     ScheduleService scheduleService;
@@ -25,22 +27,14 @@ public class ScheduleController {
     ScheduleRepository scheduleRepository;
 
     // dat lich kham
-    @PostMapping("/api/user/booking")
-    public ResponseEntity<?> addMakeAnAppointment(@RequestBody RegisterDTO registerDTO) {
-        try {
-            Patient patient = patientService.addPatient(registerDTO);
-            Schedule schedule = scheduleService.addMakeAnAppointment(registerDTO);
-            schedule.setPatient(patient);
-            scheduleRepository.save(schedule);
-            return ResponseEntity.ok(schedule);
-        } catch (Exception ex) {
-            return ResponseEntity.badRequest().body(new MessageResponseDTO("Error"));
-        }
+    @PostMapping("/booking")
+    public ResponseEntity<?> booking(@RequestBody ScheduleDTO dto) {
+        return ResponseEntity.ok(scheduleService.booking(dto));
     }
 
     // huy lich kham
-    @DeleteMapping("/api/user/unbooking")
-    public void deleteMakeAnAppointment(@RequestBody ScheduleDTO scheduleDTO) {
-        scheduleService.deleteMakeAnAppointment(scheduleDTO.getId());
+    @DeleteMapping("/unbooking")
+    public ResponseEntity<?> unbooking(@RequestParam Integer id) {
+        return ResponseEntity.ok(new MessageResponseDTO("ok"));
     }
 }

@@ -1,10 +1,15 @@
 package springboot.project.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import springboot.project.entity.Clinic;
 import springboot.project.entity.DoctorUser;
 import springboot.project.entity.Patient;
 import springboot.project.entity.TestResults;
 
+import java.util.Date;
+
+@Data
 public class ScheduleDTO {
     private int id;
 
@@ -28,7 +33,13 @@ public class ScheduleDTO {
     private String pathological;
 
     private TestResults testResults;
-
+/////////
+    private Integer doctorId;
+    @JsonFormat(pattern = "dd/MM/yyy")
+    private Date workingDate;
+    private Integer shiftId;
+    private String userPhone;
+///////////
     public ScheduleDTO() {
     }
 

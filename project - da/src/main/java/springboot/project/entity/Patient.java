@@ -29,11 +29,11 @@ public class Patient {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "patient")
-    private List<Schedule> schedule;
+//    @OneToMany(mappedBy = "patient")
+//    private List<Schedule> schedule;
 
-    @OneToOne(mappedBy = "patient")
-    private TestResults testResults;
+    @OneToMany(mappedBy = "patient")
+    private List<TestResults> testResults;
 
     @Column(name = "birth_date")
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -55,7 +55,6 @@ public class Patient {
         this.doctorUser = doctorUser;
         this.name = name;
         this.user = user;
-        this.schedule = schedule;
         this.birthDate = birthDate;
         this.CCCD = CCCD;
         this.address = address;
@@ -97,13 +96,6 @@ public class Patient {
         this.user = user;
     }
 
-    public List<Schedule> getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(List<Schedule> schedule) {
-        this.schedule = schedule;
-    }
 
     public Date getBirthDate() {
         return birthDate;
@@ -129,11 +121,11 @@ public class Patient {
         this.address = address;
     }
 
-    public TestResults getTestResults() {
+    public List<TestResults> getTestResults() {
         return testResults;
     }
 
-    public void setTestResults(TestResults testResults) {
+    public void setTestResults(List<TestResults> testResults) {
         this.testResults = testResults;
     }
 }

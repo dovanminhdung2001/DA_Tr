@@ -11,7 +11,7 @@ public class TestResults {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "scheduleId")
     @JsonIgnore
     private Schedule schedule;

@@ -3,11 +3,13 @@ package springboot.project.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 
 @Entity
+@Data
 @Table(name = "schedules") // lichj trinhf
 public class Schedule {
     @Id
@@ -21,21 +23,16 @@ public class Schedule {
     private DoctorUser doctorUser;
 
     @Column(name = "date")
-    private String date;
+    private Date date;
 
     @Column(name = "time")
     private String time;
-
-    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "patientId")
-    @JsonIgnore
-    private Patient patient;
-
-    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "clinicId")
-    private Clinic clinic;
-
-    private String examinationPrice;
+    @Column(name = "shiftId")
+    private Integer shiftId;
+    @Column(name = "examinationPrice")
+    private Integer examinationPrice;
+    @Column(name = "userphone")
+    private String userPhone;
 
     private int status;
 
@@ -64,21 +61,15 @@ public class Schedule {
     public Schedule() {
     }
 
-    public Schedule(DoctorUser doctorUser, String date, String time,
-                    Patient patient, Clinic clinic, String examinationPrice,
-                    String personalInformation, String pathological, Date createdAt,
-                    Date updatedAt, Date deletedAt) {
+    public Schedule(DoctorUser doctorUser, Date workingDate, Integer shiftId, String shiftTime, Integer examinationCosts, String userPhone) {
         this.doctorUser = doctorUser;
-        this.date = date;
-        this.time = time;
-        this.patient = patient;
-        this.clinic = clinic;
-        this.examinationPrice = examinationPrice;
-        this.pathological = pathological;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.deletedAt = deletedAt;
+        this.date = workingDate;
+        this.shiftId = shiftId;
+        this.time = shiftTime;
+        this.examinationPrice = examinationCosts;
+        this.userPhone = userPhone;
     }
+
 
     public int getId() {
         return id;
@@ -96,11 +87,11 @@ public class Schedule {
         this.doctorUser = doctorUser;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -110,6 +101,46 @@ public class Schedule {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public Integer getExaminationPrice() {
+        return examinationPrice;
+    }
+
+    public void setExaminationPrice(Integer examinationPrice) {
+        this.examinationPrice = examinationPrice;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getPathological() {
+        return pathological;
+    }
+
+    public void setPathological(String pathological) {
+        this.pathological = pathological;
+    }
+
+    public TestResults getTestResults() {
+        return testResults;
+    }
+
+    public void setTestResults(TestResults testResults) {
+        this.testResults = testResults;
     }
 
     public Date getCreatedAt() {
@@ -134,69 +165,5 @@ public class Schedule {
 
     public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
-    }
-
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
-
-    public Clinic getClinic() {
-        return clinic;
-    }
-
-    public void setClinic(Clinic clinic) {
-        this.clinic = clinic;
-    }
-
-    public String getExaminationPrice() {
-        return examinationPrice;
-    }
-
-    public void setExaminationPrice(String examinationPrice) {
-        this.examinationPrice = examinationPrice;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getPathological() {
-        return pathological;
-    }
-
-    public void setPathological(String pathological) {
-        this.pathological = pathological;
-    }
-
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public TestResults getTestResults() {
-        return testResults;
-    }
-
-    public void setTestResults(TestResults testResults) {
-        this.testResults = testResults;
     }
 }

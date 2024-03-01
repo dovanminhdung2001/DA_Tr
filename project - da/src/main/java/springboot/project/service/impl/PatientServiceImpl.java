@@ -47,11 +47,11 @@ public class PatientServiceImpl implements PatientService {
         patientDTO.setCccd(patient.getCCCD());
         patientDTO.setBirthDate(patient.getBirthDate());
         Set<String> lists = new HashSet<>();
-        for (Schedule schedule : patient.getSchedule()) {
-            if (schedule != null){
-                lists.add(schedule.getTestResults().getDescription());
-            }
-        }
+//        for (Schedule schedule : patient.getSchedule()) {
+//            if (schedule != null){
+//                lists.add(schedule.getTestResults().getDescription());
+//            }
+//        }
         patientDTO.setDescription(lists.toString());
         return patientDTO;
     }
