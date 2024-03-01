@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@CrossOrigin
+@CrossOrigin(origins = "**")
 @RestController
 public class UserController {
     @Autowired

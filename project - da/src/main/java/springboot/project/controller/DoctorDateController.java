@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import springboot.project.model.DoctorDateDTO;
 import springboot.project.service.DoctorDateService;
 
-@CrossOrigin
+@CrossOrigin(origins = "**")
 @RestController
 @RequestMapping("/api/docterDate")
 public class DoctorDateController {

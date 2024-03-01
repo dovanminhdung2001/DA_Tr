@@ -12,7 +12,7 @@ import springboot.project.service.TestResultsService;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin(origins = "**")
 @RestController
 public class TestResultsController {
     @Autowired

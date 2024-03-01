@@ -12,7 +12,7 @@ import springboot.project.model.MessageResponseDTO;
 import springboot.project.service.ClinicService;
 
 @Controller
-@CrossOrigin
+@CrossOrigin(origins = "**")
 @RequestMapping("/api/clinic")
 public class ClinicController {
     @Autowired

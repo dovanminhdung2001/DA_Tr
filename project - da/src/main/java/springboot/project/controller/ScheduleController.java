@@ -12,7 +12,7 @@ import springboot.project.model.RegisterDTO;
 import springboot.project.service.PatientService;
 import springboot.project.service.ScheduleService;
 
-@CrossOrigin
+@CrossOrigin(origins = "**")
 @RestController
 public class ScheduleController {
     @Autowired
