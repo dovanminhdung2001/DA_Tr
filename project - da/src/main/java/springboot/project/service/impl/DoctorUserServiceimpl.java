@@ -1,5 +1,6 @@
 package springboot.project.service.impl;
 
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import springboot.project.entity.*;
 import springboot.project.model.DoctorUserDTO;
 import springboot.project.security.PasswordGenerator;
 import springboot.project.service.DoctorUserService;
+import springboot.project.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +86,16 @@ public class DoctorUserServiceimpl implements DoctorUserService {
     @Override
     public DoctorUserDTO findByUser(User user) {
         return convert(doctorUserRepository.findByUser(user));
+    }
+
+
+    @SneakyThrows
+    @Override
+    public Page<DoctorUser> find(Pageable pageable, DoctorUserDTO dto) {
+        if (dto.getSpecializationId() == null) {
+            return  doctorUserRepository.findAllByWorkingDate(pageable, dto.getWorkingDate());
+        }
+        return  doctorUserRepository.findAllByWorkingDateAndSpecialization(pageable, dto.getWorkingDate(), dto.getSpecializationId());
     }
 
     private DoctorUserDTO convert(DoctorUser doctorUser) {

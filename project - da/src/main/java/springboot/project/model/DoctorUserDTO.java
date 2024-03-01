@@ -43,6 +43,8 @@ public class DoctorUserDTO {
 
     private Specialization specialization;
     private Integer specializationId;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date workingDate;
     public DoctorUserDTO() {
     }
 
@@ -278,5 +280,13 @@ public class DoctorUserDTO {
 
     public void setSpecialization(Specialization specialization) {
         this.specialization = specialization;
+    }
+
+    public Date getWorkingDate() {
+        return workingDate;
+    }
+
+    public void setWorkingDate(Date workingDate) {
+        this.workingDate = workingDate;
     }
 }

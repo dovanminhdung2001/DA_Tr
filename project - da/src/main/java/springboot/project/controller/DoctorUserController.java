@@ -28,6 +28,11 @@ public class DoctorUserController {
         return ResponseEntity.ok(doctorUserService.page(pageable));
     }
 
+    @GetMapping("/find")
+    public ResponseEntity<?> find (Pageable pageable, @RequestBody DoctorUserDTO dto) {
+        return ResponseEntity.ok(doctorUserService.find(pageable, dto));
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody DoctorUserDTO dto) {
         return ResponseEntity.ok(doctorUserService.create(dto));
