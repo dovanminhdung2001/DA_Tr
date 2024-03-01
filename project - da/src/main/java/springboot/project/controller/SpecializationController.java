@@ -9,6 +9,7 @@ import springboot.project.model.MessageResponseDTO;
 import springboot.project.model.SpecializationDTO;
 import springboot.project.service.SpecializationService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/specialization")
 public class SpecializationController {

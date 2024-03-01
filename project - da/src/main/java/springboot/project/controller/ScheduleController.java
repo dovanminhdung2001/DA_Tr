@@ -2,10 +2,7 @@ package springboot.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springboot.project.dao.ScheduleRepository;
 import springboot.project.entity.Patient;
 import springboot.project.entity.Schedule;
@@ -15,6 +12,7 @@ import springboot.project.model.RegisterDTO;
 import springboot.project.service.PatientService;
 import springboot.project.service.ScheduleService;
 
+@CrossOrigin
 @RestController
 public class ScheduleController {
     @Autowired

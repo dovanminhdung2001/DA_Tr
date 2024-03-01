@@ -10,6 +10,7 @@ import springboot.project.service.DateShiftService;
 
 
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/dateShift")
 public class DateShiftController {
