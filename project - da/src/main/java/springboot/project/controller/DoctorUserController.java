@@ -15,7 +15,7 @@ import springboot.project.service.UserService;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/doctor1")
+@RequestMapping("/api")
 public class DoctorUserController {
     @Autowired
     private DoctorUserService doctorUserService;
@@ -23,17 +23,17 @@ public class DoctorUserController {
     private ClinicService clinicService;
     @Autowired
     private UserService userService;
-    @GetMapping("/list")
+    @GetMapping("/user/doctor/list")
     public ResponseEntity<?> page(@RequestParam Pageable pageable) {
         return ResponseEntity.ok(doctorUserService.page(pageable));
     }
 
-    @GetMapping("/find")
+    @GetMapping("/user/doctor/find")
     public ResponseEntity<?> find (Pageable pageable, @RequestBody DoctorUserDTO dto) {
         return ResponseEntity.ok(doctorUserService.find(pageable, dto));
     }
 
-    @PostMapping("/create")
+    @PostMapping("/admin/doctor/create")
     public ResponseEntity<?> create(@RequestBody DoctorUserDTO dto) {
         return ResponseEntity.ok(doctorUserService.create(dto));
     }

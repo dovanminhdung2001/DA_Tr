@@ -11,7 +11,7 @@ import springboot.project.service.SpecializationService;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/specialization")
+@RequestMapping("/api/admin/specialization")
 public class SpecializationController {
     @Autowired
     private SpecializationService specializationService;

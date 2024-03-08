@@ -4,11 +4,13 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springboot.project.dao.*;
 import springboot.project.entity.*;
 import springboot.project.model.DoctorUserDTO;
+import springboot.project.model.UserPrincipal;
 import springboot.project.security.PasswordGenerator;
 import springboot.project.service.DoctorUserService;
 import springboot.project.utils.DateUtils;
@@ -65,6 +67,9 @@ public class DoctorUserServiceimpl implements DoctorUserService {
                 dto.getCccd(),
                 dto.getBirthDate()
         );
+
+        UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(currentUser);
 
         user = userRepository.save(user);
 
