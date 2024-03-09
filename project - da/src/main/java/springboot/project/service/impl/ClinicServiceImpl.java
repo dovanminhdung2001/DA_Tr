@@ -22,6 +22,12 @@ public class ClinicServiceImpl implements ClinicService {
         if (clinicRepository.existsByPhone(dto.getPhone()))
             throw new RuntimeException("Registered phone");
 
+        if (dto.getName() == null
+                || dto.getAddress() == null
+                || dto.getPhone() == null
+                || dto.getDescription() == null
+        )  throw new RuntimeException("Require name, address, phone and description");
+
         return clinicRepository.save(toClinic(dto));
     }
 
@@ -39,16 +45,17 @@ public class ClinicServiceImpl implements ClinicService {
         if (!clinic.getPhone().equals(dto.getPhone()) && clinicRepository.existsByPhone(dto.getPhone()))
             throw new RuntimeException("Registered phone");
 
+        if (dto.getName() != null)
+            clinic.setName(dto.getName());
 
-        clinic.setName(dto.getName());
-        clinic.setAddress(dto.getAddress());
-        clinic.setAddress(dto.getAddress());
-        clinic.setPhone(dto.getPhone());
-        clinic.setIntroductionHTML(dto.getIntroductionHTML());
-        clinic.setIntroductionMarkdown(dto.getIntroductionMarkdown());
-        clinic.setImage(dto.getImage());
-//        clinic.setExaminationCosts(dto.getExaminationCosts());
-//        clinic.setDoctorUsers();
+        if (dto.getAddress() != null)
+            clinic.setAddress(dto.getAddress());
+
+        if (dto.getPhone() != null)
+            clinic.setPhone(dto.getPhone());
+
+        if (dto.getDescription() != null)
+            clinic.setAddress(dto.getAddress());
 
         return clinicRepository.save(clinic);
     }

@@ -13,7 +13,7 @@ import springboot.project.service.ClinicService;
 
 @Controller
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/clinic")
+@RequestMapping("/api/admin/clinic")
 public class ClinicController {
     @Autowired
     private ClinicService clinicService;
