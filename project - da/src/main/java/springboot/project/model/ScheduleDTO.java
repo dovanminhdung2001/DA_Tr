@@ -39,6 +39,7 @@ public class ScheduleDTO {
     private Date workingDate;
     private Integer shiftId;
     private String userPhone;
+    private String description;
 ///////////
     public ScheduleDTO() {
     }

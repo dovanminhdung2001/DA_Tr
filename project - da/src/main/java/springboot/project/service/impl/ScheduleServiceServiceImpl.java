@@ -41,6 +41,15 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         DoctorDate doctorDate = doctorDateRepository.findByDoctorUserAndWorkingDate(doctorUser, dto.getWorkingDate());
         DateShift dateShift = dateShiftRepository.findById(dto.getShiftId()).get();
 
+        if (doctorUser == null)
+            throw new RuntimeException("Doctor id  not existed");
+
+        if (dto.getWorkingDate() == null)
+            throw new RuntimeException("Empty working date");
+
+        if (dateShift == null)
+            throw new RuntimeException("Shift id not existed");
+
         if (dateShift.getIsActive() == false)
             throw new RuntimeException("Shift registered by another");
 
@@ -64,17 +73,20 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Schedule unBooking(Integer id) {
-        Schedule schedule = scheduleRepository.findById(id).get();
+    public Schedule unBooking(ScheduleDTO dto) {
+        Schedule schedule = scheduleRepository.findById(dto.getId()).get();
         DateShift dateShift = dateShiftRepository.findById(schedule.getShiftId()).get();
         DoctorUser doctorUser = doctorUserRepository.findById(schedule.getDoctorUser().getId()).get();
 
         dateShift.setIsActive(true);
         doctorUser.setNumberChoose(doctorUser.getNumberChoose() - 1);
 
+        schedule.setStatus(0);
+        schedule.setDescription(dto.getDescription());
+
         doctorUserRepository.save(doctorUser);
         dateShiftRepository.save(dateShift);
-        scheduleRepository.delete(schedule);
+        scheduleRepository.save(schedule);
 
         return null;
     }

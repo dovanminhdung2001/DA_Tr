@@ -57,6 +57,7 @@ public class Schedule {
     @JsonFormat(pattern = "dd/MM/yyyy")
     @CreatedDate
     private Date deletedAt;
+    private String description;
 
     public Schedule() {
     }

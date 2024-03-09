@@ -9,7 +9,7 @@ import java.util.List;
 public interface ScheduleService {
 
     Schedule booking (ScheduleDTO dto);
-    Schedule unBooking (Integer id);
+    Schedule unBooking (ScheduleDTO dto);
 
 
     Schedule addMakeAnAppointment(RegisterDTO registerDTO);
