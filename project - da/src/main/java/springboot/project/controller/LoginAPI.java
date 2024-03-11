@@ -34,14 +34,18 @@ public class LoginAPI {
     @PostMapping("/api/login")
     public ResponseEntity<?> login(@RequestParam("phone") String phone,
                         @RequestParam("password") String password) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(phone, password));
-        // tạo ra 1 token trả về client
-        User user = userService.findByPhone(phone);
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(phone, password));
+            // tạo ra 1 token trả về client
+            User user = userService.findByPhone(phone);
 
-        if (user.getRole().getId() == 2)
-            return ResponseEntity.ok(new MessageResponseDTO(jwtTokenService.createToken(phone), doctorUserService.findByUser(user)));
+            if (user.getRole().getId() == 2)
+                return ResponseEntity.ok(new MessageResponseDTO(jwtTokenService.createToken(phone), doctorUserService.findByUser(user)));
 
-        return ResponseEntity.ok(new MessageResponseDTO(jwtTokenService.createToken(phone), user));
+            return ResponseEntity.ok(new MessageResponseDTO(jwtTokenService.createToken(phone), user));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponseDTO("Wrong phone or password"));
+        }
     }
 
     // đăng kí tài khoản user
