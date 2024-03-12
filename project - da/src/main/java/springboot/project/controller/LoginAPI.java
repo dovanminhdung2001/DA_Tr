@@ -7,11 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import springboot.project.dao.PatientRepository;
+import springboot.project.entity.Patient;
 import springboot.project.entity.User;
 import springboot.project.model.MessageResponseDTO;
 import springboot.project.model.UserDTO;
 import springboot.project.service.DoctorUserService;
 import springboot.project.service.JwtTokenService;
+import springboot.project.service.PatientService;
 import springboot.project.service.UserService;
 
 import java.io.UnsupportedEncodingException;
@@ -29,12 +32,13 @@ public class LoginAPI {
     DoctorUserService doctorUserService;
     @Autowired
     UserService userService;
-
+    @Autowired
+    PatientRepository patientRepository;
 
     @PostMapping("/api/login")
     public ResponseEntity<?> login(@RequestParam("phone") String phone,
                         @RequestParam("password") String password) {
-        try {
+//        try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(phone, password));
             // tạo ra 1 token trả về client
             User user = userService.findByPhone(phone);
@@ -43,9 +47,9 @@ public class LoginAPI {
                 return ResponseEntity.ok(new MessageResponseDTO(jwtTokenService.createToken(phone), doctorUserService.findByUser(user)));
 
             return ResponseEntity.ok(new MessageResponseDTO(jwtTokenService.createToken(phone), user));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponseDTO("Wrong phone or password"));
-        }
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(new MessageResponseDTO("Wrong phone or password", e));
+//        }
     }
 
     // đăng kí tài khoản user
@@ -60,6 +64,12 @@ public class LoginAPI {
             return ResponseEntity.badRequest().body("Wrong role");
 
         User user = userService.addUser(userDTO);
+//        Patient patient = new Patient();
+//        patient.setUser(user);
+//        patient.setAddress(userDTO.getAddress());
+//        patient.setName(user.getName());
+//        patientRepository.save(patient);
+
         return ResponseEntity.ok(user);
     }
 
@@ -83,8 +93,6 @@ public class LoginAPI {
 
         if (admin == null || admin.getRole().getId() != 1)
             return ResponseEntity.badRequest().body(new MessageResponseDTO("No permission"));
-
-
 
         User user = userService.addUser(userDTO);
         return ResponseEntity.ok(user);

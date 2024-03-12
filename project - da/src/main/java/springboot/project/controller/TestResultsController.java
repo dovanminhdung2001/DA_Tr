@@ -43,7 +43,7 @@ public class TestResultsController {
     }
 
     // thêm kq khám
-    @PostMapping("/api/admin/add-testResult")
+    @PostMapping("/api/doctor/add-testResult")
     public ResponseEntity<?> addResult(@RequestBody TestResultsDTO testResultsDTO) {
         try {
             TestResults testResults = testResultsService.addResult(testResultsDTO);
