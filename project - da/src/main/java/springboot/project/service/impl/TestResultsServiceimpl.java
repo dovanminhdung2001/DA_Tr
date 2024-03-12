@@ -3,7 +3,9 @@ package springboot.project.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import springboot.project.dao.ScheduleRepository;
 import springboot.project.dao.TestResultsRepository;
+import springboot.project.entity.Schedule;
 import springboot.project.entity.TestResults;
 import springboot.project.model.TestResultsDTO;
 import springboot.project.service.TestResultsService;
@@ -16,7 +18,8 @@ import java.util.List;
 public class TestResultsServiceimpl implements TestResultsService {
     @Autowired
     TestResultsRepository testResultsRepository;
-
+    @Autowired
+    ScheduleRepository scheduleRepository;
     @Override
     public TestResults viewResult(int id) {
         TestResults testResults = testResultsRepository.findById(id).orElse(null);
@@ -36,10 +39,13 @@ public class TestResultsServiceimpl implements TestResultsService {
     @Override
     public TestResults addResult(TestResultsDTO testResultsDTO) {
         TestResults testResults = new TestResults();
-        testResults.setId(testResultsDTO.getId());
+        Schedule schedule = scheduleRepository.findById(testResultsDTO.getScheduleId()).get();
+
+//        testResults.setId(testResultsDTO.getId());
+        testResults.setUserId(testResultsDTO.getUserId());
         testResults.setDescription(testResultsDTO.getDescription());
-        testResults.setSchedule(testResultsDTO.getSchedule());
-        testResults.setPatient(testResultsDTO.getPatient());
+        testResults.setSchedule(schedule);
+//        testResults.setPatient(testResultsDTO.getPatient());
         testResultsRepository.save(testResults);
         return testResults;
     }

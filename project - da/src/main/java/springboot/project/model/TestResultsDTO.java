@@ -1,9 +1,11 @@
 package springboot.project.model;
 
+import lombok.Data;
 import springboot.project.entity.Patient;
 import springboot.project.entity.Schedule;
 import springboot.project.entity.User;
 
+@Data
 public class TestResultsDTO {
     private int id;
 
@@ -14,6 +16,8 @@ public class TestResultsDTO {
     private User user;
 
     private Patient patient;
+    private Integer scheduleId;
+    private Integer userId;
 
     public TestResultsDTO() {
     }

@@ -2,7 +2,9 @@ package springboot.project.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "test_results")
 public class TestResults {
@@ -20,7 +22,7 @@ public class TestResults {
     @JoinColumn(name = "patientId")
     @JsonIgnore
     private Patient patient;
-
+    private Integer userId;
     private String description;
 
     public TestResults() {
