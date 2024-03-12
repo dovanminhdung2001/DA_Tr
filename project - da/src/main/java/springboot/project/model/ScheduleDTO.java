@@ -11,6 +11,7 @@ import java.util.Date;
 
 @Data
 public class ScheduleDTO {
+
     private int id;
 
     private DoctorUser doctorUser;
@@ -35,11 +36,23 @@ public class ScheduleDTO {
     private TestResults testResults;
 /////////
     private Integer doctorId;
-    @JsonFormat(pattern = "dd/MM/yyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date workingDate;
     private Integer shiftId;
     private String userPhone;
     private String description;
+    private String name;
+    private String address;
+    private Integer gender;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date birthDate;
+    private String cccd;
+    private Integer districtId;
+    private Integer provinceId;
+    private Integer communeId;
+    private String guardian;
+    private String phoneGuardian;
+    private Integer relationship;
 ///////////
     public ScheduleDTO() {
     }

@@ -58,17 +58,41 @@ public class Schedule {
     @CreatedDate
     private Date deletedAt;
     private String description;
+    private String name;
+    private String address;
+    private Integer gender;
+    private Date birthDate;
+    private String cccd;
+    private Integer districtId;
+    private Integer provinceId;
+    private Integer communeId;
+    private String guardian;
+    private String phoneGuardian;
+    private Integer relationship;
 
     public Schedule() {
     }
-
-    public Schedule(DoctorUser doctorUser, Date workingDate, Integer shiftId, String shiftTime, Integer examinationCosts, String userPhone) {
+    public Schedule(DoctorUser doctorUser, Date workingDate, Integer shiftId, String shiftTime,
+                    Integer examinationCosts, String userPhone, String name, String address, Integer gender,
+                    Date birthDate, String cccd, Integer districtId, Integer provinceId, Integer communeId,
+                    String guardian, String phoneGuardian, Integer relationship) {
         this.doctorUser = doctorUser;
         this.date = workingDate;
         this.shiftId = shiftId;
         this.time = shiftTime;
         this.examinationPrice = examinationCosts;
         this.userPhone = userPhone;
+        this.name = name;
+        this.address = address;
+        this.gender = gender;
+        this.birthDate = birthDate;
+        this.cccd = cccd;
+        this.districtId = districtId;
+        this.provinceId = provinceId;
+        this.communeId = communeId;
+        this.guardian = guardian;
+        this.phoneGuardian = phoneGuardian;
+        this.relationship = relationship;
     }
 
 

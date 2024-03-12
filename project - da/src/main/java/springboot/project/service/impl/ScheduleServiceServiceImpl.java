@@ -53,13 +53,32 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         if (dateShift.getIsActive() == false)
             throw new RuntimeException("Shift registered by another");
 
+        if (dto.getUserPhone() == null
+                || dto.getName() == null
+                || dto.getGender() == null
+                || dto.getCccd() == null
+                || dto.getDistrictId() == null
+                || dto.getProvinceId() == null
+        )  throw new RuntimeException("Some required fields are null");
+
         Schedule schedule = new Schedule(
                 doctorUser,
                 dto.getWorkingDate(),
                 dto.getShiftId(),
                 dateShift.getShiftTime(),
                 doctorDate.getExaminationCosts(),
-                dto.getUserPhone()
+                dto.getUserPhone(),
+                dto.getName(),
+                dto.getAddress(),
+                dto.getGender(),
+                dto.getBirthDate(),
+                dto.getCccd(),
+                dto.getDistrictId(),
+                dto.getProvinceId(),
+                dto.getCommuneId(),
+                dto.getGuardian(),
+                dto.getPhoneGuardian(),
+                dto.getRelationship()
         );
 
         doctorUser.setNumberChoose(doctorUser.getNumberChoose() + 1);
