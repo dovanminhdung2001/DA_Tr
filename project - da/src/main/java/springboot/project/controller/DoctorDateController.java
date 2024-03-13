@@ -45,4 +45,13 @@ public class DoctorDateController {
             return ResponseEntity.badRequest().body(new MessageResponseDTO(e.getMessage(), e));
         }
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> delete(@RequestParam Integer id) {
+        try {
+            return ResponseEntity.ok(new MessageResponseDTO(doctorDateService.delete(id)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponseDTO(e.getMessage(), e));
+        }
+    }
 }

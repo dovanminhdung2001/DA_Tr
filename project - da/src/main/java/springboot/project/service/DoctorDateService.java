@@ -11,5 +11,7 @@ public interface DoctorDateService {
     Page<DoctorDate> page (Pageable pageable);
 
     DoctorDate findById(Integer id);
+
+    String delete(Integer id);
 //    Boolean delete (Integer id);
 }

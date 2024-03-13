@@ -52,4 +52,18 @@ public class DoctorDateServiceImpl implements DoctorDateService {
     public DoctorDate findById(Integer id) {
         return doctorDateRepository.findById(id).get();
     }
+
+    @Override
+    public String delete(Integer id) {
+        DoctorDate doctorDate = doctorDateRepository.findById(id).get();
+
+        if(doctorDate == null)
+            throw new RuntimeException("Id not existed");
+
+        if(doctorDate.getDateShifts().size() > 0)
+            throw new RuntimeException("Working date has existed shift");
+
+        doctorDateRepository.delete(doctorDate);
+        return "Delete success!";
+    }
 }
