@@ -8,4 +8,5 @@ import java.util.Date;
 
 public interface DoctorDateRepository extends JpaRepository<DoctorDate, Integer> {
         DoctorDate findByDoctorUserAndWorkingDate(DoctorUser doctorUser, Date workingDate);
+        Boolean existsDoctorDateByWorkingDate(Date workingDate);
 }

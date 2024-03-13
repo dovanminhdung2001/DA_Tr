@@ -21,6 +21,9 @@ public class DoctorDateServiceImpl implements DoctorDateService {
 
     @Override
     public DoctorDate create(DoctorDateDTO dto) {
+        if(doctorDateRepository.existsDoctorDateByWorkingDate(dto.getDate()))
+            throw new RuntimeException("Date registered");
+
         Integer id = dto.getDoctorId();
         DoctorUser doctorUser = doctorUserRepository.findById(id).get();
 
@@ -31,7 +34,10 @@ public class DoctorDateServiceImpl implements DoctorDateService {
     public DoctorDate update(DoctorDateDTO dto) {
         DoctorDate doctorDate = doctorDateRepository.findById(dto.getId()).get();
 
-        doctorDate.setWorkingDate(dto.getDate());
+        if (doctorDate == null)
+            throw new RuntimeException("Id not existed");
+
+//        doctorDate.setWorkingDate(dto.getDate());
         doctorDate.setExaminationCosts(dto.getCost());
 
         return doctorDateRepository.save(doctorDate);

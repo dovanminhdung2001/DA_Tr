@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springboot.project.model.DoctorDateDTO;
+import springboot.project.model.MessageResponseDTO;
 import springboot.project.service.DoctorDateService;
 
 @CrossOrigin(origins = "*")
@@ -29,11 +30,19 @@ public class DoctorDateController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody DoctorDateDTO dto) {
-        return ResponseEntity.ok(doctorDateService.create(dto));
+        try {
+            return ResponseEntity.ok(doctorDateService.create(dto));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponseDTO(e.getMessage(), e));
+        }
     }
 
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody DoctorDateDTO dto) {
-        return ResponseEntity.ok(doctorDateService.update(dto));
+        try {
+            return ResponseEntity.ok(doctorDateService.update(dto));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponseDTO(e.getMessage(), e));
+        }
     }
 }
