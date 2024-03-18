@@ -98,7 +98,7 @@ public class DoctorUserServiceimpl implements DoctorUserService {
     @Override
     public Page<DoctorUser> find(Pageable pageable, DoctorUserDTO dto) {
         if (dto.getSpecializationId() == null) {
-            return  doctorUserRepository.findAllByWorkingDate(pageable, dto.getWorkingDate());
+            return  doctorUserRepository.findByDoctorDatesWorkingDate(pageable, dto.getWorkingDate());
         }
         return  doctorUserRepository.findAllByWorkingDateAndSpecialization(pageable, dto.getWorkingDate(), dto.getSpecializationId());
     }
