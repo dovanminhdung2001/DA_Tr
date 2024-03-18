@@ -3,6 +3,7 @@ package springboot.project.service.impl;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import springboot.project.service.DoctorUserService;
 import springboot.project.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,6 +33,8 @@ public class DoctorUserServiceimpl implements DoctorUserService {
     ClinicRepository clinicRepository;
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    DoctorDateRepository doctorDateRepository;
 
     @Override
     public List<DoctorUserDTO> getListDoctorUser() {
@@ -97,10 +101,15 @@ public class DoctorUserServiceimpl implements DoctorUserService {
     @SneakyThrows
     @Override
     public Page<DoctorUser> find(Pageable pageable, DoctorUserDTO dto) {
+        Page<DoctorUser> result ;
+
         if (dto.getSpecializationId() == null) {
-            return  doctorUserRepository.findByDoctorDatesWorkingDate(pageable, dto.getWorkingDate());
+            result =  doctorUserRepository.findAllByWorkingDate(pageable, dto.getWorkingDate());
+        } else {
+            result = doctorUserRepository.findAllByWorkingDateAndSpecialization(pageable, dto.getWorkingDate(), dto.getSpecializationId());
         }
-        return  doctorUserRepository.findAllByWorkingDateAndSpecialization(pageable, dto.getWorkingDate(), dto.getSpecializationId());
+
+        return result;
     }
 
     private DoctorUserDTO convert(DoctorUser doctorUser) {

@@ -21,7 +21,7 @@ public class DoctorDateServiceImpl implements DoctorDateService {
 
     @Override
     public DoctorDate create(DoctorDateDTO dto) {
-        if(doctorDateRepository.existsDoctorDateByWorkingDate(dto.getDate()))
+        if(doctorDateRepository.existsDoctorDateByWorkingDateAndDoctorUser_Id(dto.getDate(), dto.getDoctorId()))
             throw new RuntimeException("Date registered");
 
         Integer id = dto.getDoctorId();
