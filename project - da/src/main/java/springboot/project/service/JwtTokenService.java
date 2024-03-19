@@ -11,42 +11,71 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
+import java.security.Key;
+import java.util.Date;
+
 @Service
 @Slf4j
 public class JwtTokenService {
 
-    @Value("${jwt.secret}")
-    private String secretKey;
-
+    private final Key secretKey;
+    private final Key refeshKey;
     @Value(("${jwt.validity}"))
     private long validityInMilliseconds;
 
     @Autowired
     UserPrincipalService userPrincipalService;
 
+    public JwtTokenService(@Value("${jwt.secret}") String secret) {
+        this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        this.refeshKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    }
 
-    // tạo jwt từ thông tin của User
+    // Tạo JWT từ thông tin của User
     public String createToken(String email) {
-
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
-        // tạo chuỗi jwt từ email
-        String accesstoken = Jwts.builder().setSubject(email)
+        // Tạo chuỗi JWT từ email
+        String accessToken = Jwts.builder().setSubject(email)
                 .setIssuedAt(now)
                 .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
 
-        return accesstoken;
+        return accessToken;
     }
 
-    // lấy thông tin User từ jwt
+    public String createRefreshToken(String email) {
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + validityInMilliseconds);
+
+        // Tạo chuỗi JWT từ email
+        String accessToken = Jwts.builder().setSubject(email)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(refeshKey, SignatureAlgorithm.HS256)
+                .compact();
+
+        return accessToken;
+    }
+
+    // Lấy thông tin User từ JWT
     public String getEmailFromJwt(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    // kiểm tra thời hạn của token
+    // Kiểm tra thời hạn của token
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
@@ -58,13 +87,28 @@ public class JwtTokenService {
         } catch (UnsupportedJwtException ex) {
             log.error("Unsupported JWT Token");
         } catch (IllegalArgumentException ex) {
-            log.error("JWT claims STring is empty");
+            log.error("JWT claims String is empty");
         }
         return false;
     }
 
+    public boolean validateRefreshToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(refeshKey).parseClaimsJws(token);
+            return true;
+        } catch (MalformedJwtException ex) {
+            log.error("Invalid JWT Token");
+        } catch (ExpiredJwtException ex) {
+            log.error("Expired JWT Token");
+        } catch (UnsupportedJwtException ex) {
+            log.error("Unsupported JWT Token");
+        } catch (IllegalArgumentException ex) {
+            log.error("JWT claims String is empty");
+        }
+        return false;
+    }
     public Authentication getAuthentication(String token){
-        // lấy email password từ db lên sau dó convert về userdetails , và set quyền cho security (tạo ra 1 đăng nhập)
+        // Lấy email từ DB sau đó convert về UserDetails và set quyền cho Security (tạo ra một đăng nhập)
         UserDetails userDetails = userPrincipalService.loadUserByUsername(getEmailFromJwt(token));
         return new UsernamePasswordAuthenticationToken(userDetails,"",userDetails.getAuthorities());
     }

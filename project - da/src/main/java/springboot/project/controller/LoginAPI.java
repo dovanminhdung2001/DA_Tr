@@ -1,15 +1,20 @@
 package springboot.project.controller;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import springboot.project.dao.PatientRepository;
 import springboot.project.entity.Patient;
 import springboot.project.entity.User;
+import springboot.project.model.JwtResponseDTO;
 import springboot.project.model.MessageResponseDTO;
 import springboot.project.model.UserDTO;
 import springboot.project.service.DoctorUserService;
@@ -43,10 +48,13 @@ public class LoginAPI {
             // tạo ra 1 token trả về client
             User user = userService.findByPhone(phone);
 
-            if (user.getRole().getId() == 2)
-                return ResponseEntity.ok(new MessageResponseDTO(jwtTokenService.createToken(phone), doctorUserService.findByUser(user)));
+            String accessToken = jwtTokenService.createToken(phone);
+            String refreshToken = jwtTokenService.createRefreshToken(phone);
 
-            return ResponseEntity.ok(new MessageResponseDTO(jwtTokenService.createToken(phone), user));
+            if (user.getRole().getId() == 2)
+                return ResponseEntity.ok(new JwtResponseDTO(accessToken, refreshToken, doctorUserService.findByUser(user)));
+
+            return ResponseEntity.ok(new JwtResponseDTO(accessToken, refreshToken, user));
 //        } catch (Exception e) {
 //            return ResponseEntity.badRequest().body(new MessageResponseDTO("Wrong phone or password", e));
 //        }
@@ -96,5 +104,25 @@ public class LoginAPI {
 
         User user = userService.addUser(userDTO);
         return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/api/refresh")
+    public ResponseEntity<?> refreshToken(
+            @RequestParam String accessToken,
+            @RequestParam String refreshToken
+    ) {
+        try {
+            if (jwtTokenService.validateRefreshToken(refreshToken)) {
+                String email = jwtTokenService.getEmailFromJwt(accessToken);
+
+                String a = jwtTokenService.createToken(email);
+                String r = jwtTokenService.createRefreshToken(email);
+
+                return ResponseEntity.ok(new JwtResponseDTO(a, r));
+            }
+        }  catch (ExpiredJwtException ex){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        return ResponseEntity.noContent().build();
     }
 }

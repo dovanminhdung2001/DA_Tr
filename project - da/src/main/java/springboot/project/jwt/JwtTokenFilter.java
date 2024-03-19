@@ -1,5 +1,6 @@
 package springboot.project.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,9 +33,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 // set vào context để có đăng nhập .(set thông tin cho người dùng cho security context)
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
+        }  catch (ExpiredJwtException ex){
+            SecurityContextHolder.clearContext();
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token has expired");
+            return;
         } catch (Exception ex){
             SecurityContextHolder.clearContext();
-            response.sendError(401,ex.getMessage());
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, ex.getMessage());
+            return;
         }
 
         filterChain.doFilter(request,response);
