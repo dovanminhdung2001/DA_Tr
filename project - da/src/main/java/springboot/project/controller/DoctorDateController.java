@@ -30,11 +30,11 @@ public class DoctorDateController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody DoctorDateDTO dto) {
-        try {
+//        try {
             return ResponseEntity.ok(doctorDateService.create(dto));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponseDTO(e.getMessage(), e));
-        }
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(new MessageResponseDTO(e.getMessage(), e));
+//        }
     }
 
     @PutMapping("/update")

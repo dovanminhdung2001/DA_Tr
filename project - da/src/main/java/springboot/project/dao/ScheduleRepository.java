@@ -1,5 +1,7 @@
 package springboot.project.dao;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import springboot.project.entity.Schedule;
@@ -13,5 +15,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             "join users u \n" +
             "on u.id = s.created_by\n" +
             "where u.id = ?",nativeQuery = true)
-    List<Schedule> getById(int id);
+    Page<Schedule> getById(Pageable pageable, int id);
+
+    Page<Schedule> getAllByDoctorUser_Id(Pageable pageable, int id);
 }

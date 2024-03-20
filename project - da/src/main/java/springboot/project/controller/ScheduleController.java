@@ -1,10 +1,13 @@
 package springboot.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import springboot.project.dao.DoctorDateRepository;
+import springboot.project.dao.DoctorUserRepository;
 import springboot.project.dao.ScheduleRepository;
 import springboot.project.model.MessageResponseDTO;
 import springboot.project.model.ScheduleDTO;
@@ -26,18 +29,22 @@ public class ScheduleController {
 
     @Autowired
     ScheduleRepository scheduleRepository;
+    @Autowired
+    DoctorUserRepository doctorUserRepository;
 
-    @GetMapping("/doctor/list")
-    public ResponseEntity listByDoctor(Pageable pageable) {
-        return null;
+    @GetMapping("/doctor/schedule/demo")
+    public ResponseEntity<?> demo(Pageable pageable) {
+        UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        return ResponseEntity.ok("demo ok");
     }
 
     @GetMapping("/user/schedule/history")
-    public ResponseEntity<?> getListSchedule() {
+    public ResponseEntity<?> getListSchedule(Pageable pageable) {
         try {
             UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
                     .getPrincipal();
-            List<ScheduleDTO> scheduleDTOS = scheduleService.getListSchedule(currentUser.getId());
+            Page<ScheduleDTO> scheduleDTOS = scheduleService.getListSchedule(pageable, currentUser.getId());
             return ResponseEntity.ok(scheduleDTOS);
         } catch (Exception exp) {
             return ResponseEntity.badRequest().body(new MessageResponseDTO("Error"));

@@ -1,5 +1,7 @@
 package springboot.project.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import springboot.project.entity.Schedule;
 import springboot.project.model.ScheduleDTO;
 import springboot.project.model.RegisterDTO;
@@ -16,6 +18,6 @@ public interface ScheduleService {
 
     void deleteMakeAnAppointment(int id);
 
-    List<ScheduleDTO> getListSchedule(int id);
-
+    Page<ScheduleDTO> getListSchedule(Pageable pageable, int id);
+    Page<ScheduleDTO> getAllByDoctor(Pageable pageable, int doctor_id);
 }

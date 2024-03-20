@@ -1,6 +1,9 @@
 package springboot.project.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -136,13 +139,25 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleDTO> getListSchedule(int id) {
-        List<Schedule> schedules = scheduleRepository.getById(id);
+    public Page<ScheduleDTO> getListSchedule(Pageable pageable, int id) {
+        Page<Schedule> schedulePage = scheduleRepository.getById(pageable, id);
+        List<Schedule> schedules = schedulePage.getContent();
         List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
         for (Schedule schedule : schedules) {
             scheduleDTOS.add(convert(schedule));
         }
-        return scheduleDTOS;
+        return new PageImpl<>(scheduleDTOS, schedulePage.getPageable(), schedulePage.getTotalElements());
+    }
+
+    @Override
+    public Page<ScheduleDTO> getAllByDoctor(Pageable pageable, int doctor_id) {
+        Page<Schedule> schedulePage = scheduleRepository.getAllByDoctorUser_Id(pageable, doctor_id);
+        List<Schedule> schedules = schedulePage.getContent();
+        List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
+        for (Schedule schedule : schedules) {
+            scheduleDTOS.add(convert(schedule));
+        }
+        return new PageImpl<>(scheduleDTOS, schedulePage.getPageable(), schedulePage.getTotalElements());
     }
 
     private ScheduleDTO convert(Schedule schedule) {

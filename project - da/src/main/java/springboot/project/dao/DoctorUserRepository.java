@@ -17,6 +17,7 @@ import java.util.List;
 
 public interface DoctorUserRepository extends JpaRepository<DoctorUser, Integer> {
     DoctorUser findByUser(User user);
+    DoctorUser findByUser_Id(int userId);
     Page<DoctorUser> findAllBySpecialization(Pageable pageable, Specialization specialization);
 
     @Query("SELECT DISTINCT du FROM DoctorUser du " +

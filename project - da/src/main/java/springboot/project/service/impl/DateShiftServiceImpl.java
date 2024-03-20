@@ -35,6 +35,6 @@ public class DateShiftServiceImpl implements DateShiftService {
 
     @Override
     public Page<DateShift> page(Pageable pageable) {
-        return null;
+        return dateShiftRepository.findAll(pageable);
     }
 }
