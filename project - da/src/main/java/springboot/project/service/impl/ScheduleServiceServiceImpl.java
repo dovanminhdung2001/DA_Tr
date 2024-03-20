@@ -20,8 +20,10 @@ import springboot.project.model.RegisterDTO;
 import springboot.project.model.UserPrincipal;
 import springboot.project.service.PatientService;
 import springboot.project.service.ScheduleService;
+import springboot.project.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -140,7 +142,10 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
 
     @Override
     public Page<ScheduleDTO> getListSchedule(Pageable pageable, int id) {
-        Page<Schedule> schedulePage = scheduleRepository.getById(pageable, id);
+        Date toDay = DateUtils.today();
+        Date past = new Date(toDay.getTime());
+        Date later3Day = new Date(toDay.getTime() + DateUtils.oneDay * 3);
+        Page<Schedule> schedulePage = scheduleRepository.getByIdAndDateRange(pageable, id, past, later3Day);
         List<Schedule> schedules = schedulePage.getContent();
         List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
         for (Schedule schedule : schedules) {
@@ -151,7 +156,11 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
 
     @Override
     public Page<ScheduleDTO> getAllByDoctor(Pageable pageable, int doctor_id) {
-        Page<Schedule> schedulePage = scheduleRepository.getAllByDoctorUser_Id(pageable, doctor_id);
+        Date toDay = DateUtils.today();
+        Date past = new Date(toDay.getTime());
+        Date later3Day = new Date(toDay.getTime() + DateUtils.oneHour * 60);
+        Page<Schedule> schedulePage = scheduleRepository.getAllByDoctorUser_IdAndDateBetween(
+                pageable, doctor_id, past, later3Day);
         List<Schedule> schedules = schedulePage.getContent();
         List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
         for (Schedule schedule : schedules) {
@@ -164,6 +173,8 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         scheduleDTO.setId(schedule.getId());
         scheduleDTO.setDoctorUser(schedule.getDoctorUser());
+        scheduleDTO.setDate(DateUtils.sdf.format(schedule.getDate()));
+        scheduleDTO.setTime(schedule.getTime());
 //        scheduleDTO.setPatient(schedule.getPatient());
         scheduleDTO.setType(schedule.getType());
         return scheduleDTO;
