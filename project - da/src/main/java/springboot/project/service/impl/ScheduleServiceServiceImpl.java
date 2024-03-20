@@ -1,6 +1,7 @@
 package springboot.project.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springboot.project.dao.DateShiftRepository;
@@ -13,6 +14,7 @@ import springboot.project.entity.DoctorUser;
 import springboot.project.entity.Schedule;
 import springboot.project.model.ScheduleDTO;
 import springboot.project.model.RegisterDTO;
+import springboot.project.model.UserPrincipal;
 import springboot.project.service.PatientService;
 import springboot.project.service.ScheduleService;
 
@@ -40,6 +42,10 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         DoctorUser doctorUser = doctorUserRepository.findById(dto.getDoctorId()).get();
         DoctorDate doctorDate = doctorDateRepository.findByDoctorUserAndWorkingDate(doctorUser, dto.getWorkingDate());
         DateShift dateShift = dateShiftRepository.findById(dto.getShiftId()).get();
+        UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+
+
 
         if (doctorUser == null)
             throw new RuntimeException("Doctor id  not existed");
@@ -78,7 +84,8 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
                 dto.getCommuneId(),
                 dto.getGuardian(),
                 dto.getPhoneGuardian(),
-                dto.getRelationship()
+                dto.getRelationship(),
+                currentUser.getId()
         );
 
         doctorUser.setNumberChoose(doctorUser.getNumberChoose() + 1);
@@ -106,7 +113,6 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         doctorUserRepository.save(doctorUser);
         dateShiftRepository.save(dateShift);
         scheduleRepository.save(schedule);
-
         return null;
     }
 

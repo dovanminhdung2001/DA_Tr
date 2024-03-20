@@ -42,17 +42,17 @@ public class UserController {
     }
 
     // xem lich su dat lich
-    @GetMapping("/api/user/history")
-    public ResponseEntity<?> getListSchedule() {
-        try {
-            UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
-            List<ScheduleDTO> scheduleDTOS = scheduleService.getListSchedule(currentUser.getId());
-            return ResponseEntity.ok(scheduleDTOS);
-        } catch (Exception exp) {
-            return ResponseEntity.badRequest().body(new MessageResponseDTO("Error"));
-        }
-    }
+//    @GetMapping("/api/user/history")
+//    public ResponseEntity<?> getListSchedule() {
+//        try {
+//            UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
+//                    .getPrincipal();
+//            List<ScheduleDTO> scheduleDTOS = scheduleService.getListSchedule(currentUser.getId());
+//            return ResponseEntity.ok(scheduleDTOS);
+//        } catch (Exception exp) {
+//            return ResponseEntity.badRequest().body(new MessageResponseDTO("Error"));
+//        }
+//    }
 
     // xem hồ sơ cá nhân
     @GetMapping("/api/user/infomation")

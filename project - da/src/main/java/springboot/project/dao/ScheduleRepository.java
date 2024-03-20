@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     @Query(value = "select s.* from schedules s \n" +
-            "join patients p \n" +
-            "on p.id = s.patient_id\n" +
+//            "join patients p \n" +
+//            "on p.id = s.patient_id\n" +
             "join users u \n" +
-            "on u.id = p.patient_id\n" +
+            "on u.id = s.created_by\n" +
             "where u.id = ?",nativeQuery = true)
     List<Schedule> getById(int id);
 }
