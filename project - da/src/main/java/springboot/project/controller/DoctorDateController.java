@@ -25,7 +25,7 @@ public class DoctorDateController {
         return ResponseEntity.ok(doctorDateService.page(pageable));
     }
 
-    @GetMapping("/doctor/doctorDate/find")
+    @GetMapping({"/doctor/doctorDate/find", "/user/doctorDate/find"})
     public ResponseEntity<?> filter (
             Pageable pageable,
             @RequestParam(required = false) Integer id,
