@@ -11,7 +11,7 @@ import springboot.project.service.DoctorDateService;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/docter/docterDate")
+@RequestMapping("/api/doctor/doctorDate")
 public class DoctorDateController {
     @Autowired
     private DoctorDateService doctorDateService;
