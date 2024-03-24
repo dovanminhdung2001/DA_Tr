@@ -19,14 +19,14 @@ public class DateShift {
     private DoctorDate doctorDate;
 
     @Column
-    private String shiftTime;
+    private Integer shiftTime;
     @Column
     private Boolean isActive;
 
     public DateShift() {
     }
 
-    public DateShift(DoctorDate doctorDate, String shiftTime, Boolean activate) {
+    public DateShift(DoctorDate doctorDate, Integer shiftTime, Boolean activate) {
         this.doctorDate = doctorDate;
         this.shiftTime = shiftTime;
         this.isActive = activate;

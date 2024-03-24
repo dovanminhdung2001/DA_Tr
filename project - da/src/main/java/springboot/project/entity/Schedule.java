@@ -26,7 +26,7 @@ public class Schedule {
     private Date date;
 
     @Column(name = "time")
-    private String time;
+    private Integer time;
     @Column(name = "shiftId")
     private Integer shiftId;
     @Column(name = "examinationPrice")
@@ -73,7 +73,7 @@ public class Schedule {
 
     public Schedule() {
     }
-    public Schedule(DoctorUser doctorUser, Date workingDate, Integer shiftId, String shiftTime,
+    public Schedule(DoctorUser doctorUser, Date workingDate, Integer shiftId, Integer shiftTime,
                     Integer examinationCosts, String userPhone, String name, String address, Integer gender,
                     Date birthDate, String cccd, Integer districtId, Integer provinceId, Integer communeId,
                     String guardian, String phoneGuardian, Integer relationship, Integer patientId, Integer status) {
@@ -121,14 +121,6 @@ public class Schedule {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public Integer getExaminationPrice() {

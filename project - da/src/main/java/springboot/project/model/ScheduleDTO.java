@@ -18,7 +18,7 @@ public class ScheduleDTO {
 
     private String date;
 
-    private String time;
+    private Integer time;
 
     private int status;
 
@@ -57,7 +57,7 @@ public class ScheduleDTO {
     public ScheduleDTO() {
     }
 
-    public ScheduleDTO(DoctorUser doctorUser, String date, String time,
+    public ScheduleDTO(DoctorUser doctorUser, String date, Integer time,
                        Patient patient, Clinic clinic, String examinationPrice,
                        String personalInformation, String pathological) {
         this.doctorUser = doctorUser;
@@ -91,14 +91,6 @@ public class ScheduleDTO {
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public int getStatus() {

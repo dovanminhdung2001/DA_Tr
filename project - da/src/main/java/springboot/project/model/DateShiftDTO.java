@@ -6,6 +6,6 @@ import lombok.Data;
 public class DateShiftDTO {
     private Integer id;
     private Integer dateId;
-    private String shiftTime;
+    private Integer shiftTime;
     private Boolean activate;
 }
