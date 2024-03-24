@@ -24,6 +24,14 @@ public class DateUtils {
         }
     }
 
+    public static Date todayGMT7 () {
+        try {
+            return new Date(sdf.parse(sdf.format(new Date())).getTime() + oneHour * 7);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public String todayStr() {
         return sdf.format(new Date());
     }

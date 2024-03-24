@@ -39,19 +39,6 @@ public class ScheduleController {
         return ResponseEntity.ok("demo ok");
     }
 
-    @GetMapping("/user/schedule/history")
-    public ResponseEntity<?> getListSchedule(Pageable pageable) {
-        try {
-            UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
-            Page<ScheduleDTO> scheduleDTOS = scheduleService.getListSchedule(pageable, currentUser.getId());
-            return ResponseEntity.ok(scheduleDTOS);
-        } catch (Exception exp) {
-            return ResponseEntity.badRequest().body(new MessageResponseDTO("Error"));
-        }
-    }
-
-
     // dat lich kham
     @PostMapping("/user/schedule/booking")
     public ResponseEntity<?> booking(@RequestBody ScheduleDTO dto) {

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -168,6 +169,53 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
             scheduleDTOS.add(convert(schedule));
         }
         return new PageImpl<>(scheduleDTOS, schedulePage.getPageable(), schedulePage.getTotalElements());
+    }
+
+    @Override
+    public Page<Schedule> getAllForUserInFuture(Pageable pageable, Integer id, Integer recent, Date date) {
+        if (recent != null)
+            return  scheduleRepository.getAllForUserIn3NextDays(pageable, id);
+
+        if (date != null)
+            return scheduleRepository.getAllForUserAt(pageable, id, date);
+
+        return scheduleRepository.getAllForUserInFuture(pageable, id);
+    }
+
+    @Override
+    public Page<Schedule> getAllForUserInPast(Pageable pageable, Integer status, Date date) {
+        Integer userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+
+        if (status != null && date != null)
+            return scheduleRepository.getPageForUserInPastByTypeAt(pageable, userId, status, date);
+
+        if (status != null)
+            return scheduleRepository.getPageForUserInPastByType(pageable, userId, status);
+
+        return scheduleRepository.getAllForUserInPast(pageable, userId);
+    }
+
+    public Page<Schedule> getAllForDoctorInFuture(Pageable pageable) {
+        Integer doctorId = doctorUserRepository.findByUser_Id(
+                ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()
+        ).getId();
+
+        return scheduleRepository.getAllForDoctorInFuture(pageable, doctorId);
+    }
+
+    @Override
+    public Page<Schedule> getAllForDoctorInPast(Pageable pageable, Integer status, Date date) {
+        Integer doctorId = doctorUserRepository.findByUser_Id(
+                ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()
+        ).getId();
+
+        if (status != null && date != null)
+            return scheduleRepository.getPageForDoctorInPastByTypeAt(pageable, doctorId, status, date);
+
+        if (status != null)
+            return scheduleRepository.getPageForDoctorInPastByType(pageable, doctorId, status);
+
+        return scheduleRepository.getAllForDoctorInPast(pageable, doctorId);
     }
 
     private ScheduleDTO convert(Schedule schedule) {

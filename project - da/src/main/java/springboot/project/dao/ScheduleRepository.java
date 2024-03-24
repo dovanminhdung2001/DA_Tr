@@ -25,4 +25,101 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     Page<Schedule> getAllByDoctorUser_Id(Pageable pageable, int id);
 
     Page<Schedule> getAllByDoctorUser_IdAndDateBetween(Pageable pageable, int id, Date fromDate, Date toDate);
+
+    @Query(value = "select s.* " +
+            "from schedules s " +
+            "join users u " +
+            "on u.id = s.created_by " +
+            "where u.id = ?1 " +
+            "and (s.date > current_date " +
+            "or (s.date = current_date and s.time > extract(hour from current_time)))", nativeQuery = true)
+    Page<Schedule> getAllForUserInFuture(Pageable pageable, int id);
+
+    @Query(value = "select s.* " +
+            "from schedules s " +
+            "join users u " +
+            "on u.id = s.created_by " +
+            "where u.id = ?1 " +
+            "and (s.date = current_date + interval '1 day' " +
+            "or s.date = current_date + interval '2 day' " +
+            "or (s.date = current_date and s.time > extract(hour from current_time)))", nativeQuery = true)
+    Page<Schedule> getAllForUserIn3NextDays(Pageable pageable, int id);
+
+    @Query(value = "select s.* " +
+            "from schedules s " +
+            "join users u " +
+            "on u.id = s.created_by " +
+            "where u.id = ?1 " +
+            "and (case " +
+            "when s.date = current_date then s.time > extract(hour from current_time) " +
+            "else s.date = ?2 " +
+            "end)", nativeQuery = true)
+    Page<Schedule> getAllForUserAt(Pageable pageable, int id, Date date);
+
+    @Query(value = "select s.* " +
+            "from schedules s " +
+            "join users u " +
+            "on u.id = s.created_by " +
+            "where u.id = ?1 " +
+            "and s.status = ?2", nativeQuery = true)
+    Page<Schedule> getPageForUserInPastByType(Pageable pageable, int id, Integer status);
+
+    @Query(value = "select s.* " +
+            "from schedules s " +
+            "join users u " +
+            "on u.id = s.created_by " +
+            "where u.id = ?1 " +
+            "and s.status = ?2" +
+            "and (case " +
+            "when s.date = current_date then s.time <= extract(hour from current_time) " +
+            "else s.date = ?3 " +
+            "end)", nativeQuery = true)
+    Page<Schedule> getPageForUserInPastByTypeAt(Pageable pageable, int id, Integer status, Date date);
+
+    @Query(value = "select s.* " +
+            "from schedules s " +
+            "join users u " +
+            "on u.id = s.created_by " +
+            "where u.id = ?1 " +
+            "and (s.date < current_date " +
+            "or (s.date = current_date and s.time <= extract(hour from current_time)))", nativeQuery = true)
+    Page<Schedule> getAllForUserInPast(Pageable pageable, int id);
+
+    @Query(value = "select s.* " +
+            "from schedules s " +
+            "join users u " +
+            "on u.id = s.doctor_id " +
+            "where u.id = ?1 " +
+            "and (s.date > current_date " +
+            "or (s.date = current_date and s.time > extract(hour from current_time)))", nativeQuery = true)
+    Page <Schedule> getAllForDoctorInFuture(Pageable pageable, Integer doctorId);
+
+    @Query(value = "select s.* " +
+            "from schedules s " +
+            "join users u " +
+            "on u.id = s.doctor_id " +
+            "where u.id = ?1 " +
+            "and s.status = ?2", nativeQuery = true)
+    Page<Schedule> getPageForDoctorInPastByType(Pageable pageable, int id, Integer status);
+
+    @Query(value = "select s.* " +
+            "from schedules s " +
+            "join users u " +
+            "on u.id = s.doctor_id " +
+            "where u.id = ?1 " +
+            "and s.status = ?2" +
+            "and (case " +
+            "when s.date = current_date then s.time <= extract(hour from current_time) " +
+            "else s.date = ?3 " +
+            "end)", nativeQuery = true)
+    Page<Schedule> getPageForDoctorInPastByTypeAt(Pageable pageable, int id, Integer status, Date date);
+
+    @Query(value = "select s.* " +
+            "from schedules s " +
+            "join users u " +
+            "on u.id = s.doctor_id " +
+            "where u.id = ?1 " +
+            "and (s.date < current_date " +
+            "or (s.date = current_date and s.time <= extract(hour from current_time)))", nativeQuery = true)
+    Page<Schedule> getAllForDoctorInPast(Pageable pageable, int id);
 }
