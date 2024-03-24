@@ -41,6 +41,7 @@ public class TestResultsServiceimpl implements TestResultsService {
         TestResults testResults = new TestResults();
         Schedule schedule = scheduleRepository.findById(testResultsDTO.getScheduleId()).get();
 
+        schedule.setStatus(2);
 //        testResults.setId(testResultsDTO.getId());
         testResults.setUserId(testResultsDTO.getUserId());
         testResults.setDescription(testResultsDTO.getDescription());

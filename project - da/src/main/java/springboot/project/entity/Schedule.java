@@ -76,7 +76,7 @@ public class Schedule {
     public Schedule(DoctorUser doctorUser, Date workingDate, Integer shiftId, String shiftTime,
                     Integer examinationCosts, String userPhone, String name, String address, Integer gender,
                     Date birthDate, String cccd, Integer districtId, Integer provinceId, Integer communeId,
-                    String guardian, String phoneGuardian, Integer relationship, Integer patientId) {
+                    String guardian, String phoneGuardian, Integer relationship, Integer patientId, Integer status) {
         this.doctorUser = doctorUser;
         this.date = workingDate;
         this.shiftId = shiftId;
@@ -95,6 +95,7 @@ public class Schedule {
         this.phoneGuardian = phoneGuardian;
         this.relationship = relationship;
         this.createdBy = patientId;
+        this.status = status;
     }
 
 

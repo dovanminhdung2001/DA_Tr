@@ -90,7 +90,8 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
                 dto.getGuardian(),
                 dto.getPhoneGuardian(),
                 dto.getRelationship(),
-                currentUser.getId()
+                currentUser.getId(),
+                0
         );
 
         doctorUser.setNumberChoose(doctorUser.getNumberChoose() + 1);
@@ -112,7 +113,7 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         dateShift.setIsActive(true);
         doctorUser.setNumberChoose(doctorUser.getNumberChoose() - 1);
 
-        schedule.setStatus(0);
+        schedule.setStatus(1);
         schedule.setDescription(dto.getDescription());
 
         doctorUserRepository.save(doctorUser);
