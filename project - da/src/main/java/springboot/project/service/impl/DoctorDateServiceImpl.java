@@ -3,6 +3,7 @@ package springboot.project.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import springboot.project.dao.DoctorDateRepository;
@@ -10,7 +11,12 @@ import springboot.project.dao.DoctorUserRepository;
 import springboot.project.entity.DoctorDate;
 import springboot.project.entity.DoctorUser;
 import springboot.project.model.DoctorDateDTO;
+import springboot.project.model.UserPrincipal;
 import springboot.project.service.DoctorDateService;
+import springboot.project.utils.DateUtils;
+
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class DoctorDateServiceImpl implements DoctorDateService {
@@ -65,5 +71,15 @@ public class DoctorDateServiceImpl implements DoctorDateService {
 
         doctorDateRepository.delete(doctorDate);
         return "Delete success!";
+    }
+
+    @Override
+    public List<DoctorDate> findByDate(Pageable pageable, Date date) {
+        UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        DoctorUser doctorUser = doctorUserRepository.findByUser_Id(currentUser.getId());
+
+        date = new Date(date.getTime() + DateUtils.oneHour * 7);
+        return doctorDateRepository.findAllByWorkingDateAndDoctorUser_Id(date, doctorUser.getId());
     }
 }
