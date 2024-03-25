@@ -13,6 +13,7 @@ public class Attachment {
     private int id;
     private String type;
     private String title;
+    @Column(columnDefinition = "LONGTEXT")
     private String url;
 
 }
