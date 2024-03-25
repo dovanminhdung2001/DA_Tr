@@ -23,6 +23,7 @@ public class TestResults {
     @JsonIgnore
     private Patient patient;
     private Integer userId;
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
 
     public TestResults() {
