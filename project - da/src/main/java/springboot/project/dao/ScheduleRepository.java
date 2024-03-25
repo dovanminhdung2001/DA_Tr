@@ -87,7 +87,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 
     @Query(value = "select s.* " +
             "from schedules s " +
-            "join users u " +
+            "join doctor_users u " +
             "on u.id = s.doctor_id " +
             "where u.id = ?1 " +
             "and (s.date > current_date " +
@@ -96,15 +96,17 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 
     @Query(value = "select s.* " +
             "from schedules s " +
-            "join users u " +
+            "join doctor_users u " +
             "on u.id = s.doctor_id " +
             "where u.id = ?1 " +
-            "and s.status = ?2", nativeQuery = true)
+            "and s.status = ?2 " +
+            "and (s.date > current_date " +
+            "or (s.date = current_date and s.time > extract(hour from current_time)))", nativeQuery = true)
     Page<Schedule> getPageForDoctorInPastByType(Pageable pageable, int id, Integer status);
 
     @Query(value = "select s.* " +
             "from schedules s " +
-            "join users u " +
+            "join doctor_users u " +
             "on u.id = s.doctor_id " +
             "where u.id = ?1 " +
             "and s.status = ?2" +
@@ -116,7 +118,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 
     @Query(value = "select s.* " +
             "from schedules s " +
-            "join users u " +
+            "join doctor_users u " +
             "on u.id = s.doctor_id " +
             "where u.id = ?1 " +
             "and (s.date < current_date " +
