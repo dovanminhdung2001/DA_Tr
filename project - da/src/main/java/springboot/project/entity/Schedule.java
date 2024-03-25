@@ -70,14 +70,14 @@ public class Schedule {
     private String phoneGuardian;
     private Integer relationship;
     private Integer createdBy;
-
+    private Integer specializationId;
     public Schedule() {
     }
     public Schedule(DoctorUser doctorUser, Date workingDate, Integer shiftId, Integer shiftTime,
                     Integer examinationCosts, String userPhone, String name, String address, Integer gender,
                     Date birthDate, String cccd, Integer districtId, Integer provinceId, Integer communeId,
                     String guardian, String phoneGuardian, Integer relationship, Integer patientId, Integer status,
-                    String pathological) {
+                    String pathological, Integer specializationId) {
         this.doctorUser = doctorUser;
         this.date = workingDate;
         this.shiftId = shiftId;
@@ -98,6 +98,7 @@ public class Schedule {
         this.createdBy = patientId;
         this.status = status;
         this.pathological = pathological;
+        this.specializationId = specializationId;
     }
 
 

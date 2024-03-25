@@ -53,6 +53,7 @@ public class ScheduleDTO {
     private String guardian;
     private String phoneGuardian;
     private Integer relationship;
+    private Integer specializationId;
 ///////////
     public ScheduleDTO() {
     }

@@ -112,6 +112,11 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         return result;
     }
 
+    @Override
+    public DoctorUser getById(Integer id) {
+        return doctorUserRepository.findById(id).get();
+    }
+
     private DoctorUserDTO convert(DoctorUser doctorUser) {
         DoctorUserDTO doctorUserDTO = new DoctorUserDTO();
         doctorUserDTO.setId(doctorUser.getId());

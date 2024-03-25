@@ -93,7 +93,8 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
                 dto.getRelationship(),
                 currentUser.getId(),
                 0,
-                dto.getPathological()
+                dto.getPathological(),
+                dto.getSpecializationId()
         );
 
         doctorUser.setNumberChoose(doctorUser.getNumberChoose() + 1);
