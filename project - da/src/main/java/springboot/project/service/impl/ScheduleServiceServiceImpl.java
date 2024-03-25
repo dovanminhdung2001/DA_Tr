@@ -92,7 +92,8 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
                 dto.getPhoneGuardian(),
                 dto.getRelationship(),
                 currentUser.getId(),
-                0
+                0,
+                dto.getPathological()
         );
 
         doctorUser.setNumberChoose(doctorUser.getNumberChoose() + 1);
