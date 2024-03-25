@@ -61,7 +61,9 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             "join users u " +
             "on u.id = s.created_by " +
             "where u.id = ?1 " +
-            "and s.status = ?2", nativeQuery = true)
+            "and s.status = ?2 " +
+            "and (s.date < current_date " +
+            "or (s.date = current_date and s.time <= extract(hour from current_time)))", nativeQuery = true)
     Page<Schedule> getPageForUserInPastByType(Pageable pageable, int id, Integer status);
 
     @Query(value = "select s.* " +
