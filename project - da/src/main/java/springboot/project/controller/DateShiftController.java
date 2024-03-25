@@ -58,7 +58,7 @@ public class DateShiftController {
             ) {
         UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
-        Page<Schedule> schedule = scheduleService.getAllForUserInFuture(pageable, currentUser.getId(), recent, date);
+        Page<ScheduleDTO> schedule = scheduleService.getAllForUserInFuture(pageable, currentUser.getId(), recent, date);
         return ResponseEntity.ok(schedule);
     }
 

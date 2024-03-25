@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +43,7 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
     DoctorDateRepository doctorDateRepository;
 
     @Override
-    public Schedule booking(ScheduleDTO dto) {
+    public ScheduleDTO booking(ScheduleDTO dto) {
         DoctorUser doctorUser = doctorUserRepository.findById(dto.getDoctorId()).get();
         DoctorDate doctorDate = doctorDateRepository.findByDoctorUserAndWorkingDate(doctorUser, dto.getWorkingDate());
         DateShift dateShift = dateShiftRepository.findById(dto.getShiftId()).get();
@@ -104,11 +103,11 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         doctorUserRepository.save(doctorUser);
         schedule = scheduleRepository.save(schedule);
 
-        return schedule;
+        return convert(schedule);
     }
 
     @Override
-    public Schedule unBooking(ScheduleDTO dto) {
+    public ScheduleDTO unBooking(ScheduleDTO dto) {
         Schedule schedule = scheduleRepository.findById(dto.getId()).get();
         DateShift dateShift = dateShiftRepository.findById(schedule.getShiftId()).get();
         DoctorUser doctorUser = doctorUserRepository.findById(schedule.getDoctorUser().getId()).get();
@@ -121,8 +120,8 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
 
         doctorUserRepository.save(doctorUser);
         dateShiftRepository.save(dateShift);
-        scheduleRepository.save(schedule);
-        return null;
+        schedule = scheduleRepository.save(schedule);
+        return convert(schedule);
     }
 
     @Override
@@ -174,60 +173,109 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Page<Schedule> getAllForUserInFuture(Pageable pageable, Integer id, Integer recent, Date date) {
+    public Page<ScheduleDTO> getAllForUserInFuture(Pageable pageable, Integer id, Integer recent, Date date) {
+        Page<Schedule> repo ;
+
         if (recent != null)
-            return  scheduleRepository.getAllForUserIn3NextDays(pageable, id);
+            repo = scheduleRepository.getAllForUserIn3NextDays(pageable, id);
+        else if (date != null)
+            repo = scheduleRepository.getAllForUserAt(pageable, id, date);
+        else repo = scheduleRepository.getAllForUserInFuture(pageable, id);
 
-        if (date != null)
-            return scheduleRepository.getAllForUserAt(pageable, id, date);
-
-        return scheduleRepository.getAllForUserInFuture(pageable, id);
+        List<Schedule> data = repo.getContent();
+        List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
+        for (Schedule schedule : data) {
+            scheduleDTOS.add(convert(schedule));
+        }
+        return new PageImpl<>(scheduleDTOS, repo.getPageable(), repo.getTotalElements());
     }
 
     @Override
-    public Page<Schedule> getAllForUserInPast(Pageable pageable, Integer status, Date date) {
+    public Page<ScheduleDTO> getAllForUserInPast(Pageable pageable, Integer status, Date date) {
         Integer userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        Page<Schedule> repo;
 
         if (status != null && date != null)
-            return scheduleRepository.getPageForUserInPastByTypeAt(pageable, userId, status, date);
+            repo = scheduleRepository.getPageForUserInPastByTypeAt(pageable, userId, status, date);
+        else if (status != null)
+            repo = scheduleRepository.getPageForUserInPastByType(pageable, userId, status);
+        else repo = scheduleRepository.getAllForUserInPast(pageable, userId);
 
-        if (status != null)
-            return scheduleRepository.getPageForUserInPastByType(pageable, userId, status);
-
-        return scheduleRepository.getAllForUserInPast(pageable, userId);
+        List<Schedule> data = repo.getContent();
+        List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
+        for (Schedule schedule : data) {
+            scheduleDTOS.add(convert(schedule));
+        }
+        return new PageImpl<>(scheduleDTOS, repo.getPageable(), repo.getTotalElements());
     }
 
-    public Page<Schedule> getAllForDoctorInFuture(Pageable pageable) {
+    public Page<ScheduleDTO> getAllForDoctorInFuture(Pageable pageable) {
         Integer doctorId = doctorUserRepository.findByUser_Id(
                 ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()
         ).getId();
 
-        return scheduleRepository.getAllForDoctorInFuture(pageable, doctorId);
+        Page<Schedule> repo = scheduleRepository.getAllForDoctorInFuture(pageable, doctorId);
+        List<Schedule> data = repo.getContent();
+        List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
+        for (Schedule schedule : data) {
+            scheduleDTOS.add(convert(schedule));
+        }
+        return new PageImpl<>(scheduleDTOS, repo.getPageable(), repo.getTotalElements());
     }
 
     @Override
-    public Page<Schedule> getAllForDoctorInPast(Pageable pageable, Integer status, Date date) {
+    public Page<ScheduleDTO> getAllForDoctorInPast(Pageable pageable, Integer status, Date date) {
         Integer doctorId = doctorUserRepository.findByUser_Id(
                 ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()
         ).getId();
-
+        Page<Schedule> repo;
         if (status != null && date != null)
-            return scheduleRepository.getPageForDoctorInPastByTypeAt(pageable, doctorId, status, date);
+            repo = scheduleRepository.getPageForDoctorInPastByTypeAt(pageable, doctorId, status, date);
+        else if (status != null)
+            repo = scheduleRepository.getPageForDoctorInPastByType(pageable, doctorId, status);
+        else repo = scheduleRepository.getAllForDoctorInPast(pageable, doctorId);
 
-        if (status != null)
-            return scheduleRepository.getPageForDoctorInPastByType(pageable, doctorId, status);
-
-        return scheduleRepository.getAllForDoctorInPast(pageable, doctorId);
+        List<Schedule> data = repo.getContent();
+        List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
+        for (Schedule schedule : data) {
+            scheduleDTOS.add(convert(schedule));
+        }
+        return new PageImpl<>(scheduleDTOS, repo.getPageable(), repo.getTotalElements());
     }
 
     private ScheduleDTO convert(Schedule schedule) {
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         scheduleDTO.setId(schedule.getId());
-        scheduleDTO.setDoctorUser(schedule.getDoctorUser());
-        scheduleDTO.setDate(DateUtils.sdf.format(schedule.getDate()));
+        scheduleDTO.setDoctorId(schedule.getDoctorUser().getId());
+        scheduleDTO.setWorkingDate(schedule.getDate());
         scheduleDTO.setTime(schedule.getTime());
-//        scheduleDTO.setPatient(schedule.getPatient());
+        scheduleDTO.setShiftId(schedule.getShiftId());
+        scheduleDTO.setExaminationPrice(schedule.getExaminationPrice().toString());
+        scheduleDTO.setUserPhone(schedule.getUserPhone());
+        scheduleDTO.setStatus(schedule.getStatus());
         scheduleDTO.setType(schedule.getType());
+        scheduleDTO.setPathological(schedule.getPathological());
+        scheduleDTO.setTestResults(schedule.getTestResults());
+        scheduleDTO.setCreatedAt(schedule.getCreatedAt());
+        scheduleDTO.setUpdateAt(schedule.getUpdatedAt());
+        scheduleDTO.setDeleteAt(schedule.getDeletedAt());
+        scheduleDTO.setDescription(schedule.getDescription());
+        scheduleDTO.setName(schedule.getName());
+        scheduleDTO.setAddress(schedule.getAddress());
+        scheduleDTO.setGender(schedule.getGender());
+        scheduleDTO.setBirthDate(schedule.getBirthDate());
+        scheduleDTO.setCccd(schedule.getCccd());
+        scheduleDTO.setDistrictId(schedule.getDistrictId());
+        scheduleDTO.setProvinceId(schedule.getProvinceId());
+        scheduleDTO.setCommuneId(schedule.getCommuneId());
+        scheduleDTO.setGuardian(schedule.getGuardian());
+        scheduleDTO.setPhoneGuardian(schedule.getPhoneGuardian());
+        scheduleDTO.setRelationship(schedule.getRelationship());
+        scheduleDTO.setCreatedBy(schedule.getCreatedBy());
+        scheduleDTO.setSpecializationId(schedule.getSpecializationId());
+//        scheduleDTO.setDoctorUser(schedule.getDoctorUser());
+        scheduleDTO.setDate(DateUtils.sdf.format(schedule.getDate()));
+        scheduleDTO.setDoctorName(schedule.getDoctorUser().getUser().getName());
         return scheduleDTO;
     }
 }

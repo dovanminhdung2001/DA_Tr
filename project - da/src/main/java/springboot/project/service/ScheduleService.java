@@ -12,8 +12,8 @@ import java.util.List;
 
 public interface ScheduleService {
 
-    Schedule booking (ScheduleDTO dto);
-    Schedule unBooking (ScheduleDTO dto);
+    ScheduleDTO booking (ScheduleDTO dto);
+    ScheduleDTO unBooking (ScheduleDTO dto);
 
 
     Schedule addMakeAnAppointment(RegisterDTO registerDTO);
@@ -24,11 +24,11 @@ public interface ScheduleService {
     Page<ScheduleDTO> getAllByDoctor(Pageable pageable, int doctor_id);
 
 
-    Page<Schedule> getAllForUserInFuture (Pageable pageable, Integer id, Integer recent, Date date);
+    Page<ScheduleDTO> getAllForUserInFuture (Pageable pageable, Integer id, Integer recent, Date date);
 
-    Page<Schedule> getAllForUserInPast(Pageable pageable, Integer status, Date date);
+    Page<ScheduleDTO> getAllForUserInPast(Pageable pageable, Integer status, Date date);
 
-    Page<Schedule> getAllForDoctorInFuture(Pageable pageable);
+    Page<ScheduleDTO> getAllForDoctorInFuture(Pageable pageable);
 
-    Page<Schedule> getAllForDoctorInPast(Pageable pageable, Integer status, Date date);
+    Page<ScheduleDTO> getAllForDoctorInPast(Pageable pageable, Integer status, Date date);
 }

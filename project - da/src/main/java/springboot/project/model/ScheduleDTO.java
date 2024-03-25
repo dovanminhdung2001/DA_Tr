@@ -36,6 +36,7 @@ public class ScheduleDTO {
     private TestResults testResults;
 /////////
     private Integer doctorId;
+    private String doctorName;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date workingDate;
     private Integer shiftId;
@@ -54,6 +55,10 @@ public class ScheduleDTO {
     private String phoneGuardian;
     private Integer relationship;
     private Integer specializationId;
+    private Integer createdBy;
+    private Date createdAt;
+    private Date updateAt;
+    private Date deleteAt;
 ///////////
     public ScheduleDTO() {
     }
