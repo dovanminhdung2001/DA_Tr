@@ -19,7 +19,7 @@ public class Schedule {
 
     @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "doctorId")
-    @JsonIgnore
+//    @JsonIgnore
     private DoctorUser doctorUser;
 
     @Column(name = "date")
