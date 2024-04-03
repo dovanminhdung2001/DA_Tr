@@ -23,7 +23,7 @@ public class DoctorUserController {
     private ClinicService clinicService;
     @Autowired
     private UserService userService;
-    @GetMapping("/user/doctor/list")
+    @GetMapping({"/user/doctor/list", "/admin/doctor/list"})
     public ResponseEntity<?> page(@RequestParam Pageable pageable) {
         return ResponseEntity.ok(doctorUserService.page(pageable));
     }
