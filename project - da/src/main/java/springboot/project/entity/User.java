@@ -29,7 +29,7 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "avatar")
+    @Column(columnDefinition = "LONGTEXT")
     private String avatar;
 
     @Column(name = "gender")

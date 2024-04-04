@@ -18,7 +18,7 @@ public class Blog {
     private int id;
     private Integer doctorId;
     private String doctorName;
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(name="content", columnDefinition="LONGTEXT")
     private String content;
     private String specializationIdList;
     private Integer view;

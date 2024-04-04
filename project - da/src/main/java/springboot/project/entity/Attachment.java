@@ -15,5 +15,4 @@ public class Attachment {
     private String title;
     @Column(columnDefinition = "LONGTEXT")
     private String url;
-
 }
