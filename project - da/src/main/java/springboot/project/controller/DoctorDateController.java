@@ -13,7 +13,6 @@ import springboot.project.service.DoctorDateService;
 
 import java.util.Date;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
 public class DoctorDateController {

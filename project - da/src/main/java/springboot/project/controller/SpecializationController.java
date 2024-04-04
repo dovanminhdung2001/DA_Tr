@@ -9,7 +9,6 @@ import springboot.project.model.MessageResponseDTO;
 import springboot.project.model.SpecializationDTO;
 import springboot.project.service.SpecializationService;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/admin/specialization")
 public class SpecializationController {

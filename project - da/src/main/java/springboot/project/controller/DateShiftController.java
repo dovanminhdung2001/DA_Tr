@@ -19,7 +19,6 @@ import springboot.project.service.ScheduleService;
 import java.util.Date;
 
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
 public class DateShiftController {

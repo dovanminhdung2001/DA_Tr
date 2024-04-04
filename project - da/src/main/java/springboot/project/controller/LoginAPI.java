@@ -22,8 +22,6 @@ import springboot.project.service.JwtTokenService;
 import springboot.project.service.PatientService;
 import springboot.project.service.UserService;
 
-import java.io.UnsupportedEncodingException;
-import java.util.UUID;
 @CrossOrigin(origins = "*")
 @RestController
 @Slf4j

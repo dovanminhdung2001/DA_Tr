@@ -50,7 +50,8 @@ public class DoctorUserServiceimpl implements DoctorUserService {
     public Page<DoctorUserDTO> page(Pageable pageable) {
         Page<DoctorUser> doctorUserPage = doctorUserRepository.findAll(pageable);
 
-        return doctorUserPage.map(this::convert);
+        Page<DoctorUserDTO> rs = doctorUserPage.map(this::convert);
+        return  rs;
     }
 
     @Override

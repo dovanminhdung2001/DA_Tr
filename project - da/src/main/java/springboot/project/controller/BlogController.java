@@ -10,7 +10,6 @@ import springboot.project.model.BlogDTO;
 import springboot.project.service.BlogService;
 
 @Controller
-@CrossOrigin(origins = "*")
 @RequestMapping("/api/doctor/blog")
 public class BlogController {
     @Autowired

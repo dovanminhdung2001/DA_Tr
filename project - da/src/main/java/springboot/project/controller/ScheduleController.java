@@ -17,7 +17,6 @@ import springboot.project.service.ScheduleService;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
 public class ScheduleController {
