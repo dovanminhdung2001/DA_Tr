@@ -22,6 +22,11 @@ public class ClinicController {
         return ResponseEntity.ok(clinicService.page(pageable));
     }
 
+    @GetMapping("/get")
+    ResponseEntity<?> find (@RequestParam Integer id) {
+        return ResponseEntity.ok(clinicService.find(id));
+    }
+
     @PostMapping("/create")
     ResponseEntity<?> create (@RequestBody ClinicDTO dto) {
         try {

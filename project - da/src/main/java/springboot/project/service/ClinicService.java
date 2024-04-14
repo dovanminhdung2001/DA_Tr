@@ -10,4 +10,6 @@ public interface ClinicService {
     Clinic update(ClinicDTO dto);
     Clinic getById(Integer id);
     Page<Clinic> page(Pageable pageable);
+
+    Clinic find(Integer id);
 }

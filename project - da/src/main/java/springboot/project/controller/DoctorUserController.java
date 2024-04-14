@@ -9,6 +9,7 @@ import springboot.project.entity.DoctorUser;
 import springboot.project.entity.Role;
 import springboot.project.entity.User;
 import springboot.project.model.DoctorUserDTO;
+import springboot.project.model.MessageResponseDTO;
 import springboot.project.service.ClinicService;
 import springboot.project.service.DoctorUserService;
 import springboot.project.service.UserService;
@@ -33,13 +34,22 @@ public class DoctorUserController {
         return ResponseEntity.ok(doctorUserService.find(pageable, dto));
     }
 
-    @GetMapping("/user/doctor/get")
-    public ResponseEntity<?> get (Pageable pageable, @RequestParam Integer id ) {
+    @GetMapping({"/user/doctor/get", "/admin/doctor/get"})
+    public ResponseEntity<?> get (@RequestParam Integer id ) {
         return ResponseEntity.ok(doctorUserService.getById(id));
     }
 
     @PostMapping("/admin/doctor/create")
     public ResponseEntity<?> create(@RequestBody DoctorUserDTO dto) {
         return ResponseEntity.ok(doctorUserService.create(dto));
+    }
+
+    @PutMapping("/admin/doctor/update")
+    public ResponseEntity<?> update(@RequestBody DoctorUserDTO dto) {
+        try {
+            return ResponseEntity.ok(doctorUserService.update(dto));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponseDTO(e.getMessage(), e));
+        }
     }
 }

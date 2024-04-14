@@ -70,6 +70,11 @@ public class ClinicServiceImpl implements ClinicService {
         return null;
     }
 
+    @Override
+    public Clinic find(Integer id) {
+        return clinicRepository.findById(id).get();
+    }
+
     private Clinic toClinic(ClinicDTO dto) {
         return  new Clinic(
                 dto.getName(),

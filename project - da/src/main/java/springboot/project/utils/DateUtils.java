@@ -1,8 +1,11 @@
 package springboot.project.utils;
 
+import org.springframework.cglib.core.Local;
+
 import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class DateUtils {
@@ -30,6 +33,12 @@ public class DateUtils {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static Integer getAge(Date birthDate) {
+        LocalDate localBirthdate = new java.sql.Date(birthDate.getTime()).toLocalDate();
+        LocalDate now = LocalDate.now();
+        return  now.getYear() - localBirthdate.getYear();
     }
 
     public String todayStr() {

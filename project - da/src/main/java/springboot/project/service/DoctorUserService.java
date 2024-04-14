@@ -20,4 +20,6 @@ public interface DoctorUserService {
     Page<DoctorUser> find(Pageable pageable, DoctorUserDTO dto);
 
     DoctorUser getById(Integer id);
+
+    DoctorUser update(DoctorUserDTO dto);
 }

@@ -26,7 +26,7 @@ public class DoctorUserDTO {
     private String phone;
     private Integer roleId;
     private Role role;
-    @JsonFormat(pattern = "dd/MM/yyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date birthDate;
     private String generalIntroduction;
 

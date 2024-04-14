@@ -17,6 +17,9 @@ import java.util.List;
 
 public interface DoctorUserRepository extends JpaRepository<DoctorUser, Integer> {
     DoctorUser findByUser(User user);
+    DoctorUser findByUser_Email(String email);
+    DoctorUser findByUser_Phone(String phone);
+    DoctorUser findByUser_Cccd(String cccd);
     DoctorUser findByUser_Id(int userId);
     Page<DoctorUser> findAllBySpecialization(Pageable pageable, Specialization specialization);
 

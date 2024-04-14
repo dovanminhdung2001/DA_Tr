@@ -1,6 +1,7 @@
 package springboot.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import springboot.project.model.*;
 import springboot.project.service.DoctorUserService;
 import springboot.project.service.PatientService;
 import springboot.project.service.ScheduleService;
+import springboot.project.service.UserService;
 
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +24,8 @@ public class UserController {
 
     @Autowired
     ScheduleService scheduleService;
+    @Autowired
+    UserService userService;
 
     @Autowired
     PatientService patientService;
@@ -73,4 +77,23 @@ public class UserController {
         }
     }
 
+    @GetMapping("/api/admin/user/list")
+    public ResponseEntity<?> page(Pageable pageable) {
+        return ResponseEntity.ok(userService.page(pageable));
+    }
+
+    @PostMapping("/api/admin/user/create")
+    public ResponseEntity<?> create(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.create(userDTO));
+    }
+
+    @GetMapping("/api/admin/user/get")
+    public ResponseEntity<?> get(@RequestParam Integer id) {
+        return ResponseEntity.ok(userService.findOnlyUser(id));
+    }
+
+    @PutMapping("/api/admin/user/update")
+    public ResponseEntity<?> update(@RequestBody UserDTO dto) {
+        return ResponseEntity.ok(userService.update(dto));
+    }
 }

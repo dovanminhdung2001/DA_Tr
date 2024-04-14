@@ -1,5 +1,6 @@
 package springboot.project.service.impl;
 
+import io.micrometer.common.util.StringUtils;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,6 +59,14 @@ public class DoctorUserServiceimpl implements DoctorUserService {
     public DoctorUserDTO create(DoctorUserDTO dto) {
         Clinic clinic = clinicRepository.findById(dto.getClinicId()).get();
         Specialization specialization = specializationRepository.findById(dto.getSpecializationId()).get();
+
+        if(doctorUserRepository.findByUser_Phone(dto.getPhone()) != null)
+            throw new RuntimeException("regitered phone");
+        if(doctorUserRepository.findByUser_Email(dto.getEmail()) != null)
+            throw new RuntimeException("regitered email");
+        if(doctorUserRepository.findByUser_Cccd(dto.getCccd()) != null)
+            throw new RuntimeException("Registered citizen id");
+
         User user = new User(
                 dto.getName(),
                 dto.getEmail(),
@@ -118,6 +127,42 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         return doctorUserRepository.findById(id).get();
     }
 
+    @Override
+    public DoctorUser update(DoctorUserDTO dto) {
+        DoctorUser doctorUser = doctorUserRepository.findById(dto.getId()).get();
+        DoctorUser check = doctorUserRepository.findByUser_Email(dto.getEmail());
+
+        if (doctorUser == null)
+            throw new RuntimeException("not found doctor");
+
+        if (check != null && check.getId() != doctorUser.getId())
+            throw new RuntimeException("registered email");
+
+        check = doctorUserRepository.findByUser_Phone(dto.getPhone());
+        if (check != null && check.getId() != doctorUser.getId())
+            throw new RuntimeException("registered phone");
+
+        check = doctorUserRepository.findByUser_Cccd(dto.getCccd()) ;
+        if (check != null && check.getId() != doctorUser.getId())
+            throw new RuntimeException("regitered citizen id");
+
+        if (StringUtils.isNotBlank(dto.getPassword())) {
+            doctorUser.getUser().setPassword(PasswordGenerator.getHashString(dto.getPassword()));
+        }
+
+        doctorUser.getUser().setEmail(dto.getEmail());
+        doctorUser.getUser().setName(dto.getName());
+        doctorUser.getUser().setGender(dto.getGender());
+        doctorUser.getUser().setPhone(dto.getPhone());
+        doctorUser.getUser().setAvatar(dto.getAvatar());
+        doctorUser.getUser().setAddress(dto.getAddress());
+        doctorUser.getUser().setDescription(dto.getDescription());
+        doctorUser.getUser().setActive(dto.getActive());
+        doctorUser.getUser().setBirthDate(dto.getBirthDate());
+        doctorUser.getUser().setCccd(dto.getCccd());
+        return doctorUserRepository.save(doctorUser);
+    }
+
     private DoctorUserDTO convert(DoctorUser doctorUser) {
         DoctorUserDTO doctorUserDTO = new DoctorUserDTO();
         doctorUserDTO.setId(doctorUser.getId());
@@ -129,6 +174,7 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         doctorUserDTO.setClinic(doctorUser.getClinic());
         doctorUserDTO.setSpecialization(doctorUser.getSpecialization());
         doctorUserDTO.setUser(doctorUser.getUser());
+        doctorUserDTO.setCccd(doctorUser.getUser().getCccd());
         return doctorUserDTO;
     }
 }

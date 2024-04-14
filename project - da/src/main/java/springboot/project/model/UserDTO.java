@@ -1,12 +1,14 @@
 package springboot.project.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import springboot.project.entity.DoctorUser;
 import springboot.project.entity.Patient;
 import springboot.project.entity.Role;
 
 import java.util.Date;
 
+@Data
 public class UserDTO {
     private int id;
 
@@ -27,6 +29,7 @@ public class UserDTO {
     private String description;
 
     private Role role;
+    private Integer roleId;
 
     private boolean isActive;
 
@@ -44,6 +47,7 @@ public class UserDTO {
     private Date birthDate;
     private Date createdAt;
     private Date updatedAt;
+    private Integer age;
     public UserDTO() {
     }
 
@@ -65,6 +69,19 @@ public class UserDTO {
         this.patient = patient;
         this.doctorUser = doctorUser;
     }
+
+    // list-user - web
+    public UserDTO(int id, String name, String email, String address, String phone, String avatar, int age) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+        this.phone = phone;
+        this.avatar = avatar;
+        this.age = age;
+    }
+
+    // get by id - web
 
     public int getId() {
         return id;
