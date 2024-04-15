@@ -68,7 +68,7 @@ public class Schedule {
     private Integer communeId;
     private String guardian;
     private String phoneGuardian;
-    private Integer relationship;
+    private String relationship;
     private Integer createdBy;
     private Integer specializationId;
     public Schedule() {
@@ -76,7 +76,7 @@ public class Schedule {
     public Schedule(DoctorUser doctorUser, Date workingDate, Integer shiftId, Integer shiftTime,
                     Integer examinationCosts, String userPhone, String name, String address, Integer gender,
                     Date birthDate, String cccd, Integer districtId, Integer provinceId, Integer communeId,
-                    String guardian, String phoneGuardian, Integer relationship, Integer patientId, Integer status,
+                    String guardian, String phoneGuardian, String relationship, Integer patientId, Integer status,
                     String pathological, Integer specializationId) {
         this.doctorUser = doctorUser;
         this.date = workingDate;

@@ -50,8 +50,6 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
 
-
-
         if (doctorUser == null)
             throw new RuntimeException("Doctor id  not existed");
 

@@ -53,7 +53,7 @@ public class ScheduleDTO {
     private Integer communeId;
     private String guardian;
     private String phoneGuardian;
-    private Integer relationship;
+    private String relationship;
     private Integer specializationId;
     private Integer createdBy;
     private Date createdAt;
