@@ -1,6 +1,7 @@
 package springboot.project.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import springboot.project.entity.Clinic;
 import springboot.project.entity.Role;
 import springboot.project.entity.Specialization;
@@ -8,6 +9,7 @@ import springboot.project.entity.User;
 
 import java.util.Date;
 
+@Data
 public class DoctorUserDTO {
     private Integer id;
 
@@ -45,6 +47,7 @@ public class DoctorUserDTO {
     private Integer specializationId;
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date workingDate;
+    private Integer type;
     public DoctorUserDTO() {
     }
 

@@ -25,13 +25,13 @@ public interface DoctorUserRepository extends JpaRepository<DoctorUser, Integer>
 
     @Query("SELECT DISTINCT du FROM DoctorUser du " +
             "JOIN FETCH du.doctorDates dd " +
-            "WHERE dd.workingDate = :workingDate")
-    Page<DoctorUser> findAllByWorkingDate(Pageable pageable, @Param("workingDate") Date workingDate);
+            "WHERE dd.workingDate = :workingDate AND du.type = :type")
+    Page<DoctorUser> findAllByWorkingDate(Pageable pageable, @Param("workingDate") Date workingDate, @Param("type") Integer type);
 
     Page<DoctorUser> findByDoctorDatesWorkingDate(Pageable pageable, @Param("workingDate") Date workingDate);
 
     @Query("SELECT DISTINCT du FROM DoctorUser du " +
             "JOIN FETCH du.doctorDates dd JOIN FETCH du.specialization s " +
-            "WHERE dd.workingDate = :workingDate and s.id = :specializationId")
-    Page<DoctorUser> findAllByWorkingDateAndSpecialization(Pageable pageable,@Param("workingDate") Date workingDate,@Param("specializationId") Integer specializationId);
+            "WHERE dd.workingDate = :workingDate AND du.type = :type and s.id = :specializationId")
+    Page<DoctorUser> findAllByWorkingDateAndSpecialization(Pageable pageable,@Param("workingDate") Date workingDate,@Param("type") Integer type, @Param("specializationId") Integer specializationId);
 }

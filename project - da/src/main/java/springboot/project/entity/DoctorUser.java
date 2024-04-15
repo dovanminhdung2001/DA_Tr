@@ -44,13 +44,13 @@ public class DoctorUser {
 
     @OneToMany(mappedBy = "doctorUser")
     private List<DoctorDate> doctorDates;
-
+    private Integer type;
     public DoctorUser() {
     }
 
     public DoctorUser(String generalIntroduction, String trainingProcess,
                       String achievementsAchieved, String specialtiesInCharge,
-                      User user, Clinic clinic, Specialization specialization,int numberChoose) {
+                      User user, Clinic clinic, Specialization specialization,int numberChoose, Integer type) {
         this.generalIntroduction = generalIntroduction;
         this.trainingProcess = trainingProcess;
         this.achievementsAchieved = achievementsAchieved;
@@ -59,13 +59,15 @@ public class DoctorUser {
         this.clinic = clinic;
         this.specialization = specialization;
         this.numberChoose = numberChoose;
+        this.type = type;
     }
 
-    public DoctorUser(int numberChoose, Clinic clinic, Specialization specialization, User user) {
+    public DoctorUser(int numberChoose, Clinic clinic, Specialization specialization, User user, Integer type) {
         this.numberChoose = numberChoose;
         this.clinic = clinic;
         this.specialization = specialization;
         this.user = user;
+        this.type = type;
     }
 
     public int getId() {

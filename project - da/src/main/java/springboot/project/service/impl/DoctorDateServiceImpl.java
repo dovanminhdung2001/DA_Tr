@@ -27,6 +27,9 @@ public class DoctorDateServiceImpl implements DoctorDateService {
 
     @Override
     public DoctorDate create(DoctorDateDTO dto) {
+        if (dto.getCost() == null)
+            throw new RuntimeException("Cost is null");
+
         if(doctorDateRepository.existsDoctorDateByWorkingDateAndDoctorUser_Id(dto.getDate(), dto.getDoctorId()))
             throw new RuntimeException("Date registered");
 

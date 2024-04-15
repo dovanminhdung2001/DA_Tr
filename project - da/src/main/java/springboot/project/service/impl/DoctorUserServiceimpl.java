@@ -91,7 +91,8 @@ public class DoctorUserServiceimpl implements DoctorUserService {
             0,
             clinic,
             specialization,
-            user
+            user,
+            dto.getType()
         );
 
         return convert(doctorUserRepository.save(doctorUser));
@@ -114,9 +115,9 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         Page<DoctorUser> result ;
 
         if (dto.getSpecializationId() == null) {
-            result =  doctorUserRepository.findAllByWorkingDate(pageable, dto.getWorkingDate());
+            result =  doctorUserRepository.findAllByWorkingDate(pageable, dto.getWorkingDate(), dto.getType());
         } else {
-            result = doctorUserRepository.findAllByWorkingDateAndSpecialization(pageable, dto.getWorkingDate(), dto.getSpecializationId());
+            result = doctorUserRepository.findAllByWorkingDateAndSpecialization(pageable, dto.getWorkingDate(), dto.getSpecializationId(), dto.getType());
         }
 
         return result;
@@ -160,6 +161,7 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         doctorUser.getUser().setActive(dto.getActive());
         doctorUser.getUser().setBirthDate(dto.getBirthDate());
         doctorUser.getUser().setCccd(dto.getCccd());
+        doctorUser.setType(dto.getType());
         return doctorUserRepository.save(doctorUser);
     }
 
@@ -175,6 +177,7 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         doctorUserDTO.setSpecialization(doctorUser.getSpecialization());
         doctorUserDTO.setUser(doctorUser.getUser());
         doctorUserDTO.setCccd(doctorUser.getUser().getCccd());
+        doctorUserDTO.setType(doctorUser.getType());
         return doctorUserDTO;
     }
 }
