@@ -3,6 +3,7 @@ package springboot.project.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import springboot.project.entity.DoctorUser;
+import springboot.project.entity.MedicalHistory;
 import springboot.project.entity.Patient;
 import springboot.project.entity.Role;
 
@@ -36,7 +37,7 @@ public class UserDTO {
     private String checkPass;
 
     private Patient patient;
-
+    private MedicalHistory medicalHistory;
     private DoctorUser doctorUser;
     private String historyBreath;
 

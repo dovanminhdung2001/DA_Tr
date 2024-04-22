@@ -2,10 +2,12 @@ package springboot.project.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.util.Date;
 
+@Data
 @Entity
 @Table(name = "users")
 public class User {
@@ -45,6 +47,9 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Patient patient;
 
+    @OneToOne(mappedBy = "user")
+    private MedicalHistory medicalHistory;
+
     @Column(name = "isActive")
     private Boolean isActive = false;
 
@@ -54,7 +59,6 @@ public class User {
     private Date birthDate;
 
     private String cccd;
-
 
     public User() {
     }

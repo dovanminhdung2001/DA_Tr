@@ -69,9 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findOnlyUser(Integer id) {
-       User user = userRepository.findByIdAndRole_Id(id, 3);
-
-       return user;
+        return userRepository.findByIdAndRole_Id(id, 3);
     }
 
     @Override
@@ -136,7 +134,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserDTO convertToDTO(User user) {
-        return new UserDTO(
+        UserDTO userDTO  = new UserDTO(
                 user.getId(),
                 user.getName(),
                 user.getEmail(),
@@ -145,5 +143,8 @@ public class UserServiceImpl implements UserService {
                 user.getAvatar(),
                 DateUtils.getAge(user.getBirthDate())
         );
+        userDTO.setMedicalHistory(user.getMedicalHistory());
+
+        return userDTO;
     }
 }
