@@ -14,6 +14,9 @@ public class MedicalHistoryServiceImpl implements MedicalHistoryService {
 
     @Override
     public MedicalHistory create(MedicalHistoryDTO dto) {
+        if(medicalHistoryRepository.existsByUser_Id(dto.getUserId()))
+            throw new RuntimeException("user already had medical medical ");
+
         MedicalHistory medicalHistory = new MedicalHistory();
 
         medicalHistory.setUser(dto.getUser());
