@@ -27,16 +27,13 @@ public class BlogServiceImpl implements BlogService {
         DoctorUser doctorUser = doctorUserRepository.findByUser_Id(currentUser.getId());
 
 
-        Blog newBlog = new Blog(
-            doctorUser.getId(),
-                dto.getDoctorName(),
-                dto.getContent(),
-                dto.getSpecializationIdList(),
-                dto.getView(),
-                dto.getShare(),
-                DateUtils.now(),
-                dto.getAttachments()
-        );
+        Blog newBlog = new Blog();
+        newBlog.setDoctorId(doctorUser.getId());
+        newBlog.setDoctorName(doctorUser.getUser().getName());
+        newBlog.setTitle(dto.getTitle());
+        newBlog.setContent(dto.getContent());
+        newBlog.setSpecializationIdList(dto.getSpecializationIdList());
+        newBlog.setCreateAt(DateUtils.now());
 
         newBlog = blogRepository.save(newBlog);
 
@@ -51,12 +48,13 @@ public class BlogServiceImpl implements BlogService {
             throw new RuntimeException("id blog not found");
 
         oldBLog.setDoctorName(dto.getDoctorName());
+        oldBLog.setTitle(dto.getTitle());
         oldBLog.setContent(dto.getContent());
         oldBLog.setSpecializationIdList(dto.getSpecializationIdList());
         oldBLog.setView(dto.getView());
         oldBLog.setShare(dto.getShare());
         oldBLog.setUpdateAt(DateUtils.now());
-        oldBLog.setAttachments(dto.getAttachments());
+
         oldBLog = blogRepository.save(oldBLog);
 
         return oldBLog;
@@ -68,12 +66,16 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Page<Blog> findAllByDoctorId(Pageable pageable, Integer doctorId) {
-        return blogRepository.findAllByDoctorId(pageable, doctorId);
+    public Page<Blog> findAllByDoctorId(Pageable pageable, Integer doctorId, Boolean isActive) {
+        return isActive == null
+                ? blogRepository.findAllByDoctorId(pageable, doctorId)
+                : blogRepository.findAllByDoctorIdAndIsActive(pageable, doctorId, isActive);
     }
 
     @Override
-    public Page<Blog> findAll(Pageable pageable) {
-        return blogRepository.findAll(pageable);
+    public Page<Blog> findAll(Pageable pageable, Boolean isActive) {
+        return isActive == null
+                ? blogRepository.findAll(pageable)
+                : blogRepository.findAllByIsActive(pageable, isActive);
     }
 }

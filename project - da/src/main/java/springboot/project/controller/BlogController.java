@@ -10,32 +10,33 @@ import springboot.project.model.BlogDTO;
 import springboot.project.service.BlogService;
 
 @Controller
-@RequestMapping("/api/doctor/blog")
+@RequestMapping("/api")
 public class BlogController {
     @Autowired
     private BlogService blogService;
 
-    @GetMapping("/list")
+    @GetMapping("/doctor/blog/list")
     ResponseEntity<?> list (
         Pageable pageable,
         @RequestParam(required = false) Integer blogId,
-        @RequestParam(required = false) Integer doctorId
+        @RequestParam(required = false) Integer doctorId,
+        @RequestParam(required = false) Boolean isActive
     ) {
         if (blogId != null)
             return ResponseEntity.ok(blogService.findById(blogId));
 
         if (doctorId != null)
-            return ResponseEntity.ok(blogService.findAllByDoctorId(pageable, doctorId));
+            return ResponseEntity.ok(blogService.findAllByDoctorId(pageable, doctorId, isActive));
 
-        return ResponseEntity.ok(blogService.findAll(pageable));
+        return ResponseEntity.ok(blogService.findAll(pageable, isActive));
     }
 
-    @PostMapping("/create")
+    @PostMapping("/doctor/blog/create")
     ResponseEntity<?> create (@RequestBody BlogDTO blogDTO) {
         return ResponseEntity.ok(blogService.create(blogDTO));
     }
 
-    @PutMapping("/update")
+    @PutMapping("/doctor/blog/update")
     ResponseEntity<?> update (@RequestBody BlogDTO blogDTO) {
         return ResponseEntity.ok(blogService.update(blogDTO));
     }

@@ -18,6 +18,8 @@ public class Blog {
     private int id;
     private Integer doctorId;
     private String doctorName;
+    @Column(columnDefinition = "longtext")
+    private String title;
     @Column(name="content", columnDefinition="LONGTEXT")
     private String content;
     private String specializationIdList;
@@ -27,6 +29,7 @@ public class Blog {
     private Date updateAt;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Attachment> attachments;
+    private Boolean isActive;
 
     public Blog(Integer doctorId, String doctorName, String content, String specializationIdList, Integer view, Integer share, Date createAt, List<Attachment> attachments) {
         this.doctorId = doctorId;
@@ -37,5 +40,6 @@ public class Blog {
         this.share = share;
         this.createAt = createAt;
         this.attachments = attachments;
+        this.isActive = true;
     }
 }

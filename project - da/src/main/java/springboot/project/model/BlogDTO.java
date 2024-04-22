@@ -13,10 +13,12 @@ public class BlogDTO {
     private int id;
     private Integer doctorId;
     private String doctorName;
+    private String title;
     private String content;
     private String specializationIdList;
     private Integer view;
     private Integer share;
     private Date createAt;
     private List<Attachment> attachments;
+    private Boolean isActive;
 }

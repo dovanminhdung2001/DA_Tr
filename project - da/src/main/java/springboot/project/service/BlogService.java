@@ -9,6 +9,6 @@ public interface BlogService {
     Blog create (BlogDTO dto);
     Blog update (BlogDTO dto);
     Blog findById (Integer blogId);
-    Page<Blog> findAllByDoctorId(Pageable pageable, Integer doctorId);
-    Page<Blog> findAll(Pageable pageable);
+    Page<Blog> findAllByDoctorId(Pageable pageable, Integer doctorId, Boolean isActive);
+    Page<Blog> findAll(Pageable pageable, Boolean isActive);
 }
