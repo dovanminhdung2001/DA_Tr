@@ -20,11 +20,11 @@ public class MedicalHistoryController {
     @GetMapping("/user/medical-history/get")
     public ResponseEntity<?> get (
             @RequestParam(required = false) Integer id,
-            @RequestParam(required = false) Integer userIc
+            @RequestParam(required = false) Integer userId
     ) {
         return  id != null
                 ? ResponseEntity.ok(medicalHistoryService.findById(id))
-                : ResponseEntity.ok(medicalHistoryService.findByUser_Id(userIc));
+                : ResponseEntity.ok(medicalHistoryService.findByUser_Id(userId));
     }
 
     @PutMapping("/user/medical-history/update")
