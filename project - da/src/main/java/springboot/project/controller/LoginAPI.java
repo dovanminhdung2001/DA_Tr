@@ -21,6 +21,7 @@ import springboot.project.service.DoctorUserService;
 import springboot.project.service.JwtTokenService;
 import springboot.project.service.PatientService;
 import springboot.project.service.UserService;
+import springboot.project.utils.Const;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -49,7 +50,7 @@ public class LoginAPI {
             String accessToken = jwtTokenService.createToken(phone);
             String refreshToken = jwtTokenService.createRefreshToken(phone);
 
-            if (user.getRole().getId() == 2)
+            if (user.getRole().getId() == Const.ROLE_ID_DOCTOR)
                 return ResponseEntity.ok(new JwtResponseDTO(accessToken, refreshToken, doctorUserService.findByUser(user)));
 
             return ResponseEntity.ok(new JwtResponseDTO(accessToken, refreshToken, user));

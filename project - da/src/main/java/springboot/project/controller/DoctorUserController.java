@@ -34,6 +34,11 @@ public class DoctorUserController {
         return ResponseEntity.ok(doctorUserService.find(pageable, dto));
     }
 
+    @GetMapping("/admin/index2/get")
+    public ResponseEntity<?> index2 () {
+        return ResponseEntity.ok(doctorUserService.index2());
+    }
+
     @GetMapping({"/user/doctor/get", "/admin/doctor/get"})
     public ResponseEntity<?> get (@RequestParam Integer id ) {
         return ResponseEntity.ok(doctorUserService.getById(id));
