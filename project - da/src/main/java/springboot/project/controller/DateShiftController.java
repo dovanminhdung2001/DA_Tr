@@ -53,11 +53,12 @@ public class DateShiftController {
     public ResponseEntity<?> futureForUser (
             Pageable pageable,
             @RequestParam(required = false) Integer recent,
+            @RequestParam Integer type,
             @RequestParam(required = false) @DateTimeFormat(pattern="dd/MM/yyyy") Date date
             ) {
         UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
-        Page<ScheduleDTO> schedule = scheduleService.getAllForUserInFuture(pageable, currentUser.getId(), recent, date);
+        Page<ScheduleDTO> schedule = scheduleService.getAllForUserInFuture(pageable, currentUser.getId(), recent, date, type);
         return ResponseEntity.ok(schedule);
     }
 
@@ -65,9 +66,10 @@ public class DateShiftController {
     public ResponseEntity<?> pastUser (
             Pageable pageable,
             @RequestParam(required = false) Integer status,
+            @RequestParam Integer type,
             @RequestParam(required = false) @DateTimeFormat(pattern="dd/MM/yyyy") Date date
     ) {
-        return ResponseEntity.ok(scheduleService.getAllForUserInPast(pageable, status, date));
+        return ResponseEntity.ok(scheduleService.getAllForUserInPast(pageable, status, date, type));
     }
 
     @GetMapping("/doctor/schedule/future")

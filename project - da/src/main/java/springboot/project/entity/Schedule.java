@@ -36,7 +36,7 @@ public class Schedule {
 
     private int status;
 
-    private String type;
+    private Integer type;
 
     private String pathological;
 
@@ -140,14 +140,6 @@ public class Schedule {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getPathological() {

@@ -24,7 +24,7 @@ public class ScheduleDTO {
 
     private Patient patient;
 
-    private String type;
+    private Integer type;
     private Clinic clinic;
 
     private String examinationPrice;
@@ -144,14 +144,6 @@ public class ScheduleDTO {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public TestResults getTestResults() {

@@ -20,6 +20,7 @@ import springboot.project.model.RegisterDTO;
 import springboot.project.model.UserPrincipal;
 import springboot.project.service.PatientService;
 import springboot.project.service.ScheduleService;
+import springboot.project.utils.Const;
 import springboot.project.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -89,10 +90,12 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
                 dto.getPhoneGuardian(),
                 dto.getRelationship(),
                 currentUser.getId(),
-                0,
+                Const.SCHEDULE_STATUS_BOOKED,
                 dto.getPathological(),
                 dto.getSpecializationId()
         );
+
+        schedule.setType(doctorUser.getType());
 
         doctorUser.setNumberChoose(doctorUser.getNumberChoose() + 1);
         dateShift.setIsActive(false);
@@ -113,7 +116,7 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         dateShift.setIsActive(true);
         doctorUser.setNumberChoose(doctorUser.getNumberChoose() - 1);
 
-        schedule.setStatus(1);
+        schedule.setStatus(Const.SCHEDULE_STATUS_CANCELLED);
         schedule.setDescription(dto.getDescription());
 
         doctorUserRepository.save(doctorUser);
@@ -171,14 +174,14 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Page<ScheduleDTO> getAllForUserInFuture(Pageable pageable, Integer id, Integer recent, Date date) {
+    public Page<ScheduleDTO> getAllForUserInFuture(Pageable pageable, Integer id, Integer recent, Date date , Integer type) {
         Page<Schedule> repo ;
 
         if (recent != null)
-            repo = scheduleRepository.getAllForUserIn3NextDays(pageable, id);
+            repo = scheduleRepository.getAllForUserIn3NextDays(pageable, id, type);
         else if (date != null)
-            repo = scheduleRepository.getAllForUserAt(pageable, id, date);
-        else repo = scheduleRepository.getAllForUserInFuture(pageable, id);
+            repo = scheduleRepository.getAllForUserAt(pageable, id, date, type);
+        else repo = scheduleRepository.getAllForUserInFuture(pageable, id, type);
 
         List<Schedule> data = repo.getContent();
         List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
@@ -189,15 +192,15 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Page<ScheduleDTO> getAllForUserInPast(Pageable pageable, Integer status, Date date) {
+    public Page<ScheduleDTO> getAllForUserInPast(Pageable pageable, Integer status, Date date, Integer type) {
         Integer userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         Page<Schedule> repo;
 
         if (status != null && date != null)
-            repo = scheduleRepository.getPageForUserInPastByTypeAt(pageable, userId, status, date);
+            repo = scheduleRepository.getPageForUserInPastByTypeAt(pageable, userId, status, date, type);
         else if (status != null)
-            repo = scheduleRepository.getPageForUserInPastByType(pageable, userId, status);
-        else repo = scheduleRepository.getAllForUserInPast(pageable, userId);
+            repo = scheduleRepository.getPageForUserInPastByType(pageable, userId, status, type);
+        else repo = scheduleRepository.getAllForUserInPast(pageable, userId, type);
 
         List<Schedule> data = repo.getContent();
         List<ScheduleDTO> scheduleDTOS = new ArrayList<>();

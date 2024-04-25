@@ -24,9 +24,9 @@ public interface ScheduleService {
     Page<ScheduleDTO> getAllByDoctor(Pageable pageable, int doctor_id);
 
 
-    Page<ScheduleDTO> getAllForUserInFuture (Pageable pageable, Integer id, Integer recent, Date date);
+    Page<ScheduleDTO> getAllForUserInFuture (Pageable pageable, Integer id, Integer recent, Date date, Integer type);
 
-    Page<ScheduleDTO> getAllForUserInPast(Pageable pageable, Integer status, Date date);
+    Page<ScheduleDTO> getAllForUserInPast(Pageable pageable, Integer status, Date date, Integer type);
 
     Page<ScheduleDTO> getAllForDoctorInFuture(Pageable pageable);
 

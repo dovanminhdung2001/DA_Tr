@@ -12,9 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import springboot.project.dao.*;
 import springboot.project.entity.*;
 import springboot.project.model.DoctorUserDTO;
+import springboot.project.model.Index2DTO;
 import springboot.project.model.UserPrincipal;
 import springboot.project.security.PasswordGenerator;
 import springboot.project.service.DoctorUserService;
+import springboot.project.utils.Const;
 import springboot.project.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -36,6 +38,8 @@ public class DoctorUserServiceimpl implements DoctorUserService {
     RoleRepository roleRepository;
     @Autowired
     DoctorDateRepository doctorDateRepository;
+    @Autowired
+    ScheduleRepository scheduleRepository;
 
     @Override
     public List<DoctorUserDTO> getListDoctorUser() {
@@ -163,6 +167,17 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         doctorUser.getUser().setCccd(dto.getCccd());
         doctorUser.setType(dto.getType());
         return doctorUserRepository.save(doctorUser);
+    }
+
+    @Override
+    public Index2DTO index2() {
+        Index2DTO dto = new Index2DTO();
+        dto.setClinicDoctors(doctorUserRepository.countAllByType(Const.DOCTOR_TYPE_CLINIC));
+        dto.setHomeDoctors(doctorUserRepository.countAllByType(Const.DOCTOR_TYPE_HOME));
+        dto.setPatients(userRepository.countAllByRole_Id(Const.ROLE_ID_USER));
+        dto.setSchedules(scheduleRepository.countAllByStatus(Const.SCHEDULE_STATUS_BOOKED));
+
+        return dto;
     }
 
     private DoctorUserDTO convert(DoctorUser doctorUser) {

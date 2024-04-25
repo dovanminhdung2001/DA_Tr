@@ -9,6 +9,7 @@ import springboot.project.entity.Schedule;
 import springboot.project.entity.TestResults;
 import springboot.project.model.TestResultsDTO;
 import springboot.project.service.TestResultsService;
+import springboot.project.utils.Const;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class TestResultsServiceimpl implements TestResultsService {
         TestResults testResults = new TestResults();
         Schedule schedule = scheduleRepository.findById(testResultsDTO.getScheduleId()).get();
 
-        schedule.setStatus(2);
+        schedule.setStatus(Const.SCHEDULE_STATUS_RESULTED);
 //        testResults.setId(testResultsDTO.getId());
         testResults.setUserId(testResultsDTO.getUserId());
         testResults.setDescription(testResultsDTO.getDescription());

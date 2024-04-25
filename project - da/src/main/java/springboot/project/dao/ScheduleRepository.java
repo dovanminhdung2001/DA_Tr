@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import springboot.project.entity.Schedule;
 
 import java.util.Date;
-import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     @Query(value = "select s.* from schedules s \n" +
@@ -31,30 +30,33 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             "join users u " +
             "on u.id = s.created_by " +
             "where u.id = ?1 " +
+            "adn s.type = ?2 " +
             "and (s.date > current_date " +
             "or (s.date = current_date and s.time > extract(hour from current_time)))", nativeQuery = true)
-    Page<Schedule> getAllForUserInFuture(Pageable pageable, int id);
+    Page<Schedule> getAllForUserInFuture(Pageable pageable, int id, Integer type);
 
     @Query(value = "select s.* " +
             "from schedules s " +
             "join users u " +
             "on u.id = s.created_by " +
             "where u.id = ?1 " +
+            "and s.type = ?2 " +
             "and (s.date = current_date + interval '1 day' " +
             "or s.date = current_date + interval '2 day' " +
             "or (s.date = current_date and s.time > extract(hour from current_time)))", nativeQuery = true)
-    Page<Schedule> getAllForUserIn3NextDays(Pageable pageable, int id);
+    Page<Schedule> getAllForUserIn3NextDays(Pageable pageable, int id, Integer type);
 
     @Query(value = "select s.* " +
             "from schedules s " +
             "join users u " +
             "on u.id = s.created_by " +
             "where u.id = ?1 " +
+            "and s.type = ?3 " +
             "and (case " +
             "when s.date = current_date then s.time > extract(hour from current_time) " +
             "else s.date = ?2 " +
             "end)", nativeQuery = true)
-    Page<Schedule> getAllForUserAt(Pageable pageable, int id, Date date);
+    Page<Schedule> getAllForUserAt(Pageable pageable, int id, Date date, Integer type);
 
     @Query(value = "select s.* " +
             "from schedules s " +
@@ -62,30 +64,33 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             "on u.id = s.created_by " +
             "where u.id = ?1 " +
             "and s.status = ?2 " +
+            "and s.type = ?3 " +
             "and (s.date < current_date " +
             "or (s.date = current_date and s.time <= extract(hour from current_time)))", nativeQuery = true)
-    Page<Schedule> getPageForUserInPastByType(Pageable pageable, int id, Integer status);
+    Page<Schedule> getPageForUserInPastByType(Pageable pageable, int id, Integer status, Integer type);
 
     @Query(value = "select s.* " +
             "from schedules s " +
             "join users u " +
             "on u.id = s.created_by " +
             "where u.id = ?1 " +
-            "and s.status = ?2" +
+            "and s.status = ?2 " +
+            "and s.type = ?4 " +
             "and (case " +
             "when s.date = current_date then s.time <= extract(hour from current_time) " +
             "else s.date = ?3 " +
             "end)", nativeQuery = true)
-    Page<Schedule> getPageForUserInPastByTypeAt(Pageable pageable, int id, Integer status, Date date);
+    Page<Schedule> getPageForUserInPastByTypeAt(Pageable pageable, int id, Integer status, Date date, Integer type);
 
     @Query(value = "select s.* " +
             "from schedules s " +
             "join users u " +
             "on u.id = s.created_by " +
             "where u.id = ?1 " +
+            "and s.type = ?2 " +
             "and (s.date < current_date " +
             "or (s.date = current_date and s.time <= extract(hour from current_time)))", nativeQuery = true)
-    Page<Schedule> getAllForUserInPast(Pageable pageable, int id);
+    Page<Schedule> getAllForUserInPast(Pageable pageable, int id, Integer type);
 
     @Query(value = "select s.* " +
             "from schedules s " +
@@ -126,4 +131,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             "and (s.date < current_date " +
             "or (s.date = current_date and s.time <= extract(hour from current_time)))", nativeQuery = true)
     Page<Schedule> getAllForDoctorInPast(Pageable pageable, int id);
+
+    Integer countAllByStatus(Integer status);
 }

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import springboot.project.entity.DoctorUser;
 import springboot.project.entity.User;
 import springboot.project.model.DoctorUserDTO;
+import springboot.project.model.Index2DTO;
 
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface DoctorUserService {
     DoctorUser getById(Integer id);
 
     DoctorUser update(DoctorUserDTO dto);
+
+    Index2DTO index2();
 }
