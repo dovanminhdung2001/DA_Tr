@@ -11,4 +11,6 @@ public interface BlogService {
     Blog findById (Integer blogId);
     Page<Blog> findAllByDoctorId(Pageable pageable, Integer doctorId, Boolean isActive);
     Page<Blog> findAll(Pageable pageable, Boolean isActive);
+
+    Blog delete(Integer id, Boolean status);
 }

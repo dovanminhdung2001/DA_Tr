@@ -31,6 +31,10 @@ public class BlogController {
         return ResponseEntity.ok(blogService.findAll(pageable, isActive));
     }
 
+    @GetMapping("/admin/blog/get")
+    ResponseEntity<?> get (@RequestParam Integer id) {
+        return ResponseEntity.ok(blogService.findById(id));
+    }
     @PostMapping("/doctor/blog/create")
     ResponseEntity<?> create (@RequestBody BlogDTO blogDTO) {
         return ResponseEntity.ok(blogService.create(blogDTO));
@@ -39,5 +43,10 @@ public class BlogController {
     @PutMapping("/doctor/blog/update")
     ResponseEntity<?> update (@RequestBody BlogDTO blogDTO) {
         return ResponseEntity.ok(blogService.update(blogDTO));
+    }
+
+    @DeleteMapping("/admin/blog/delete")
+    ResponseEntity<?> delete(@RequestParam Integer id, @RequestParam Boolean status) {
+        return ResponseEntity.ok(blogService.delete(id, status));
     }
 }

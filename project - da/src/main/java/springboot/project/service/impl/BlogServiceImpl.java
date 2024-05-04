@@ -78,4 +78,15 @@ public class BlogServiceImpl implements BlogService {
                 ? blogRepository.findAll(pageable)
                 : blogRepository.findAllByIsActive(pageable, isActive);
     }
+
+    @Override
+    public Blog delete(Integer id, Boolean status) {
+        Blog blog = blogRepository.findById(id).get();
+
+        if (blog == null)
+            throw new RuntimeException("id not found");
+
+        blog.setIsActive(status);
+        return blogRepository.save(blog);
+    }
 }
