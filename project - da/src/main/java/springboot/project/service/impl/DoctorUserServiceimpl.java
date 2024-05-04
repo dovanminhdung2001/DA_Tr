@@ -4,7 +4,6 @@ import io.micrometer.common.util.StringUtils;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -17,10 +16,8 @@ import springboot.project.model.UserPrincipal;
 import springboot.project.security.PasswordGenerator;
 import springboot.project.service.DoctorUserService;
 import springboot.project.utils.Const;
-import springboot.project.utils.DateUtils;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -170,13 +167,14 @@ public class DoctorUserServiceimpl implements DoctorUserService {
     }
 
     @Override
-    public Index2DTO index2() {
+    public Index2DTO index2(Pageable pageable) {
         Index2DTO dto = new Index2DTO();
         dto.setClinicDoctors(doctorUserRepository.countAllByType(Const.DOCTOR_TYPE_CLINIC));
         dto.setHomeDoctors(doctorUserRepository.countAllByType(Const.DOCTOR_TYPE_HOME));
         dto.setPatients(userRepository.countAllByRole_Id(Const.ROLE_ID_USER));
         dto.setSchedules(scheduleRepository.countAllByStatus(Const.SCHEDULE_STATUS_BOOKED));
-
+        dto.setUsers(userRepository.findAllByRole_Id(pageable, Const.ROLE_ID_USER));
+        dto.setDoctorUsers(doctorUserRepository.findAll(pageable));
         return dto;
     }
 

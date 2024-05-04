@@ -35,8 +35,8 @@ public class DoctorUserController {
     }
 
     @GetMapping("/admin/index2/get")
-    public ResponseEntity<?> index2 () {
-        return ResponseEntity.ok(doctorUserService.index2());
+    public ResponseEntity<?> index2 (Pageable pageable) {
+        return ResponseEntity.ok(doctorUserService.index2(pageable));
     }
 
     @GetMapping({"/user/doctor/get", "/admin/doctor/get"})
