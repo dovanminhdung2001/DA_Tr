@@ -23,7 +23,7 @@ public class DoctorDate {
     private DoctorUser doctorUser;
 
     @Column(name = "working_date")
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy", timezone = "GMT+7")
     private Date workingDate;
 
 
