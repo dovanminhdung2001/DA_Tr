@@ -111,7 +111,7 @@ public class MessageServiceImpl implements MessageService {
 
         notificationRequest.setBody(message.getContent());
         notificationRequest.setTitle("send a message");
-        notificationRequest.getData().put("from", sender.getName());
+        notificationRequest.getData().put("sender", sender.getName());
         notificationRequest.getData().put("time", DateUtils.sdtf.format(message.getCreatedDate()));
         notificationRequest.setTargetToken(receiver.getDevice().getFirebaseToken());
 

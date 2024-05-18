@@ -53,7 +53,7 @@ public class SocketModule {
     private DisconnectListener onDisconnected() {
         return client -> {
             var params = client.getHandshakeData().getUrlParams();
-            String senderId = params.get("user_id").stream().collect(Collectors.joining());
+            String senderId = params.get("sender_id").stream().collect(Collectors.joining());
             log.info("Socket ID[{}] - senderId [{}]  disconnected to chat module through", client.getSessionId().toString(), senderId);
         };
     }
