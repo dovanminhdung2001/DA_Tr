@@ -15,7 +15,7 @@ import java.io.InputStream;
 public class FirebaseConfig {
     @Bean
     public FirebaseApp initializeFirebase() throws IOException {
-        InputStream serviceAccount = new ClassPathResource("tr-da-firebase-adminsdk.json").getInputStream();
+        InputStream serviceAccount = new ClassPathResource("datr-a7539-firebase-adminsdk.json").getInputStream();
 
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
