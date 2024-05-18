@@ -35,15 +35,13 @@ public class SocketModule {
     }
 
     private ConnectListener onConnected() {
-
-
         return (client) -> {
             var params = client.getHandshakeData().getUrlParams();
             String senderId = params.get("sender_id").stream().collect(Collectors.joining());
             String receiverId = params.get("receiver_id").stream().collect(Collectors.joining());
             final int idSend= Integer.parseInt(senderId);
             final int idReceiver= Integer.parseInt(receiverId);
-            String room = idSend > idReceiver
+            String room = idSend < idReceiver
                     ? senderId + 'r' + receiverId
                     : receiverId + 'r' + senderId;
 
@@ -55,9 +53,8 @@ public class SocketModule {
     private DisconnectListener onDisconnected() {
         return client -> {
             var params = client.getHandshakeData().getUrlParams();
-            String room = params.get("room").stream().collect(Collectors.joining());
-            String userId = params.get("userId").stream().collect(Collectors.joining());
-            log.info("Socket ID[{}] - room[{}] - userId [{}]  disconnected to chat module through", client.getSessionId().toString(), room, userId);
+            String senderId = params.get("user_id").stream().collect(Collectors.joining());
+            log.info("Socket ID[{}] - senderId [{}]  disconnected to chat module through", client.getSessionId().toString(), senderId);
         };
     }
 }
