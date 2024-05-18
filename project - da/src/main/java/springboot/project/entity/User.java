@@ -60,6 +60,10 @@ public class User {
 
     private String cccd;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "device_id")
+    private Device device;
+
     public User() {
     }
 

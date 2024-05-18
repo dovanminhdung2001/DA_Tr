@@ -2,6 +2,7 @@ package springboot.project.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import springboot.project.entity.Device;
 import springboot.project.entity.User;
 import springboot.project.model.UserDTO;
 
@@ -20,4 +21,6 @@ public interface UserService {
     User create(UserDTO userDTO);
 
     User update(UserDTO dto);
+
+    User saveDevice(Device device);
 }

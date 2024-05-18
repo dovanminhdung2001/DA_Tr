@@ -1,29 +1,33 @@
 package springboot.project.service.impl;
 
 import io.micrometer.common.util.StringUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import springboot.project.dao.DeviceRepo;
 import springboot.project.dao.PatientRepository;
 import springboot.project.dao.RoleRepository;
 import springboot.project.dao.UserRepository;
+import springboot.project.entity.Device;
 import springboot.project.entity.User;
 import springboot.project.model.UserDTO;
+import springboot.project.model.UserPrincipal;
 import springboot.project.security.PasswordGenerator;
 import springboot.project.service.UserService;
 import springboot.project.utils.DateUtils;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    @Autowired
     UserRepository userRepository;
-    @Autowired
-    PatientRepository patientRepository;
-    @Autowired
+    DeviceRepo deviceRepo;
     RoleRepository roleRepository;
+
     @Override
     public User addUser(UserDTO userDTO) {
         User user = new User();
@@ -130,6 +134,26 @@ public class UserServiceImpl implements UserService {
         user.setBirthDate(dto.getBirthDate());
         user.setCccd(dto.getCccd());
 
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User saveDevice(Device device) {
+        UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+
+        User user = userRepository.findById(currentUser.getId()).get();
+
+        Device check = deviceRepo.findByDeviceId(device.getDeviceId());
+
+        if (check == null) {
+            device = deviceRepo.save(device);
+        } else {
+            check.setFirebaseToken(device.getFirebaseToken());
+            device = deviceRepo.save(check);
+        }
+
+        user.setDevice(device);
         return userRepository.save(user);
     }
 
