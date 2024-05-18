@@ -12,7 +12,7 @@ import java.util.List;
 public interface DoctorUserService {
     List<DoctorUserDTO> getListDoctorUser();
 
-    Page<DoctorUserDTO> page(Pageable pageable);
+    Page<?> page(Pageable pageable, String name);
 
     DoctorUserDTO create(DoctorUserDTO dto);
     DoctorUserDTO findById(Integer id);

@@ -49,11 +49,15 @@ public class DoctorUserServiceimpl implements DoctorUserService {
     }
 
     @Override
-    public Page<DoctorUserDTO> page(Pageable pageable) {
-        Page<DoctorUser> doctorUserPage = doctorUserRepository.findAll(pageable);
+    public Page<?> page(Pageable pageable, String name) {
 
-        Page<DoctorUserDTO> rs = doctorUserPage.map(this::convert);
-        return  rs;
+        if (name == null) {
+            Page<DoctorUser> doctorUserPage = doctorUserRepository.findAll(pageable);
+            Page<DoctorUserDTO> rs = doctorUserPage.map(this::convert);
+            return  rs;
+        }
+
+        return doctorUserRepository.findAllByUser_NameContainingIgnoreCase(pageable, name);
     }
 
     @Override

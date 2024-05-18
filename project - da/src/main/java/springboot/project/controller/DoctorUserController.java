@@ -25,8 +25,8 @@ public class DoctorUserController {
     @Autowired
     private UserService userService;
     @GetMapping({"/user/doctor/list", "/admin/doctor/list"})
-    public ResponseEntity<?> page(Pageable pageable) {
-        return ResponseEntity.ok(doctorUserService.page(pageable));
+    public ResponseEntity<?> page(Pageable pageable, @RequestParam(required = false) String name) {
+        return ResponseEntity.ok(doctorUserService.page(pageable, name));
     }
 
     @GetMapping("/user/doctor/find")

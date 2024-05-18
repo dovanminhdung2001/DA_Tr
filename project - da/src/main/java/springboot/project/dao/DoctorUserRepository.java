@@ -36,4 +36,6 @@ public interface DoctorUserRepository extends JpaRepository<DoctorUser, Integer>
     Page<DoctorUser> findAllByWorkingDateAndSpecialization(Pageable pageable,@Param("workingDate") Date workingDate,@Param("type") Integer type, @Param("specializationId") Integer specializationId);
 
     Integer countAllByType(Integer type);
+
+    Page<DoctorUser> findAllByUser_NameContainingIgnoreCase(Pageable pageable, String name);
 }
