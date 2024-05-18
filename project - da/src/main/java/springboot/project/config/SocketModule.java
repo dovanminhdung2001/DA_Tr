@@ -7,6 +7,7 @@ import com.corundumstudio.socketio.listener.DisconnectListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import springboot.project.entity.Message;
+import springboot.project.service.MessageService;
 import springboot.project.service.SocketService;
 
 import java.util.stream.Collectors;
@@ -16,6 +17,8 @@ import java.util.stream.Collectors;
 public class SocketModule {
     private final SocketIOServer server;
     private final SocketService socketService;
+
+
 
     public SocketModule(SocketIOServer server, SocketService socketService) {
         this.server = server;
@@ -32,12 +35,20 @@ public class SocketModule {
     }
 
     private ConnectListener onConnected() {
+
+
         return (client) -> {
             var params = client.getHandshakeData().getUrlParams();
-            String room = params.get("room").stream().collect(Collectors.joining());
-            String userId = params.get("userId").stream().collect(Collectors.joining());
+            String senderId = params.get("sender_id").stream().collect(Collectors.joining());
+            String receiverId = params.get("receiver_id").stream().collect(Collectors.joining());
+            final int idSend= Integer.parseInt(senderId);
+            final int idReceiver= Integer.parseInt(receiverId);
+            String room = idSend > idReceiver
+                    ? senderId + 'r' + receiverId
+                    : receiverId + 'r' + senderId;
+
             client.joinRoom(room);
-            log.info("Socket ID[{}] - room[{}] - userId [{}]  Connected to chat module through", client.getSessionId().toString(), room, userId);
+            log.info("Socket ID[{}] - room[{}] - userId [{}]  Connected to chat module through", client.getSessionId().toString(), room, senderId);
         };
     }
 
