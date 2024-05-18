@@ -10,12 +10,12 @@ import springboot.project.entity.Device;
 import springboot.project.service.UserService;
 
 @RestController
-@RequestMapping("/notify")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class NotifyController {
     private  final UserService userService;
 
-    @PostMapping("/register")
+    @PostMapping({"/user/notify/register", "/doctor/notify/register"})
     public ResponseEntity<?> register (@RequestBody Device device) {
         return ResponseEntity.ok(userService.saveDevice(device));
     }

@@ -99,8 +99,8 @@ public class MessageServiceImpl implements MessageService {
         User user = userRepository.findById(currentUser.getId()).get();
 
         return user.getRole().getId() == Const.ROLE_ID_USER
-                ? roomRepository.findAllByUserId(user.getId())
-                : roomRepository.findAllByDoctorId(user.getId());
+                ? roomRepository.findAllByUserId(pageable, user.getId())
+                : roomRepository.findAllByDoctorId(pageable, user.getId());
     }
 
     private void sendNotify(Message message) throws FirebaseMessagingException {
@@ -112,6 +112,7 @@ public class MessageServiceImpl implements MessageService {
         notificationRequest.setBody(message.getContent());
         notificationRequest.setTitle("send a message");
         notificationRequest.getData().put("from", sender.getName());
+        notificationRequest.getData().put("time", DateUtils.sdtf.format(message.getCreatedDate()));
         notificationRequest.setTargetToken(receiver.getDevice().getFirebaseToken());
 
         fcmService.sendNotification(notificationRequest);

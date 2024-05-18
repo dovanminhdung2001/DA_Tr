@@ -24,9 +24,9 @@ import springboot.project.utils.DateUtils;
 @Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    UserRepository userRepository;
-    DeviceRepo deviceRepo;
-    RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final DeviceRepo deviceRepo;
+    private final RoleRepository roleRepository;
 
     @Override
     public User addUser(UserDTO userDTO) {
