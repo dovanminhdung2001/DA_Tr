@@ -20,6 +20,7 @@ public class FcmServiceImpl implements FcmService {
                         .setTitle(notificationRequest.getTitle())
                         .setBody(notificationRequest.getBody())
                         .build())
+                .putAllData(notificationRequest.getData())
                 .build();
 
         String response = FirebaseMessaging.getInstance().send(message);
