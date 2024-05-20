@@ -10,7 +10,7 @@ import springboot.project.model.MessageDTO;
 public interface MessageService {
     Page<Message> findAllByReceiverIdOrSenderId(Pageable pageable, Integer receiverId, Integer senderId);
     Page<Message> findAllByRoom(Pageable pageable, String room);
-    Message saveMessage(MessageDTO message);
+    Message saveMessage(MessageDTO message) throws FirebaseMessagingException;
     Message saveMessage(Message message) throws FirebaseMessagingException;
 
     Page<Room> findAllRecent(Pageable pageable);

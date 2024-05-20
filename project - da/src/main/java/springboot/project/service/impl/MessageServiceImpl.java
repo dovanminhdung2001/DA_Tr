@@ -43,7 +43,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message saveMessage(MessageDTO dto) {
+    public Message saveMessage(MessageDTO dto) throws FirebaseMessagingException {
         Message message = new Message();
         String room = dto.getSenderId() > dto.getReceiverId()
                 ? String.format("%dr%d", dto.getReceiverId(), dto.getSenderId())
@@ -55,7 +55,27 @@ public class MessageServiceImpl implements MessageService {
         message.setCreatedDate(DateUtils.now());
         message.setRoom(room);
 
-        return messageRepository.save(message);
+        message = messageRepository.save(message);
+        Room roomEntity = roomRepository.findByRoom(room);
+
+        if (roomEntity == null) {
+            User user = userRepository.findById(message.getSenderId().intValue()).get();
+
+            roomEntity = new Room();
+            if (user.getRole().getId() == Const.ROLE_ID_USER) {
+                roomEntity.setUserId(message.getSenderId().intValue());
+                roomEntity.setDoctorId(message.getReceiverId().intValue());
+            } else {
+                roomEntity.setUserId(message.getReceiverId().intValue());
+                roomEntity.setDoctorId(message.getSenderId().intValue());
+            }
+            roomEntity.setRoom(room);
+        }
+        roomEntity.setLastMessage(message);
+        roomRepository.save(roomEntity);
+        sendNotify(message);
+
+        return message;
     }
 
     @Override

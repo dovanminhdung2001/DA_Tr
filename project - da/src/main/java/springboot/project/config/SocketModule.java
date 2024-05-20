@@ -18,14 +18,20 @@ public class SocketModule {
     private final SocketIOServer server;
     private final SocketService socketService;
 
-
-
     public SocketModule(SocketIOServer server, SocketService socketService) {
         this.server = server;
         this.socketService = socketService;
         server.addConnectListener(onConnected());
         server.addDisconnectListener(onDisconnected());
+        server.addEventListener("user-in", String.class, onUserIn());
+
         server.addEventListener("send_message", Message.class, onChatReceived());
+    }
+
+    private DataListener<String> onUserIn() {
+        return (client, user, ackSender) -> {
+            client.sendEvent("user_in_ack");
+        };
     }
 
     private DataListener<Message> onChatReceived() {
@@ -45,6 +51,7 @@ public class SocketModule {
                     ? senderId + 'r' + receiverId
                     : receiverId + 'r' + senderId;
 
+            client.sendEvent("connected_success", room);
             client.joinRoom(room);
             log.info("Socket ID[{}] - room[{}] - userId [{}]  Connected to chat module through", client.getSessionId().toString(), room, senderId);
         };
