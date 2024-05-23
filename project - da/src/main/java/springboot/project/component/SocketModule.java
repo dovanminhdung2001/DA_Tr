@@ -1,4 +1,4 @@
-package springboot.project.config;
+package springboot.project.component;
 
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
