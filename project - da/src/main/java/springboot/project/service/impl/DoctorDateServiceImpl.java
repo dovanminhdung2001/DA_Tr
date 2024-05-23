@@ -1,5 +1,6 @@
 package springboot.project.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@Slf4j
 public class DoctorDateServiceImpl implements DoctorDateService {
     @Autowired
     private DoctorDateRepository doctorDateRepository;
@@ -83,6 +85,9 @@ public class DoctorDateServiceImpl implements DoctorDateService {
         DoctorUser doctorUser = doctorUserRepository.findByUser_Id(currentUser.getId());
 
         date = new Date(date.getTime() + DateUtils.oneHour * 7);
+
+        doctorDateRepository.findAll().forEach(doctorDate -> System.out.println(doctorDate.getId()+ " " + doctorDate.getWorkingDate()));
+        System.out.println("date: " + date);
         return doctorDateRepository.findAllByWorkingDateAndDoctorUser_Id(date, doctorUser.getId());
     }
 }

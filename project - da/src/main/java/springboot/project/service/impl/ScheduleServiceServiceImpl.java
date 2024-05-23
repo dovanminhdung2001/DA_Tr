@@ -246,12 +246,14 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<Integer> scheduleToday() {
+    public List<Integer> scheduleToday(boolean atClinic) {
+        int type = atClinic ? Const.DOCTOR_TYPE_CLINIC : Const.DOCTOR_TYPE_HOME;
         Integer userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        List<Schedule> schedules = scheduleRepository.findAllByDateAndCreatedByAndStatusIn(
-                DateUtils.today(),
+        List<Schedule> schedules = scheduleRepository.findAllByDateAndCreatedByAndStatusInAndType(
+                DateUtils.todayGMT7(),
                 userId,
-                List.of(Const.SCHEDULE_STATUS_BOOKED, Const.SCHEDULE_STATUS_RESULTED)
+                List.of(Const.SCHEDULE_STATUS_BOOKED, Const.SCHEDULE_STATUS_RESULTED),
+                type
         );
         List<Integer> shiftToday = schedules.stream().map(Schedule::getId).collect(Collectors.toList());
 

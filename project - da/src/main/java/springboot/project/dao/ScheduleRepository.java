@@ -135,5 +135,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 
     Integer countAllByStatus(Integer status);
 
-    List<Schedule> findAllByDateAndCreatedByAndStatusIn(Date date, Integer createdBy, List<Integer> status);
+    List<Schedule> findAllByDateAndCreatedByAndStatusInAndType(Date date, Integer createdBy, List<Integer> status, Integer type);
 }

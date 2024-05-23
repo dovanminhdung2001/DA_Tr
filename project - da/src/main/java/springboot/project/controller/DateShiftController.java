@@ -63,8 +63,10 @@ public class DateShiftController {
     }
 
     @GetMapping("/user/schedule/today")
-    public ResponseEntity<?> scheduleToday() {
-        return ResponseEntity.ok(scheduleService.scheduleToday());
+    public ResponseEntity<?> scheduleToday(
+            @RequestParam boolean atClinic
+    ) {
+        return ResponseEntity.ok(scheduleService.scheduleToday(atClinic));
     }
 
     @GetMapping("/user/schedule/past")

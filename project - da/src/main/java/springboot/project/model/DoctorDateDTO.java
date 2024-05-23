@@ -10,7 +10,7 @@ import java.util.Date;
 public class DoctorDateDTO {
     private Integer id;
     private Integer doctorId;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy", timezone = "GMT+7")
     private Date date;
     private Integer cost;
 }

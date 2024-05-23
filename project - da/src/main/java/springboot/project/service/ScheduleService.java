@@ -1,6 +1,5 @@
 package springboot.project.service;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import springboot.project.entity.Schedule;
@@ -32,5 +31,5 @@ public interface ScheduleService {
 
     Page<ScheduleDTO> getAllForDoctorInPast(Pageable pageable, Integer status, Date date);
 
-    List<Integer> scheduleToday();
+    List<Integer> scheduleToday(boolean atClinic);
 }
