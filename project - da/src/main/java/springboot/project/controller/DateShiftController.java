@@ -40,6 +40,11 @@ public class DateShiftController {
         return ResponseEntity.ok(dateShift);
     }
 
+    @DeleteMapping("/doctor/dataShift/delete")
+    public ResponseEntity<?> delete(@RequestParam int dateShiftId) {
+        return ResponseEntity.ok(dateShiftService.delete(dateShiftId));
+    }
+
     @GetMapping("/doctor/schedule/list")
     public ResponseEntity<?> demo(Pageable pageable) {
         UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()

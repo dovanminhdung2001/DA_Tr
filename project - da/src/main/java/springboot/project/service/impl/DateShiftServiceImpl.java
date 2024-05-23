@@ -37,4 +37,14 @@ public class DateShiftServiceImpl implements DateShiftService {
     public Page<DateShift> page(Pageable pageable) {
         return dateShiftRepository.findAll(pageable);
     }
+
+    @Override
+    public boolean delete(int dateShiftId) {
+        try {
+            dateShiftRepository.deleteById(dateShiftId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
