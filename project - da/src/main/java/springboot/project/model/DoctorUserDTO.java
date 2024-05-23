@@ -45,7 +45,7 @@ public class DoctorUserDTO {
 
     private Specialization specialization;
     private Integer specializationId;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy", timezone = "GMT+7")
     private Date workingDate;
     private Integer type;
     public DoctorUserDTO() {

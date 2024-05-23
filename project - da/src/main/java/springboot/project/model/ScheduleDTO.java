@@ -37,7 +37,7 @@ public class ScheduleDTO {
 /////////
     private Integer doctorId;
     private String doctorName;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy", timezone = "GMT+7")
     private Date workingDate;
     private Integer shiftId;
     private String userPhone;
@@ -45,7 +45,7 @@ public class ScheduleDTO {
     private String name;
     private String address;
     private Integer gender;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy", timezone = "GMT+7")
     private Date birthDate;
     private String cccd;
     private Integer districtId;
