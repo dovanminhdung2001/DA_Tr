@@ -16,8 +16,8 @@ public class MessageResponseDTO {
         this.message = message;
     }
 
-    public MessageResponseDTO(String token, Object user) {
-        this.message = token;
+    public MessageResponseDTO(String message, Object user) {
+        this.message = message;
         this.data = user;
     }
 

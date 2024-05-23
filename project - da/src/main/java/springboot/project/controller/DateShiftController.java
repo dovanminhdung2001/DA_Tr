@@ -11,6 +11,7 @@ import springboot.project.dao.DoctorUserRepository;
 import springboot.project.entity.DateShift;
 import springboot.project.entity.Schedule;
 import springboot.project.model.DateShiftDTO;
+import springboot.project.model.MessageResponseDTO;
 import springboot.project.model.ScheduleDTO;
 import springboot.project.model.UserPrincipal;
 import springboot.project.service.DateShiftService;
@@ -71,7 +72,7 @@ public class DateShiftController {
     public ResponseEntity<?> scheduleToday(
             @RequestBody ScheduleDTO scheduleDTO
     ) {
-        return ResponseEntity.ok(scheduleService.scheduleDay(scheduleDTO));
+        return ResponseEntity.ok(new MessageResponseDTO("",scheduleService.scheduleDay(scheduleDTO)));
     }
 
     @GetMapping("/user/schedule/past")
