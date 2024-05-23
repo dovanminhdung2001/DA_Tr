@@ -26,6 +26,7 @@ import springboot.project.utils.DateUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -69,7 +70,7 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
                 || dto.getCccd() == null
                 || dto.getDistrictId() == null
                 || dto.getProvinceId() == null
-        )  throw new RuntimeException("Some required fields are null");
+        ) throw new RuntimeException("Some required fields are null");
 
         Schedule schedule = new Schedule(
                 doctorUser,
@@ -174,8 +175,8 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Page<ScheduleDTO> getAllForUserInFuture(Pageable pageable, Integer id, Integer recent, Date date , Integer type) {
-        Page<Schedule> repo ;
+    public Page<ScheduleDTO> getAllForUserInFuture(Pageable pageable, Integer id, Integer recent, Date date, Integer type) {
+        Page<Schedule> repo;
 
         if (recent != null)
             repo = scheduleRepository.getAllForUserIn3NextDays(pageable, id, type);
@@ -242,6 +243,19 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
             scheduleDTOS.add(convert(schedule));
         }
         return new PageImpl<>(scheduleDTOS, repo.getPageable(), repo.getTotalElements());
+    }
+
+    @Override
+    public List<Integer> scheduleToday() {
+        Integer userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        List<Schedule> schedules = scheduleRepository.findAllByDateAndCreatedByAndStatusIn(
+                DateUtils.today(),
+                userId,
+                List.of(Const.SCHEDULE_STATUS_BOOKED, Const.SCHEDULE_STATUS_RESULTED)
+        );
+        List<Integer> shiftToday = schedules.stream().map(Schedule::getId).collect(Collectors.toList());
+
+        return shiftToday;
     }
 
     private ScheduleDTO convert(Schedule schedule) {

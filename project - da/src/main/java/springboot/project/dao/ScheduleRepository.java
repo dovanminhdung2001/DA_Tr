@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import springboot.project.entity.Schedule;
 
 import java.util.Date;
+import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     @Query(value = "select s.* from schedules s \n" +
@@ -133,4 +134,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     Page<Schedule> getAllForDoctorInPast(Pageable pageable, int id);
 
     Integer countAllByStatus(Integer status);
+
+    List<Schedule> findAllByDateAndCreatedByAndStatusIn(Date date, Integer createdBy, List<Integer> status);
 }

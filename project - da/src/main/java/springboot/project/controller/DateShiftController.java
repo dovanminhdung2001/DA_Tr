@@ -62,6 +62,11 @@ public class DateShiftController {
         return ResponseEntity.ok(schedule);
     }
 
+    @GetMapping("/user/schedule/today")
+    public ResponseEntity<?> scheduleToday() {
+        return ResponseEntity.ok(scheduleService.scheduleToday());
+    }
+
     @GetMapping("/user/schedule/past")
     public ResponseEntity<?> pastUser (
             Pageable pageable,
