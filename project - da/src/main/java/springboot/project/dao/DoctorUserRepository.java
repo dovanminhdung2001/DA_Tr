@@ -30,4 +30,5 @@ public interface DoctorUserRepository extends JpaRepository<DoctorUser, Integer>
     Integer countAllByType(Integer type);
 
     Page<DoctorUser> findAllByUser_NameContainingIgnoreCase(Pageable pageable, String name);
+    Page<DoctorUser> findAllByUser_NameContainingIgnoreCaseAndType(Pageable pageable, String name, Integer type);
 }

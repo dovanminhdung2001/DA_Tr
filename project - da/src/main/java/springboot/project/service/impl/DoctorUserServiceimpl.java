@@ -124,7 +124,7 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         if (!dto.getName().isEmpty()) {
             Long today = DateUtils.today().getTime();
 
-            result = doctorUserRepository.findAllByUser_NameContainingIgnoreCase(pageable, dto.getName());
+            result = doctorUserRepository.findAllByUser_NameContainingIgnoreCaseAndType(pageable, dto.getName(), dto.getType());
             result = result.map(doctorUser -> {
                 doctorUser.getDoctorDates().removeIf(doctorDate -> doctorDate.getWorkingDate().getTime() >= today);
                 return doctorUser;
