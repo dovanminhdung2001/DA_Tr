@@ -125,6 +125,11 @@ public class DoctorUserServiceimpl implements DoctorUserService {
             result = doctorUserRepository.findAllByWorkingDateAndSpecialization(pageable, dto.getWorkingDate(), dto.getSpecializationId(), dto.getType());
         }
 
+        result = result.map(doctorUser -> {
+            doctorUser.getDoctorDates().removeIf(doctorDate -> doctorDate.getWorkingDate().equals(dto.getWorkingDate()));
+            return doctorUser;
+        });
+
         return result;
     }
 
