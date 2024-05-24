@@ -116,16 +116,18 @@ public class DoctorUserServiceimpl implements DoctorUserService {
 
     @SneakyThrows
     @Override
-    public Page<DoctorUser> find(Pageable pageable, DoctorUserDTO dto) {
+    public List<?> find(Pageable pageable, DoctorUserDTO dto) {
         Page<DoctorUser> result ;
+        Page<DoctorDate> pre;
 
         if (dto.getSpecializationId() == null) {
-            result =  doctorUserRepository.findAllByWorkingDate(pageable, dto.getWorkingDate(), dto.getType());
+            result  =  doctorUserRepository.findAllByDoctorDates_WorkingDateAndType(pageable, dto.getWorkingDate(), dto.getType());
         } else {
-            result = doctorUserRepository.findAllByWorkingDateAndSpecialization(pageable, dto.getWorkingDate(), dto.getSpecializationId(), dto.getType());
+            pre = doctorDateRepository.findAllByWorkingDateAndDoctorUser_TypeAndDoctorUser_Specialization_Id(pageable, dto.getWorkingDate(), dto.getType(), dto.getSpecializationId());
+            result = pre.map(DoctorDate::getDoctorUser);
         }
 
-        return result;
+        return result.getContent();
     }
 
     @Override
