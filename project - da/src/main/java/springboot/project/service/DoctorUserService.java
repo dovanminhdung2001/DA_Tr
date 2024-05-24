@@ -18,7 +18,7 @@ public interface DoctorUserService {
     DoctorUserDTO findById(Integer id);
     DoctorUserDTO findByUser(User user);
 
-    List<?> find(Pageable pageable, DoctorUserDTO dto);
+    Page<DoctorUser> find(Pageable pageable, DoctorUserDTO dto);
 
     DoctorUser getById(Integer id);
 

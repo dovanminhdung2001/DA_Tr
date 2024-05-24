@@ -116,7 +116,7 @@ public class DoctorUserServiceimpl implements DoctorUserService {
 
     @SneakyThrows
     @Override
-    public List<?> find(Pageable pageable, DoctorUserDTO dto) {
+    public Page<DoctorUser> find(Pageable pageable, DoctorUserDTO dto) {
         Page<DoctorUser> result ;
         Page<DoctorDate> pre;
 
@@ -127,7 +127,7 @@ public class DoctorUserServiceimpl implements DoctorUserService {
             result = pre.map(DoctorDate::getDoctorUser);
         }
 
-        return result.getContent();
+        return result;
     }
 
     @Override
