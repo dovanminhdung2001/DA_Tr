@@ -128,7 +128,7 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         }
 
         result = result.map(doctorUser -> {
-            doctorUser.getDoctorDates().removeIf(doctorDate -> doctorDate.getWorkingDate().equals(dto.getWorkingDate()));
+            doctorUser.getDoctorDates().removeIf(doctorDate -> doctorDate.getWorkingDate().getTime() != dto.getWorkingDate().getTime());
             return doctorUser;
         });
 
