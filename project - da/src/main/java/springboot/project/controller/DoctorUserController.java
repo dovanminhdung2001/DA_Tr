@@ -49,6 +49,8 @@ public class DoctorUserController {
         return ResponseEntity.ok(doctorUserService.create(dto));
     }
 
+
+
     @PutMapping("/admin/doctor/update")
     public ResponseEntity<?> update(@RequestBody DoctorUserDTO dto) {
         try {

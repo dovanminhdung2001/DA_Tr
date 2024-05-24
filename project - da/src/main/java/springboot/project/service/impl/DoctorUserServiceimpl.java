@@ -16,6 +16,7 @@ import springboot.project.model.UserPrincipal;
 import springboot.project.security.PasswordGenerator;
 import springboot.project.service.DoctorUserService;
 import springboot.project.utils.Const;
+import springboot.project.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,7 +121,17 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         Page<DoctorUser> result ;
         Page<DoctorDate> pre;
 
-        if (dto.getSpecializationId() == null) {
+        if (!dto.getName().isEmpty()) {
+            Long today = DateUtils.today().getTime();
+
+            result = doctorUserRepository.findAllByUser_NameContainingIgnoreCase(pageable, dto.getName());
+            result = result.map(doctorUser -> {
+                doctorUser.getDoctorDates().removeIf(doctorDate -> doctorDate.getWorkingDate().getTime() >= today);
+                return doctorUser;
+            });
+
+            return  result;
+        } else if (dto.getSpecializationId() == null) {
             result  =  doctorUserRepository.findAllByDoctorDates_WorkingDateAndType(pageable, dto.getWorkingDate(), dto.getType());
         } else {
             pre = doctorDateRepository.findAllByWorkingDateAndDoctorUser_TypeAndDoctorUser_Specialization_Id(pageable, dto.getWorkingDate(), dto.getType(), dto.getSpecializationId());
