@@ -84,8 +84,6 @@ public class DoctorDateServiceImpl implements DoctorDateService {
                 .getPrincipal();
         DoctorUser doctorUser = doctorUserRepository.findByUser_Id(currentUser.getId());
 
-        doctorDateRepository.findAll().forEach(doctorDate -> System.out.println(doctorDate.getId()+ " " + doctorDate.getWorkingDate()));
-        System.out.println("date: " + date);
         return doctorDateRepository.findAllByWorkingDateAndDoctorUser_Id(date, doctorUser.getId());
     }
 }
