@@ -1,7 +1,5 @@
 package springboot.project.utils;
 
-import org.springframework.cglib.core.Local;
-
 import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,6 +13,7 @@ public class DateUtils {
     public static SimpleDateFormat dateUpFile = new SimpleDateFormat("ddMMyyyyhhmmss");
     public static long oneHour = 1000L * 60 * 60;
     public static long oneDay = 1000L * 60 * 60 * 24;
+    public static long oneMinute = 1000L * 60;
     public static Date now() {
         return new Date();
     }
@@ -29,7 +28,7 @@ public class DateUtils {
 
     public static Date todayGMT7 () {
         try {
-            return new Date(sdf.parse(sdf.format(new Date())).getTime() + oneHour * 7);
+            return new Date(sdf.parse(sdf.format(new Date())).getTime() + hoursToTime(7));
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -60,4 +59,16 @@ public class DateUtils {
 	public static Path todayFilename() {
 		return null;
 	}
+
+    public static Long minutesToTime (int minute) {
+        return minute * oneMinute;
+    }
+
+    public static Long hoursToTime (int hour) {
+        return hour * oneHour;
+    }
+
+    public static Long daysToTime (int day) {
+        return day * oneDay;
+    }
 }
