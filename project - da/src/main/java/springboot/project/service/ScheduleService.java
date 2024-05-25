@@ -1,5 +1,6 @@
 package springboot.project.service;
 
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import springboot.project.entity.Schedule;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public interface ScheduleService {
 
-    ScheduleDTO booking (ScheduleDTO dto);
+    ScheduleDTO booking (ScheduleDTO dto) throws FirebaseMessagingException;
     ScheduleDTO unBooking (ScheduleDTO dto);
 
 

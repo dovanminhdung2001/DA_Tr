@@ -1,24 +1,20 @@
 package springboot.project.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.google.firebase.messaging.FirebaseMessagingException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import springboot.project.dao.DateShiftRepository;
-import springboot.project.dao.DoctorDateRepository;
-import springboot.project.dao.DoctorUserRepository;
-import springboot.project.dao.ScheduleRepository;
-import springboot.project.entity.DateShift;
-import springboot.project.entity.DoctorDate;
-import springboot.project.entity.DoctorUser;
-import springboot.project.entity.Schedule;
+import springboot.project.dao.*;
+import springboot.project.entity.*;
+import springboot.project.model.NotificationRequest;
 import springboot.project.model.ScheduleDTO;
 import springboot.project.model.RegisterDTO;
 import springboot.project.model.UserPrincipal;
-import springboot.project.service.PatientService;
+import springboot.project.service.FcmService;
 import springboot.project.service.ScheduleService;
 import springboot.project.utils.Const;
 import springboot.project.utils.DateUtils;
@@ -30,27 +26,23 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ScheduleServiceServiceImpl implements ScheduleService {
-    @Autowired
-    DoctorUserRepository doctorUserRepository;
-
-    @Autowired
-    ScheduleRepository scheduleRepository;
-
-    @Autowired
-    PatientService patientService;
-    @Autowired
-    DateShiftRepository dateShiftRepository;
-    @Autowired
-    DoctorDateRepository doctorDateRepository;
+    private final DoctorUserRepository doctorUserRepository;
+    private final ScheduleRepository scheduleRepository;
+    private final DateShiftRepository dateShiftRepository;
+    private final DoctorDateRepository doctorDateRepository;
+    private final UserRepository userRepository;
+    private final FcmService fcmService;
 
     @Override
-    public ScheduleDTO booking(ScheduleDTO dto) {
+    public ScheduleDTO booking(ScheduleDTO dto) throws FirebaseMessagingException {
         DoctorUser doctorUser = doctorUserRepository.findById(dto.getDoctorId()).get();
         DoctorDate doctorDate = doctorDateRepository.findByDoctorUserAndWorkingDate(doctorUser, dto.getWorkingDate());
         DateShift dateShift = dateShiftRepository.findById(dto.getShiftId()).get();
         UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
+        User user = userRepository.findById(currentUser.getId()).get();
 
         if (doctorUser == null)
             throw new RuntimeException("Doctor id  not existed");
@@ -104,6 +96,8 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         dateShiftRepository.save(dateShift);
         doctorUserRepository.save(doctorUser);
         schedule = scheduleRepository.save(schedule);
+
+        sendNotify(doctorUser, user, schedule);
 
         return convert(schedule);
     }
@@ -194,7 +188,7 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
 
     @Override
     public Page<ScheduleDTO> getAllForUserInPast(Pageable pageable, Integer status, Date date, Integer type) {
-        Integer userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        int userId = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         Page<Schedule> repo;
 
         if (status != null && date != null)
@@ -293,5 +287,24 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         scheduleDTO.setDate(DateUtils.sdf.format(schedule.getDate()));
         scheduleDTO.setDoctorName(schedule.getDoctorUser().getUser().getName());
         return scheduleDTO;
+    }
+
+    private void sendNotify(DoctorUser doctorUser, User sender, Schedule schedule) throws FirebaseMessagingException {
+        User receiver = doctorUser.getUser();
+        DateShift shift = dateShiftRepository.findById(schedule.getShiftId()).get();
+
+        if (!receiver.getDevice().getFirebaseToken().isEmpty()) {
+            NotificationRequest notificationRequest = new NotificationRequest();
+
+            notificationRequest.setBody(DateUtils.sdf.format(schedule.getDate()));
+            notificationRequest.setTitle("Bạn có lịch khám mới");
+            notificationRequest.getData().put("sender", sender.getName());
+            notificationRequest.getData().put("date", DateUtils.sdf.format(schedule.getDate()));
+            notificationRequest.getData().put("shift", shift.getShiftTime().toString());
+            notificationRequest.getData().put("type", schedule.getType().toString());
+            notificationRequest.setTargetToken(receiver.getDevice().getFirebaseToken());
+
+            fcmService.sendNotification(notificationRequest);
+        }
     }
 }
