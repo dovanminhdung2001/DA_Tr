@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class TestResultsServiceimpl implements TestResultsService {
+public class TestResultsServiceImpl implements TestResultsService {
     @Autowired
     TestResultsRepository testResultsRepository;
     @Autowired
@@ -38,17 +38,34 @@ public class TestResultsServiceimpl implements TestResultsService {
     }
 
     @Override
-    public TestResults addResult(TestResultsDTO testResultsDTO) {
+    public TestResults addResultEmployee(TestResultsDTO testResultsDTO) {
         TestResults testResults = new TestResults();
         Schedule schedule = scheduleRepository.findById(testResultsDTO.getScheduleId()).get();
 
-        schedule.setStatus(Const.SCHEDULE_STATUS_RESULTED);
-//        testResults.setId(testResultsDTO.getId());
         testResults.setUserId(testResultsDTO.getUserId());
         testResults.setDescription(testResultsDTO.getDescription());
         testResults.setSchedule(schedule);
-//        testResults.setPatient(testResultsDTO.getPatient());
-        testResultsRepository.save(testResults);
+        testResults.setStatus(Const.TEST_RESULTED_BY_EMPLOYEE);
+        testResults = testResultsRepository.save(testResults);
+        return testResults;
+    }
+
+    @Override
+    public TestResults addResultDoctor(TestResultsDTO testResultsDTO) {
+        TestResults testResults = testResultsRepository.findById(testResultsDTO.getId()).get();
+
+        if (testResults == null)
+            throw new RuntimeException("not existed id");
+
+        Schedule schedule = testResults.getSchedule();
+
+        testResults.setNote(testResultsDTO.getNote());
+        testResults.setStatus(Const.TEST_RESULTED_BY_DOCTOR);
+        schedule.setStatus(Const.SCHEDULE_STATUS_RESULTED);
+
+        scheduleRepository.save(schedule);
+        testResults = testResultsRepository.save(testResults);
+
         return testResults;
     }
 

@@ -41,11 +41,22 @@ public class TestResultsController {
         }
     }
 
+    @PostMapping("/api/doctor/add-testResult")
+    public ResponseEntity<?> addResultEmployee(@RequestBody TestResultsDTO testResultsDTO) {
+        try {
+            TestResults testResults = testResultsService.addResultEmployee(testResultsDTO);
+
+            return ResponseEntity.ok(testResults);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().body(new MessageResponseDTO("Error"));
+        }
+    }
+
     // thêm kq khám
     @PostMapping("/api/doctor/add-testResult")
-    public ResponseEntity<?> addResult(@RequestBody TestResultsDTO testResultsDTO) {
+    public ResponseEntity<?> addResultDoctor(@RequestBody TestResultsDTO testResultsDTO) {
         try {
-            TestResults testResults = testResultsService.addResult(testResultsDTO);
+            TestResults testResults = testResultsService.addResultDoctor(testResultsDTO);
 
             return ResponseEntity.ok(testResults);
         } catch (Exception ex) {

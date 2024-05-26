@@ -18,6 +18,7 @@ public class TestResultsDTO {
     private Patient patient;
     private Integer scheduleId;
     private Integer userId;
+    private String note;
 
     public TestResultsDTO() {
     }

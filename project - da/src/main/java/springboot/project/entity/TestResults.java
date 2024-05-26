@@ -25,7 +25,8 @@ public class TestResults {
     private Integer userId;
     @Column(columnDefinition = "LONGTEXT")
     private String description;
-
+    private String note;
+    private Integer status;
     public TestResults() {
     }
 
