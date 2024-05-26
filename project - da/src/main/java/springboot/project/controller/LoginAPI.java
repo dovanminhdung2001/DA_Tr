@@ -105,6 +105,23 @@ public class LoginAPI {
         return ResponseEntity.ok(user);
     }
 
+    // đăng kí tài khoản employee
+    @PostMapping("/api/register/employee")
+    public ResponseEntity<?> registerEmployee(@RequestBody UserDTO userDTO) {
+        // kiểm tra phone đã tồn tại hay chưa ?
+        if (userService.existsByPhone(userDTO.getPhone())) {
+            return ResponseEntity.badRequest().body(new MessageResponseDTO("Error: Phone is already !"));
+        }
+
+        if (userDTO.getRole().getId() != 4)
+            return ResponseEntity.badRequest().body("Wrong role");
+
+        User user = userService.addUser(userDTO);
+
+        return ResponseEntity.ok(user);
+    }
+
+
     @PostMapping("/api/refresh")
     public ResponseEntity<?> refreshToken(
             @RequestParam String accessToken,
