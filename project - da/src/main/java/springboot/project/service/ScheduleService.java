@@ -30,7 +30,7 @@ public interface ScheduleService {
 
     Page<ScheduleDTO> getAllForDoctorInFuture(Pageable pageable);
 
-    Page<ScheduleDTO> getAllForDoctorInPast(Pageable pageable, Integer status, Date date);
+    Page<ScheduleDTO> getAllForDoctorInPast(Pageable pageable, Integer status, Date date, Integer type);
 
     List<Integer> scheduleDay(ScheduleDTO atClinic);
 }

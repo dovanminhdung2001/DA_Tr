@@ -48,6 +48,7 @@ public class DoctorUserDTO {
     @JsonFormat(pattern = "dd/MM/yyyy", timezone = "GMT+7")
     private Date workingDate;
     private Integer type;
+    private Integer examinationPrice;
     public DoctorUserDTO() {
     }
 

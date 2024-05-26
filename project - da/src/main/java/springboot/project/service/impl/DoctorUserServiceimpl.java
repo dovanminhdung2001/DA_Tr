@@ -101,12 +101,9 @@ public class DoctorUserServiceimpl implements DoctorUserService {
             dto.getType()
         );
 
-        return convert(doctorUserRepository.save(doctorUser));
-    }
+        doctorUser.setExaminationPrice(dto.getExaminationPrice());
 
-    @Override
-    public DoctorUserDTO findById(Integer id) {
-        return null;
+        return convert(doctorUserRepository.save(doctorUser));
     }
 
     @Override
@@ -185,6 +182,7 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         doctorUser.getUser().setBirthDate(dto.getBirthDate());
         doctorUser.getUser().setCccd(dto.getCccd());
         doctorUser.setType(dto.getType());
+        doctorUser.setExaminationPrice(dto.getExaminationPrice());
         return doctorUserRepository.save(doctorUser);
     }
 
@@ -213,6 +211,7 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         doctorUserDTO.setUser(doctorUser.getUser());
         doctorUserDTO.setCccd(doctorUser.getUser().getCccd());
         doctorUserDTO.setType(doctorUser.getType());
+        doctorUserDTO.setExaminationPrice(doctorUser.getExaminationPrice());
         return doctorUserDTO;
     }
 }

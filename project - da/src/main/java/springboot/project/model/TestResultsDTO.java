@@ -19,6 +19,7 @@ public class TestResultsDTO {
     private Integer scheduleId;
     private Integer userId;
     private String note;
+    private Integer employeeId;
 
     public TestResultsDTO() {
     }

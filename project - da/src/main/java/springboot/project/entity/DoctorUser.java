@@ -45,6 +45,7 @@ public class DoctorUser {
     @OneToMany(mappedBy = "doctorUser")
     private List<DoctorDate> doctorDates;
     private Integer type;
+    private Integer examinationPrice;
     public DoctorUser() {
     }
 

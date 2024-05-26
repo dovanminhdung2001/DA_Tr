@@ -94,9 +94,10 @@ public class DateShiftController {
     public ResponseEntity<?> pastDoctor (
             Pageable pageable,
             @RequestParam(required = false) Integer status,
-            @RequestParam(required = false) @DateTimeFormat(pattern="dd/MM/yyyy") Date date
+            @RequestParam(required = false) @DateTimeFormat(pattern="dd/MM/yyyy") Date date,
+            @RequestParam(required = false) Integer type
     ) {
-        return ResponseEntity.ok(scheduleService.getAllForDoctorInPast(pageable, status, date));
+        return ResponseEntity.ok(scheduleService.getAllForDoctorInPast(pageable, status, date, type));
     }
 }
 

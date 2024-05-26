@@ -15,7 +15,6 @@ public interface DoctorUserService {
     Page<?> page(Pageable pageable, String name);
 
     DoctorUserDTO create(DoctorUserDTO dto);
-    DoctorUserDTO findById(Integer id);
     DoctorUserDTO findByUser(User user);
 
     Page<DoctorUser> find(Pageable pageable, DoctorUserDTO dto);

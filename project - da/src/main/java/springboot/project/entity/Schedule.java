@@ -21,7 +21,7 @@ public class Schedule {
     @JoinColumn(name = "doctorId")
 //    @JsonIgnore
     private DoctorUser doctorUser;
-
+    private Integer employeeId;
     @Column(name = "date")
     private Date date;
 

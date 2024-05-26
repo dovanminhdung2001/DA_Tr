@@ -102,6 +102,9 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             "or (s.date = current_date and s.time > extract(hour from current_time)))", nativeQuery = true)
     Page <Schedule> getAllForDoctorInFuture(Pageable pageable, Integer doctorId);
 
+    Page <Schedule> findAllByDateBeforeAndTestResults_Status(Pageable pageable, Date date, Integer type);
+    Page <Schedule> findAllByTestResults_Status(Pageable pageable, Integer type);
+
     @Query(value = "select s.* " +
             "from schedules s " +
             "join doctor_users u " +

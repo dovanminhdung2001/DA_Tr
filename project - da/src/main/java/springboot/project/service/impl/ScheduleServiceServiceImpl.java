@@ -200,7 +200,11 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         List<Schedule> data = repo.getContent();
         List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
         for (Schedule schedule : data) {
-            scheduleDTOS.add(convert(schedule));
+            ScheduleDTO scheduleDTO = convert(schedule);
+            if (schedule.getStatus() == Const.SCHEDULE_STATUS_BOOKED)
+                scheduleDTO.setTestResults(null);
+
+            scheduleDTOS.add(scheduleDTO);
         }
         return new PageImpl<>(scheduleDTOS, repo.getPageable(), repo.getTotalElements());
     }
@@ -220,12 +224,18 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Page<ScheduleDTO> getAllForDoctorInPast(Pageable pageable, Integer status, Date date) {
+    public Page<ScheduleDTO> getAllForDoctorInPast(Pageable pageable, Integer status, Date date, Integer type) {
         Integer doctorId = doctorUserRepository.findByUser_Id(
                 ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()
         ).getId();
         Page<Schedule> repo;
-        if (status != null && date != null)
+
+        if (type != null )
+            if (date != null)
+                repo = scheduleRepository.findAllByDateBeforeAndTestResults_Status(pageable, date, type);
+            else
+                repo = scheduleRepository.findAllByTestResults_Status(pageable, type);
+        else if (status != null && date != null)
             repo = scheduleRepository.getPageForDoctorInPastByTypeAt(pageable, doctorId, status, date);
         else if (status != null)
             repo = scheduleRepository.getPageForDoctorInPastByType(pageable, doctorId, status);

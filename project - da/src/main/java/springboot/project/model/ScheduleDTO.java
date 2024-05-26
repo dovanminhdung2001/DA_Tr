@@ -36,6 +36,7 @@ public class ScheduleDTO {
     private TestResults testResults;
 /////////
     private Integer doctorId;
+    private Integer employeeId;
     private String doctorName;
     @JsonFormat(pattern = "dd/MM/yyyy", timezone = "GMT+7")
     private Date workingDate;
