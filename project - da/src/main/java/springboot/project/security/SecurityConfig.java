@@ -47,6 +47,7 @@ public class SecurityConfig {
                         configurer.requestMatchers("/api/admin/**").hasAnyRole("ADMIN")
                                 .requestMatchers("/api/doctor/**").hasAnyRole("DOCTOR", "ADMIN")
                                 .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/employee/**").hasAnyRole("EMPLOYEE")
                                 .anyRequest().permitAll())
                 .csrf().disable();// .cors().disable();
 
