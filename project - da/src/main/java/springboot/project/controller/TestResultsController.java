@@ -41,7 +41,7 @@ public class TestResultsController {
         }
     }
 
-    @PostMapping("/api/doctor/add-testResult")
+    @PostMapping("/api/employee/add-testResult")
     public ResponseEntity<?> addResultEmployee(@RequestBody TestResultsDTO testResultsDTO) {
         try {
             TestResults testResults = testResultsService.addResultEmployee(testResultsDTO);
