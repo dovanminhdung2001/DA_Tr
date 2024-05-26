@@ -143,7 +143,7 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
     public Page<ScheduleDTO> getListSchedule(Pageable pageable, int id) {
         Date toDay = DateUtils.today();
         Date past = new Date(toDay.getTime());
-        Date later3Day = new Date(toDay.getTime() + DateUtils.oneDay * 3);
+        Date later3Day = new Date(toDay.getTime() + DateUtils.daysToTime(3));
         Page<Schedule> schedulePage = scheduleRepository.getByIdAndDateRange(pageable, id, past, later3Day);
         List<Schedule> schedules = schedulePage.getContent();
         List<ScheduleDTO> scheduleDTOS = new ArrayList<>();
@@ -157,7 +157,7 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
     public Page<ScheduleDTO> getAllByDoctor(Pageable pageable, int doctor_id) {
         Date toDay = DateUtils.today();
         Date past = new Date(toDay.getTime());
-        Date later3Day = new Date(toDay.getTime() + DateUtils.oneHour * 60);
+        Date later3Day = new Date(toDay.getTime() + DateUtils.hoursToTime(60));
         Page<Schedule> schedulePage = scheduleRepository.getAllByDoctorUser_IdAndDateBetween(
                 pageable, doctor_id, past, later3Day);
         List<Schedule> schedules = schedulePage.getContent();
