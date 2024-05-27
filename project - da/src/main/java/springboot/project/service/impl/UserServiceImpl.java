@@ -2,22 +2,20 @@ package springboot.project.service.impl;
 
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import springboot.project.dao.DeviceRepo;
-import springboot.project.dao.PatientRepository;
-import springboot.project.dao.RoleRepository;
-import springboot.project.dao.UserRepository;
+import springboot.project.dao.*;
 import springboot.project.entity.Device;
+import springboot.project.entity.MedicalHistory;
 import springboot.project.entity.User;
 import springboot.project.model.UserDTO;
 import springboot.project.model.UserPrincipal;
 import springboot.project.security.PasswordGenerator;
 import springboot.project.service.UserService;
+import springboot.project.utils.Const;
 import springboot.project.utils.DateUtils;
 
 @Service
@@ -27,7 +25,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final DeviceRepo deviceRepo;
     private final RoleRepository roleRepository;
-
+    private final MedicalHistoryRepository medicalHistoryRepository;
     @Override
     public User addUser(UserDTO userDTO) {
         User user = new User();
@@ -84,7 +82,35 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(dto.getEmail()))
             throw new RuntimeException("registered email");
 
-        if (dto.getRoleId() != 3)
+        if (dto.getRoleId() != Const.ROLE_ID_USER)
+            throw new RuntimeException("wrong role");
+
+        User user = new User(
+                dto.getName(),
+                dto.getEmail(),
+                PasswordGenerator.getHashString(dto.getPassword()),
+                dto.getAddress(),
+                dto.getPhone(),
+                dto.getAvatar(),
+                dto.getGender(),
+                dto.getDescription(),
+                roleRepository.findById(dto.getRoleId()).get(),
+                dto.isActive(),
+                dto.getCccd(),
+                dto.getBirthDate()
+        );
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User createEmployee(UserDTO dto) {
+        if (userRepository.existsByPhone(dto.getPhone()))
+            throw new RuntimeException("registered phone");
+
+        if (userRepository.existsByEmail(dto.getEmail()))
+            throw new RuntimeException("registered email");
+
+        if (dto.getRoleId() != Const.ROLE_ID_EMPLOYEE)
             throw new RuntimeException("wrong role");
 
         User user = new User(
@@ -155,6 +181,42 @@ public class UserServiceImpl implements UserService {
 
         user.setDevice(device);
         return userRepository.save(user);
+    }
+
+    @Override
+    public Page<User> pageEmployee(Pageable pageable) {
+        return userRepository.findAllByRole_Id(pageable, Const.ROLE_ID_EMPLOYEE);
+    }
+
+    @Override
+    public boolean deleteUser(Integer userId) {
+        User user = userRepository.findById(userId).get();
+
+        if (user == null || user.getRole().getId() != Const.ROLE_ID_USER)
+            return false;
+
+        MedicalHistory medicalHistory = user.getMedicalHistory();
+
+        if (medicalHistory != null) {
+            medicalHistory.setUser(null);
+            medicalHistoryRepository.save(medicalHistory);
+        }
+
+        userRepository.deleteById(userId);
+
+        return true;
+    }
+
+    @Override
+    public boolean deleteEmployee(Integer employeeId) {
+        User user = userRepository.findById(employeeId).get();
+
+        if (user == null || user.getRole().getId() != Const.ROLE_ID_EMPLOYEE)
+            return false;
+
+        userRepository.deleteById(employeeId);
+
+        return true;
     }
 
     private UserDTO convertToDTO(User user) {

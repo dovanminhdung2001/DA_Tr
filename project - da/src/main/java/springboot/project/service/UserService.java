@@ -20,7 +20,15 @@ public interface UserService {
 
     User create(UserDTO userDTO);
 
+    User createEmployee(UserDTO userDTO);
+
     User update(UserDTO dto);
 
     User saveDevice(Device device);
+
+    Page<User> pageEmployee(Pageable pageable);
+
+    boolean deleteUser(Integer userId);
+
+    boolean deleteEmployee(Integer employeeId);
 }

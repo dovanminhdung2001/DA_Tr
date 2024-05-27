@@ -59,4 +59,9 @@ public class DoctorUserController {
             return ResponseEntity.badRequest().body(new MessageResponseDTO(e.getMessage(), e));
         }
     }
+
+    @DeleteMapping("/admin/doctor/delete")
+    public ResponseEntity<?> delete(@RequestParam Integer doctorId) {
+        return ResponseEntity.ok(doctorUserService.delete(doctorId));
+    }
 }

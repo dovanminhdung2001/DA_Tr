@@ -34,8 +34,11 @@ public class SpecializationServiceImpl implements SpecializationService {
             if (specialization == null)
                 return null;
 
-            specialization.setName(dto.getName());
-            specialization.setDescription(dto.getDescription());
+            if (dto.getName() != null && !dto.getName().isEmpty())
+                specialization.setName(dto.getName());
+            if (dto.getDescription() != null && !dto.getDescription().isEmpty())
+                specialization.setDescription(dto.getDescription());
+            specialization.setActive(dto.getActive());
             return specializationRepository.save(specialization);
         }
 
@@ -59,5 +62,10 @@ public class SpecializationServiceImpl implements SpecializationService {
         specializationRepository.save(specialization);
 
         return true;
+    }
+
+    @Override
+    public Page<Specialization> findAllActive(Pageable pageable) {
+        return specializationRepository.findAllByActive(pageable, true);
     }
 }

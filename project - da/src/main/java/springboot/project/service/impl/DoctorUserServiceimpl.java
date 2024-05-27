@@ -198,6 +198,28 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         return dto;
     }
 
+    @Override
+    public boolean delete(Integer doctorId) {
+        DoctorUser doctorUser = doctorUserRepository.findById(doctorId).get();
+
+        if (doctorUser == null)
+            return false;
+
+        userRepository.delete(doctorUser.getUser());
+        List<DoctorDate> list = doctorUser.getDoctorDates();
+
+        if (!list.isEmpty()) {
+            list.stream().map(doctorDate -> {
+                doctorDate.setDoctorUser(null);
+                return doctorDate;
+            });
+            doctorDateRepository.saveAll(list);
+        }
+
+        doctorUserRepository.deleteById(doctorId);
+        return true;
+    }
+
     private DoctorUserDTO convert(DoctorUser doctorUser) {
         DoctorUserDTO doctorUserDTO = new DoctorUserDTO();
         doctorUserDTO.setId(doctorUser.getId());

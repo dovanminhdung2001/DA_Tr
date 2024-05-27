@@ -82,6 +82,16 @@ public class UserController {
         return ResponseEntity.ok(userService.page(pageable));
     }
 
+    @GetMapping("/api/admin/employee/list")
+    public ResponseEntity<?> pageEmployee (Pageable pageable) {
+        return ResponseEntity.ok(userService.pageEmployee(pageable));
+    }
+
+    @PostMapping("/api/admin/employee/create")
+    public ResponseEntity<?> createEmployee(@RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.createEmployee(userDTO));
+    }
+
     @PostMapping("/api/admin/user/create")
     public ResponseEntity<?> create(@RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(userService.create(userDTO));
@@ -95,5 +105,15 @@ public class UserController {
     @PutMapping("/api/admin/user/update")
     public ResponseEntity<?> update(@RequestBody UserDTO dto) {
         return ResponseEntity.ok(userService.update(dto));
+    }
+
+    @DeleteMapping("/api/admin/user/delete")
+    public ResponseEntity<?> deleteUser(@RequestParam Integer userId) {
+        return ResponseEntity.ok(userService.deleteUser(userId));
+    }
+
+    @DeleteMapping("/api/admin/employee/delete")
+    public ResponseEntity<?> deleteEmployee(@RequestParam Integer employeeId) {
+        return ResponseEntity.ok(userService.deleteEmployee(employeeId));
     }
 }

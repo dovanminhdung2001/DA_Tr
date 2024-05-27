@@ -11,6 +11,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByEmail(String email);
     boolean existsByEmail(String email);
     boolean existsByCccd(String cccd);
+    boolean existsByIdAndRole_Id(Integer id, Integer roleId);
+
     Page<User> findAllByRole_Id(Pageable pageable, Integer roleId);
     User findByIdAndRole_Id(Integer id, Integer roleId);
 

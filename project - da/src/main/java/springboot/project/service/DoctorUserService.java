@@ -24,4 +24,6 @@ public interface DoctorUserService {
     DoctorUser update(DoctorUserDTO dto);
 
     Index2DTO index2(Pageable pageable);
+
+    boolean delete(Integer doctorId);
 }

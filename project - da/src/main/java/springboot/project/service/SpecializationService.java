@@ -15,4 +15,6 @@ public interface SpecializationService {
     public Page<Specialization> page (Pageable pageable);
 
     boolean delete(Integer id);
+
+    Page<Specialization> findAllActive(Pageable pageable);
 }

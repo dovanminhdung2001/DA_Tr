@@ -1,8 +1,11 @@
 package springboot.project.model;
 
 
+import lombok.Data;
+
 import java.util.Date;
 
+@Data
 public class SpecializationDTO {
     private Integer Id;
     private Date createdAt;
@@ -10,6 +13,7 @@ public class SpecializationDTO {
     private String description;
     private String name;
     private Date updatedAt;
+    private Boolean active;
 
     public Integer getId() {
         return Id;

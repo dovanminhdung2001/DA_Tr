@@ -20,6 +20,11 @@ public class SpecializationController {
         return ResponseEntity.ok(specializationService.page(pageable));
     }
 
+    @GetMapping("/active")
+    public ResponseEntity<?> active (Pageable pageable) {
+        return ResponseEntity.ok(specializationService.findAllActive(pageable));
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> create (@RequestBody SpecializationDTO dto) {
         Specialization specialization = specializationService.create(dto);
