@@ -258,7 +258,7 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
                 List.of(Const.SCHEDULE_STATUS_BOOKED, Const.SCHEDULE_STATUS_RESULTED),
                 atClinic.getType()
         );
-        List<Integer> shiftToday = schedules.stream().map(Schedule::getId).collect(Collectors.toList());
+        List<Integer> shiftToday = schedules.stream().map(Schedule::getTime).collect(Collectors.toList());
 
         return shiftToday;
     }
