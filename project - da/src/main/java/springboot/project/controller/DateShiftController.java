@@ -68,7 +68,7 @@ public class DateShiftController {
         return ResponseEntity.ok(schedule);
     }
 
-    @GetMapping("/user/schedule/day")
+    @GetMapping({"/user/schedule/day", "/employee/schedule/day"})
     public ResponseEntity<?> scheduleToday(
             @RequestBody ScheduleDTO scheduleDTO
     ) {

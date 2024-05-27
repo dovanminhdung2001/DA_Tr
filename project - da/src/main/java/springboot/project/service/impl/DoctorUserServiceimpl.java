@@ -2,6 +2,8 @@ package springboot.project.service.impl;
 
 import io.micrometer.common.util.StringUtils;
 import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +26,7 @@ import java.util.List;
 @Service
 @Transactional
 public class DoctorUserServiceimpl implements DoctorUserService {
+    private static final Logger log = LoggerFactory.getLogger(DoctorUserServiceimpl.class);
     @Autowired
     DoctorUserRepository doctorUserRepository;
     @Autowired
@@ -118,12 +121,14 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         Page<DoctorUser> result ;
         Page<DoctorDate> pre;
 
-        if (!dto.getName().isEmpty()) {
-            Long today = DateUtils.today().getTime();
+        if ((dto.getName() != null && !dto.getName().isEmpty()) ) {
+            System.out.println("find by name and type");
 
-            result = doctorUserRepository.findAllByUser_NameContainingIgnoreCaseAndType(pageable, dto.getName(), dto.getType());
+            result = doctorUserRepository.findAllByUser_NameContainingIgnoreCaseAndTypeAndDoctorDates_WorkingDate(
+                    pageable, dto.getName(), dto.getType(), dto.getWorkingDate()
+            );
             result = result.map(doctorUser -> {
-                doctorUser.getDoctorDates().removeIf(doctorDate -> doctorDate.getWorkingDate().getTime() >= today);
+                doctorUser.getDoctorDates().removeIf(doctorDate -> doctorDate.getWorkingDate().getTime() == dto.getWorkingDate().getTime());
                 return doctorUser;
             });
 
@@ -136,7 +141,13 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         }
 
         result = result.map(doctorUser -> {
-            doctorUser.getDoctorDates().removeIf(doctorDate -> doctorDate.getWorkingDate().getTime() != dto.getWorkingDate().getTime());
+            DoctorDate doctorDate = new DoctorDate();
+            for (DoctorDate date : doctorUser.getDoctorDates())
+                if (date.getWorkingDate().getTime() == dto.getWorkingDate().getTime())
+                    doctorDate = date;
+
+            doctorUser.setDoctorDates(List.of(doctorDate));
+
             return doctorUser;
         });
 
