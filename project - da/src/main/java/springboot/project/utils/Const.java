@@ -15,4 +15,6 @@ public class Const {
 
     public static final int DOCTOR_TYPE_CLINIC = 0;
     public static final int DOCTOR_TYPE_HOME = 1;
+
+
 }

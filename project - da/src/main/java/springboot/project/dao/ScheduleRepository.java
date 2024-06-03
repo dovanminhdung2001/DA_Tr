@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import springboot.project.entity.Schedule;
 
 import java.util.Date;
@@ -139,4 +140,12 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     Integer countAllByStatus(Integer status);
 
     List<Schedule> findAllByDateAndCreatedByAndStatusInAndType(Date date, Integer createdBy, List<Integer> status, Integer type);
+
+    @Query(value = "SELECT DATE_FORMAT(s.date, '%b-%Y') AS month, SUM(s.examination_price) AS totalPrice " +
+            "FROM schedules s " +
+            "JOIN test_results tr ON s.id = tr.schedule_id " +
+            "WHERE tr.id IS NOT NULL " +
+            "AND s.date >= :startDate " +
+            "GROUP BY DATE_FORMAT(s.date, '%b-%Y')", nativeQuery = true)
+    List<Object[]> findMonthlyExaminationPriceSum(@Param("startDate") Date startDate);
 }

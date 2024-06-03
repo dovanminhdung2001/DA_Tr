@@ -28,6 +28,9 @@ public class UserServiceImpl implements UserService {
     private final MedicalHistoryRepository medicalHistoryRepository;
     @Override
     public User addUser(UserDTO userDTO) {
+        if (userRepository.existsByEmail(userDTO.getEmail()))
+            throw new RuntimeException("registered email");
+
         User user = new User();
 
         user.setId(userDTO.getId());
@@ -44,6 +47,7 @@ public class UserServiceImpl implements UserService {
         user.setActive(true);
         user = userRepository.save(user);
         user.setBirthDate(userDTO.getBirthDate());
+        user.setCreatedDate(DateUtils.now());
 
         return user;
     }
@@ -99,6 +103,9 @@ public class UserServiceImpl implements UserService {
                 dto.getCccd(),
                 dto.getBirthDate()
         );
+
+        user.setCreatedDate(DateUtils.now());
+
         return userRepository.save(user);
     }
 
@@ -127,6 +134,9 @@ public class UserServiceImpl implements UserService {
                 dto.getCccd(),
                 dto.getBirthDate()
         );
+
+        user.setCreatedDate(DateUtils.now());
+
         return userRepository.save(user);
     }
 

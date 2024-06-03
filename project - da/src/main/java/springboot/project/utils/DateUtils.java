@@ -4,7 +4,10 @@ import java.nio.file.Path;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
+import java.util.List;
 
 public class DateUtils {
 
@@ -14,6 +17,15 @@ public class DateUtils {
     public static long oneHour = 1000L * 60 * 60;
     public static long oneDay = 1000L * 60 * 60 * 24;
     public static long oneMinute = 1000L * 60;
+
+    public static String[] months = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
+    public static int getCurrMonth () {
+        LocalDate localDate = LocalDate.now();
+
+        return localDate.getMonth().getValue();
+    }
+
     public static Date now() {
         return new Date();
     }
@@ -70,5 +82,18 @@ public class DateUtils {
 
     public static Long daysToTime (int day) {
         return day * oneDay;
+    }
+
+
+    public static String getStrMonth (int month) {
+        month -= 1;
+
+        while (month < 0)
+            month += 12;
+
+        while (month > 11)
+            month -= 12;
+
+        return months[month];
     }
 }

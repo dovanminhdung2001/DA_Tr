@@ -12,16 +12,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springboot.project.dao.*;
 import springboot.project.entity.*;
-import springboot.project.model.DoctorUserDTO;
-import springboot.project.model.Index2DTO;
-import springboot.project.model.UserPrincipal;
+import springboot.project.model.*;
 import springboot.project.security.PasswordGenerator;
 import springboot.project.service.DoctorUserService;
 import springboot.project.utils.Const;
 import springboot.project.utils.DateUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -198,14 +200,52 @@ public class DoctorUserServiceimpl implements DoctorUserService {
     }
 
     @Override
-    public Index2DTO index2(Pageable pageable) {
+    public Index2DTO index2(Pageable pageable) throws ParseException {
         Index2DTO dto = new Index2DTO();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -6);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        Date sixMonthsAgo = cal.getTime();
+
         dto.setClinicDoctors(doctorUserRepository.countAllByType(Const.DOCTOR_TYPE_CLINIC));
         dto.setHomeDoctors(doctorUserRepository.countAllByType(Const.DOCTOR_TYPE_HOME));
         dto.setPatients(userRepository.countAllByRole_Id(Const.ROLE_ID_USER));
         dto.setSchedules(scheduleRepository.countAllByStatus(Const.SCHEDULE_STATUS_BOOKED));
         dto.setUsers(userRepository.findAllByRole_Id(pageable, Const.ROLE_ID_USER));
         dto.setDoctorUsers(doctorUserRepository.findAll(pageable));
+
+        List<Object[]> income = scheduleRepository.findMonthlyExaminationPriceSum(sixMonthsAgo);
+        ChartDataDTO barChartData = convertToChartData(income, "Doanh thu");
+
+//        List<Integer> incomeInt = income.stream()
+//                .map(result -> (Integer.parseInt(String.valueOf(result[1]))))
+//                .collect(Collectors.toList());
+//        ChartDataDTO barChartData = new ChartDataDTO();
+//        List<String> barChartLabels = income.stream()
+//                .map(result -> ((String) result[0]).substring(0, 3))
+//                .collect(Collectors.toList());
+//
+//        barChartData.setDatasets(List.of(new DatasetsDTO("Doanh thu", incomeInt)));
+//        barChartData.setLabels(barChartLabels);
+
+        dto.setBarChartData(barChartData);
+
+        List<Object[]> count = userRepository.countUsersGroupedByMonthNative(sixMonthsAgo);
+        ChartDataDTO lineChartData = convertToChartData(count, "Bệnh nhân mới");
+
+//        List<Integer> countInt = count.stream()
+//                .map(result -> (Integer.parseInt(String.valueOf(result[1]))))
+//                .collect(Collectors.toList());
+//        ChartDataDTO lineChartData = new ChartDataDTO();
+//        List<String> lineChartLabels = count.stream()
+//                .map(result -> ((String) result[0]).substring(0, 3))
+//                .collect(Collectors.toList());
+//
+//        lineChartData.setDatasets(List.of(new DatasetsDTO("Bệnh nhân mới", countInt)));
+//        lineChartData.setLabels(lineChartLabels);
+
+        dto.setLineCharData(lineChartData);
+
         return dto;
     }
 
@@ -246,5 +286,41 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         doctorUserDTO.setType(doctorUser.getType());
         doctorUserDTO.setExaminationPrice(doctorUser.getExaminationPrice());
         return doctorUserDTO;
+    }
+
+    public ChartDataDTO convertToChartData(List<Object[]> rawData, String label) {
+        ChartDataDTO chartData = new ChartDataDTO();
+        List<Integer> data = rawData.stream()
+                .map(result -> (Integer.parseInt(String.valueOf(result[1]))))
+                .collect(Collectors.toList());
+        List<String> labels = rawData.stream()
+                .map(result -> (String) result[0])
+                .collect(Collectors.toList());
+        List<String> allMonths = getLastSixMonths();
+        Map<String, Integer> labelDataMap = new HashMap<>();
+
+        for (int i = 0; i < labels.size(); i++) {
+            labelDataMap.put(labels.get(i), data.get(i));
+        }
+        labels.clear();
+        data.clear();
+        for (String month : allMonths) {
+            labels.add(month);
+            data.add(labelDataMap.getOrDefault(month, 0));
+        }
+        chartData.setLabels(labels);
+        chartData.setDatasets(List.of(new DatasetsDTO(label, data)));
+
+        return chartData;
+    }
+
+    private static List<String> getLastSixMonths() {
+        List<String> months = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-yyyy");
+        LocalDate now = LocalDate.now();
+        for (int i = 5; i >= 0; i--) {
+            months.add(now.minusMonths(i).format(formatter));
+        }
+        return months;
     }
 }

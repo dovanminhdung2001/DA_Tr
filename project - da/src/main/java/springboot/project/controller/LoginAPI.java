@@ -42,7 +42,7 @@ public class LoginAPI {
     @PostMapping("/api/login")
     public ResponseEntity<?> login(@RequestParam("phone") String phone,
                         @RequestParam("password") String password) {
-        try {
+//        try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(phone, password));
             // tạo ra 1 token trả về client
             User user = userService.findByPhone(phone);
@@ -54,9 +54,9 @@ public class LoginAPI {
                 return ResponseEntity.ok(new JwtResponseDTO(accessToken, refreshToken, doctorUserService.findByUser(user)));
 
             return ResponseEntity.ok(new JwtResponseDTO(accessToken, refreshToken, user));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponseDTO("Wrong phone or password", e));
-        }
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(new MessageResponseDTO("Wrong phone or password", e));
+//        }
     }
 
     // đăng kí tài khoản user

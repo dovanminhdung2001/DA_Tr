@@ -14,6 +14,8 @@ import springboot.project.service.ClinicService;
 import springboot.project.service.DoctorUserService;
 import springboot.project.service.UserService;
 
+import java.text.ParseException;
+
 //@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
@@ -35,7 +37,7 @@ public class DoctorUserController {
     }
 
     @GetMapping("/admin/index2/get")
-    public ResponseEntity<?> index2 (Pageable pageable) {
+    public ResponseEntity<?> index2 (Pageable pageable) throws ParseException {
         return ResponseEntity.ok(doctorUserService.index2(pageable));
     }
 
@@ -53,11 +55,11 @@ public class DoctorUserController {
 
     @PutMapping("/admin/doctor/update")
     public ResponseEntity<?> update(@RequestBody DoctorUserDTO dto) {
-        try {
+//        try {
             return ResponseEntity.ok(doctorUserService.update(dto));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponseDTO(e.getMessage(), e));
-        }
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(new MessageResponseDTO(e.getMessage(), e));
+//        }
     }
 
     @DeleteMapping("/admin/doctor/delete")

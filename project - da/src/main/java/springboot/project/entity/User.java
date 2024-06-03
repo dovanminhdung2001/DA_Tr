@@ -63,7 +63,7 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "device_id")
     private Device device;
-
+    private Date CreatedDate;
     public User() {
     }
 

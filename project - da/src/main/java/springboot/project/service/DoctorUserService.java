@@ -7,6 +7,7 @@ import springboot.project.entity.User;
 import springboot.project.model.DoctorUserDTO;
 import springboot.project.model.Index2DTO;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface DoctorUserService {
@@ -23,7 +24,7 @@ public interface DoctorUserService {
 
     DoctorUser update(DoctorUserDTO dto);
 
-    Index2DTO index2(Pageable pageable);
+    Index2DTO index2(Pageable pageable) throws ParseException;
 
     boolean delete(Integer doctorId);
 }

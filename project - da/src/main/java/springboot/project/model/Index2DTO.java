@@ -13,4 +13,6 @@ public class Index2DTO {
     private Integer schedules;
     private Page<User> users;
     private Page<DoctorUser> doctorUsers;
+    private ChartDataDTO barChartData;
+    private ChartDataDTO lineCharData;
 }

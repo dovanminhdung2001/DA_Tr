@@ -29,7 +29,7 @@ public class Schedule {
     private Integer time;
     @Column(name = "shiftId")
     private Integer shiftId;
-    @Column(name = "examinationPrice")
+    @Column(name = "examination_price")
     private Integer examinationPrice;
     @Column(name = "userphone")
     private String userPhone;
