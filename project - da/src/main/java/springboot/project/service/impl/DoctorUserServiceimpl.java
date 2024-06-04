@@ -71,11 +71,11 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         Clinic clinic = clinicRepository.findById(dto.getClinicId()).get();
         Specialization specialization = specializationRepository.findById(dto.getSpecializationId()).get();
 
-        if(doctorUserRepository.findByUser_Phone(dto.getPhone()) != null)
+        if(userRepository.existsByPhone(dto.getPhone()))
             throw new RuntimeException("regitered phone");
-        if(doctorUserRepository.findByUser_Email(dto.getEmail()) != null)
+        if(userRepository.existsByEmail(dto.getEmail()))
             throw new RuntimeException("regitered email");
-        if(doctorUserRepository.findByUser_Cccd(dto.getCccd()) != null)
+        if(userRepository.existsByCccd(dto.getCccd()))
             throw new RuntimeException("Registered citizen id");
 
         User user = new User(
@@ -169,16 +169,20 @@ public class DoctorUserServiceimpl implements DoctorUserService {
         if (doctorUser == null)
             throw new RuntimeException("not found doctor");
 
-        if (check != null && check.getId() != doctorUser.getId())
-            throw new RuntimeException("registered email");
+        if(userRepository.existsByEmail(dto.getEmail()))
+            if (check != null && check.getId() != doctorUser.getId())
+                throw new RuntimeException("regitered email");
+
 
         check = doctorUserRepository.findByUser_Phone(dto.getPhone());
-        if (check != null && check.getId() != doctorUser.getId())
-            throw new RuntimeException("registered phone");
+        if(userRepository.existsByPhone(dto.getPhone()))
+            if (check != null && check.getId() != doctorUser.getId())
+                throw new RuntimeException("regitered phone");
 
         check = doctorUserRepository.findByUser_Cccd(dto.getCccd()) ;
-        if (check != null && check.getId() != doctorUser.getId())
-            throw new RuntimeException("regitered citizen id");
+        if(userRepository.existsByCccd(dto.getCccd()))
+            if (check != null && check.getId() != doctorUser.getId())
+            throw new RuntimeException("Registered citizen id");
 
         if (StringUtils.isNotBlank(dto.getPassword())) {
             doctorUser.getUser().setPassword(PasswordGenerator.getHashString(dto.getPassword()));
