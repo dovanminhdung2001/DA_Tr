@@ -17,6 +17,7 @@ import springboot.project.security.PasswordGenerator;
 import springboot.project.service.UserService;
 import springboot.project.utils.Const;
 import springboot.project.utils.DateUtils;
+import springboot.project.utils.MailUtils;
 
 @Service
 @Transactional
@@ -171,6 +172,22 @@ public class UserServiceImpl implements UserService {
         user.setCccd(dto.getCccd());
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public String forgotPassword(String email) {
+        User user = userRepository.findByEmail(email);
+
+        if (user == null)
+            throw new RuntimeException("Mail not found");
+
+        String newPassword = String.valueOf((int) (Math.random() * 1000000000));
+
+        MailUtils.sendEmail(user.getEmail(), "Password reset", "Your new password is:<br>" + newPassword);
+        user.setPassword(PasswordGenerator.getHashString(newPassword));
+        userRepository.save(user);
+
+        return "mail sent";
     }
 
     @Override

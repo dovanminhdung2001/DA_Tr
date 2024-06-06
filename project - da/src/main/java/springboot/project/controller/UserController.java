@@ -97,6 +97,15 @@ public class UserController {
         return ResponseEntity.ok(userService.create(userDTO));
     }
 
+    @PostMapping("/api/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestParam String email) {
+        try {
+            return ResponseEntity.ok(new MessageResponseDTO(userService.forgotPassword(email)));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new MessageResponseDTO(e.getMessage(), e));
+        }
+    }
+
     @GetMapping("/api/admin/user/get")
     public ResponseEntity<?> get(@RequestParam Integer id) {
         return ResponseEntity.ok(userService.findOnlyUser(id));

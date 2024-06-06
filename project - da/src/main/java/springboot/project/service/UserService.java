@@ -24,6 +24,8 @@ public interface UserService {
 
     User update(UserDTO dto);
 
+    String forgotPassword(String email);
+
     User saveDevice(Device device);
 
     Page<User> pageEmployee(Pageable pageable);
