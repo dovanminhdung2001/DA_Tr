@@ -14,6 +14,7 @@ public class BlogDTO {
     private Integer doctorId;
     private String doctorName;
     private String title;
+    private String thumbnail;
     private String content;
     private String specializationIdList;
     private Integer view;

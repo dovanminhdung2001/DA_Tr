@@ -22,6 +22,8 @@ public class Blog {
     private String title;
     @Column(name="content", columnDefinition="LONGTEXT")
     private String content;
+    @Column(name="thumbnail", columnDefinition="LONGTEXT")
+    private String thumbnail;
     private String specializationIdList;
     private Integer view;
     private Integer share;

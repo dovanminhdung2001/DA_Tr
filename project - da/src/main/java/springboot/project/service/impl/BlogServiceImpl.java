@@ -31,6 +31,7 @@ public class BlogServiceImpl implements BlogService {
         newBlog.setDoctorId(doctorUser.getId());
         newBlog.setDoctorName(doctorUser.getUser().getName());
         newBlog.setTitle(dto.getTitle());
+        newBlog.setThumbnail(dto.getThumbnail());
         newBlog.setContent(dto.getContent());
         newBlog.setSpecializationIdList(dto.getSpecializationIdList());
         newBlog.setCreateAt(DateUtils.now());
@@ -49,6 +50,7 @@ public class BlogServiceImpl implements BlogService {
 
         oldBLog.setDoctorName(dto.getDoctorName());
         oldBLog.setTitle(dto.getTitle());
+        oldBLog.setThumbnail(dto.getThumbnail());
         oldBLog.setContent(dto.getContent());
         oldBLog.setSpecializationIdList(dto.getSpecializationIdList());
         oldBLog.setView(dto.getView());
