@@ -13,4 +13,6 @@ public interface BlogService {
     Page<Blog> findAll(Pageable pageable, Boolean isActive);
 
     Blog delete(Integer id, Boolean status);
+
+    Page<Blog> findAllByTitle(Pageable pageable, String title);
 }

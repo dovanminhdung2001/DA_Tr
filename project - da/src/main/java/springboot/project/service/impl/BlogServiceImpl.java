@@ -89,4 +89,9 @@ public class BlogServiceImpl implements BlogService {
         blog.setIsActive(status);
         return blogRepository.save(blog);
     }
+
+    @Override
+    public Page<Blog> findAllByTitle(Pageable pageable, String title) {
+        return blogRepository.findAllByTitleContainingIgnoreCaseAndIsActiveTrue(pageable, title);
+    }
 }

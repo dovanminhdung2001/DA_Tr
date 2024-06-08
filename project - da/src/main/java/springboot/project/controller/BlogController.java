@@ -20,13 +20,17 @@ public class BlogController {
         Pageable pageable,
         @RequestParam(required = false) Integer blogId,
         @RequestParam(required = false) Integer doctorId,
-        @RequestParam(required = false) Boolean isActive
+        @RequestParam(required = false) Boolean isActive,
+        @RequestParam(required = false) String title
     ) {
         if (blogId != null)
             return ResponseEntity.ok(blogService.findById(blogId));
 
         if (doctorId != null)
             return ResponseEntity.ok(blogService.findAllByDoctorId(pageable, doctorId, isActive));
+
+        if (!title.isBlank())
+            return ResponseEntity.ok(blogService.findAllByTitle(pageable, title.trim()));
 
         return ResponseEntity.ok(blogService.findAll(pageable, isActive));
     }
