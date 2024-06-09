@@ -21,7 +21,8 @@ public class BlogController {
         @RequestParam(required = false) Integer blogId,
         @RequestParam(required = false) Integer doctorId,
         @RequestParam(required = false) Boolean isActive,
-        @RequestParam(required = false) String title
+        @RequestParam(required = false) String title,
+        @RequestParam(required = false) String specializationId
     ) {
         if (blogId != null)
             return ResponseEntity.ok(blogService.findById(blogId));
@@ -29,8 +30,11 @@ public class BlogController {
         if (doctorId != null)
             return ResponseEntity.ok(blogService.findAllByDoctorId(pageable, doctorId, isActive));
 
-        if (!title.isBlank())
+        if (title != null && !title.isBlank())
             return ResponseEntity.ok(blogService.findAllByTitle(pageable, title.trim()));
+
+        if (specializationId != null && !specializationId.isBlank())
+            return ResponseEntity.ok(blogService.findAllBySpecializationId(pageable, specializationId));
 
         return ResponseEntity.ok(blogService.findAll(pageable, isActive));
     }

@@ -10,4 +10,5 @@ public interface BlogRepository extends JpaRepository<Blog, Integer> {
     Page<Blog> findAllByDoctorIdAndIsActive(Pageable pageable, Integer doctorId, Boolean isActive);
     Page<Blog> findAllByIsActive(Pageable pageable, Boolean isActive);
     Page<Blog> findAllByTitleContainingIgnoreCaseAndIsActiveTrue(Pageable pageable, String title);
+    Page<Blog> findAllBySpecializationIdList(Pageable pageable, String specializationId);
 }

@@ -64,7 +64,11 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Blog findById(Integer blogId) {
-        return blogRepository.findById(blogId).get();
+        Blog blog = blogRepository.findById(blogId).get();
+
+        blog.setView(blog.getView() + 1);
+
+        return blogRepository.save(blog);
     }
 
     @Override
@@ -95,5 +99,10 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public Page<Blog> findAllByTitle(Pageable pageable, String title) {
         return blogRepository.findAllByTitleContainingIgnoreCaseAndIsActiveTrue(pageable, title);
+    }
+
+    @Override
+    public Page<Blog> findAllBySpecializationId(Pageable pageable, String specializationId) {
+        return blogRepository.findAllBySpecializationIdList(pageable, specializationId);
     }
 }
