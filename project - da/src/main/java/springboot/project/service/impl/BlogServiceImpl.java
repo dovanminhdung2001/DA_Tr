@@ -28,6 +28,7 @@ public class BlogServiceImpl implements BlogService {
 
 
         Blog newBlog = new Blog();
+        newBlog.setView(0);
         newBlog.setDoctorId(doctorUser.getId());
         newBlog.setDoctorName(doctorUser.getUser().getName());
         newBlog.setTitle(dto.getTitle());
@@ -35,6 +36,7 @@ public class BlogServiceImpl implements BlogService {
         newBlog.setContent(dto.getContent());
         newBlog.setSpecializationIdList(dto.getSpecializationIdList());
         newBlog.setCreateAt(DateUtils.now());
+        newBlog.setIsActive(true);
 
         newBlog = blogRepository.save(newBlog);
 
