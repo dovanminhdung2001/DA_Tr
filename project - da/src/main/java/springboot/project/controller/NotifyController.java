@@ -15,7 +15,7 @@ import springboot.project.service.UserService;
 public class NotifyController {
     private  final UserService userService;
 
-    @PostMapping({"/user/notify/register", "/doctor/notify/register"})
+    @PostMapping({"/user/notify/register", "/doctor/notify/register", "/employee/notify/register"})
     public ResponseEntity<?> register (@RequestBody Device device) {
         return ResponseEntity.ok(userService.saveDevice(device));
     }
