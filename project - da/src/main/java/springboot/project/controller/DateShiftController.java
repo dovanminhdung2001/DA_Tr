@@ -114,5 +114,10 @@ public class DateShiftController {
     public ResponseEntity<?> assign (@RequestParam Integer employeeId, @RequestParam Integer scheduleId) {
         return ResponseEntity.ok(new MessageResponseDTO(scheduleService.assign(employeeId, scheduleId)));
     }
+
+    @DeleteMapping("/employee/schedule/cancel-assigned")
+    public ResponseEntity<?> cacelAssign(@RequestParam Integer scheduleId) {
+        return ResponseEntity.ok(new MessageResponseDTO(scheduleService.cancelAssign(scheduleId)));
+    }
 }
 

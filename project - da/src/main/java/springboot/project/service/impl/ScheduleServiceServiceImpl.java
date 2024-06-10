@@ -296,6 +296,19 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         return "Assign success";
     }
 
+    @Override
+    public String cancelAssign(Integer scheduleId) {
+        Schedule schedule = scheduleRepository.findByIdAndStatus(scheduleId, Const.SCHEDULE_STATUS_BOOKED);
+
+        if (schedule == null)
+            throw new RuntimeException("Schedule not found  or cancelled or resulted");
+
+        schedule.setAssignedTo(null);
+        scheduleRepository.save(schedule);
+
+        return "Cancel assign success";
+    }
+
     private ScheduleDTO convert(Schedule schedule) {
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         scheduleDTO.setId(schedule.getId());
