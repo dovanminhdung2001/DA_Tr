@@ -87,6 +87,11 @@ public class UserController {
         return ResponseEntity.ok(userService.pageEmployee(pageable));
     }
 
+    @GetMapping("/api/doctor/employee/list")
+    public ResponseEntity<?> pageEmployeeForDoctor(Pageable pageable, @RequestParam(required = false) String name){
+        return ResponseEntity.ok(userService.pageEmployeeForDoctor(pageable, name));
+    }
+
     @PostMapping("/api/admin/employee/create")
     public ResponseEntity<?> createEmployee(@RequestBody UserDTO userDTO) {
         return ResponseEntity.ok(userService.createEmployee(userDTO));

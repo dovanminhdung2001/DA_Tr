@@ -216,6 +216,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> pageEmployeeForDoctor(Pageable pageable, String name) {
+        if (name != null && !name.isBlank())
+            return userRepository.findAllByRole_IdAndIsActiveAndNameContainingIgnoreCase(
+                    pageable, Const.ROLE_ID_EMPLOYEE, true, name.trim()
+            );
+
+        return userRepository.findAllByRole_IdAndIsActive(pageable, Const.ROLE_ID_EMPLOYEE, true);
+    }
+
+    @Override
     public boolean deleteUser(Integer userId) {
         User user = userRepository.findById(userId).get();
 

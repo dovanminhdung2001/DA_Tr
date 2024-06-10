@@ -19,6 +19,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     boolean existsByIdAndRole_Id(Integer id, Integer roleId);
 
     Page<User> findAllByRole_Id(Pageable pageable, Integer roleId);
+    Page<User> findAllByRole_IdAndIsActive(Pageable pageable, Integer roleId, Boolean active);
+    Page<User> findAllByRole_IdAndIsActiveAndNameContainingIgnoreCase(Pageable pageable, Integer roleId, Boolean active,String name);
     User findByIdAndRole_Id(Integer id, Integer roleId);
 
     Integer countAllByRole_Id(Integer integer);
