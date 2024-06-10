@@ -313,6 +313,13 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         return "Cancel assign success";
     }
 
+    @Override
+    public Page<?> getAllResultedScheduleForEmployee(Pageable pageable, Integer employeeId) {
+        Page<Schedule> page = scheduleRepository.findAllByAssignedToAndTestResultsNotNull(pageable, employeeId);
+
+        return page.map(this::convert);
+    }
+
     private ScheduleDTO convert(Schedule schedule) {
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         scheduleDTO.setId(schedule.getId());

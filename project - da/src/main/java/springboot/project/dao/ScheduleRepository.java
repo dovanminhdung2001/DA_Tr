@@ -149,4 +149,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
 
     Page<Schedule> findAllByDoctorUser_IdAndAssignedToAndStatus(Pageable pageable, Integer doctorId, Integer employeeId, Integer status);
     Page<Schedule> findAllByAssignedToAndStatus(Pageable pageable, Integer employeeId, Integer status);
+
+    Page<Schedule> findAllByAssignedToAndTestResultsNotNull(Pageable pageable, Integer employeeId);
 }

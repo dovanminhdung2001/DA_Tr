@@ -105,9 +105,14 @@ public class DateShiftController {
         return ResponseEntity.ok(scheduleService.getAllUnassigned(pageable, doctorId));
     }
 
-    @GetMapping("employee/schedule/list-assigned")
-    public ResponseEntity<?> listAssinged (Pageable pageable, @RequestParam Integer employeeId) {
+    @GetMapping("/employee/schedule/list-assigned")
+    public ResponseEntity<?> listAssigned (Pageable pageable, @RequestParam Integer employeeId) {
         return ResponseEntity.ok(scheduleService.getAllAssigned(pageable, employeeId));
+    }
+
+    @GetMapping("/employee/schedule/list-resulted-schedule")
+    public ResponseEntity<?> listResultedSchedule (Pageable pageable, @RequestParam Integer employeeId) {
+        return ResponseEntity.ok(scheduleService.getAllResultedScheduleForEmployee(pageable, employeeId));
     }
 
     @PostMapping("/doctor/schedule/assign")

@@ -41,4 +41,6 @@ public interface ScheduleService {
     String assign(Integer employeeId, Integer scheduleId);
 
     String cancelAssign(Integer scheduleId);
+
+    Page<?> getAllResultedScheduleForEmployee(Pageable pageable, Integer employeeId);
 }
