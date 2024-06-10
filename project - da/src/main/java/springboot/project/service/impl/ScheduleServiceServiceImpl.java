@@ -264,18 +264,22 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Page<Schedule> getAllUnassigned(Pageable pageable, Integer doctorId) {
-        return scheduleRepository.findAllByDoctorUser_IdAndAssignedToAndStatus(
+    public Page<?> getAllUnassigned(Pageable pageable, Integer doctorId) {
+        Page<Schedule> page =  scheduleRepository.findAllByDoctorUser_IdAndAssignedToAndStatus(
                 pageable, doctorId, null, Const.SCHEDULE_STATUS_BOOKED
         );
+
+        return page.map(this::convert);
     }
 
     @Override
-    public Page<Schedule> getAllAssigned(Pageable pageable, Integer employeeId) {
+    public Page<?> getAllAssigned(Pageable pageable, Integer employeeId) {
         if (!userRepository.existsByIdAndRole_Id(employeeId, Const.ROLE_ID_EMPLOYEE))
             throw new RuntimeException("Employee not found or deleted");
 
-        return scheduleRepository.findAllByAssignedToAndStatus(pageable, employeeId, Const.SCHEDULE_STATUS_BOOKED);
+        Page<Schedule> page = scheduleRepository.findAllByAssignedToAndStatus(pageable, employeeId, Const.SCHEDULE_STATUS_BOOKED);
+
+        return page.map(this::convert);
     }
 
     @Override

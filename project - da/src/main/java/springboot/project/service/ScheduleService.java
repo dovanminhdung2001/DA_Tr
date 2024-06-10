@@ -34,9 +34,9 @@ public interface ScheduleService {
 
     List<Integer> scheduleDay(ScheduleDTO atClinic);
 
-    Page<Schedule> getAllUnassigned(Pageable pageable, Integer doctorId);
+    Page<?> getAllUnassigned(Pageable pageable, Integer doctorId);
 
-    Page<Schedule> getAllAssigned(Pageable pageable, Integer employeeId);
+    Page<?> getAllAssigned(Pageable pageable, Integer employeeId);
 
     String assign(Integer employeeId, Integer scheduleId);
 
