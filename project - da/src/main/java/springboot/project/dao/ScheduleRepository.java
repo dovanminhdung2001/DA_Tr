@@ -148,4 +148,5 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     List<Object[]> findMonthlyExaminationPriceSum(@Param("startDate") Date startDate);
 
     Page<Schedule> findAllByDoctorUser_IdAndAssignedToAndStatus(Pageable pageable, Integer doctorId, Integer employeeId, Integer status);
+    Page<Schedule> findAllByAssignedToAndStatus(Pageable pageable, Integer employeeId, Integer status);
 }

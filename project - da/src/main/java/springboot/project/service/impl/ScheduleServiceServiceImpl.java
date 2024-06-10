@@ -271,6 +271,14 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
     }
 
     @Override
+    public Page<Schedule> getAllAssigned(Pageable pageable, Integer employeeId) {
+        if (!userRepository.existsByIdAndRole_Id(employeeId, Const.ROLE_ID_EMPLOYEE))
+            throw new RuntimeException("Employee not found or deleted");
+
+        return scheduleRepository.findAllByAssignedToAndStatus(pageable, employeeId, Const.SCHEDULE_STATUS_BOOKED);
+    }
+
+    @Override
     public String assign(Integer employeeId, Integer scheduleId) {
         User user = userRepository.findByIdAndRole_IdAndIsActive(employeeId, Const.ROLE_ID_EMPLOYEE, true);
 

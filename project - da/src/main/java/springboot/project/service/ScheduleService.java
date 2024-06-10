@@ -36,5 +36,7 @@ public interface ScheduleService {
 
     Page<Schedule> getAllUnassigned(Pageable pageable, Integer doctorId);
 
+    Page<Schedule> getAllAssigned(Pageable pageable, Integer employeeId);
+
     String assign(Integer employeeId, Integer scheduleId);
 }
