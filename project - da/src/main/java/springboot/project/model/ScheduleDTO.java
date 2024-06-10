@@ -57,6 +57,7 @@ public class ScheduleDTO {
     private String relationship;
     private Integer specializationId;
     private Integer createdBy;
+    private Integer assignedTo;
     private Date createdAt;
     private Date updateAt;
     private Date deleteAt;

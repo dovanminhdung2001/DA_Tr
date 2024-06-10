@@ -11,11 +11,9 @@ import java.util.Date;
 import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
-    @Query(value = "select s.* from schedules s \n" +
-            "join users u \n" +
-            "on u.id = s.created_by\n" +
-            "where u.id = ?",nativeQuery = true)
-    Page<Schedule> getById(Pageable pageable, int id);
+
+
+    Schedule findByIdAndStatus(Integer id, Integer status);
 
     @Query(value = "SELECT s.* FROM schedules s " +
             "JOIN users u ON u.id = s.created_by " +
@@ -148,4 +146,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             "AND s.date >= :startDate " +
             "GROUP BY DATE_FORMAT(s.date, '%b-%Y')", nativeQuery = true)
     List<Object[]> findMonthlyExaminationPriceSum(@Param("startDate") Date startDate);
+
+    Page<Schedule> findAllByDoctorUser_IdAndAssignedToAndStatus(Pageable pageable, Integer doctorId, Integer employeeId, Integer status);
 }

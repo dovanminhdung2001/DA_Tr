@@ -70,6 +70,7 @@ public class Schedule {
     private String phoneGuardian;
     private String relationship;
     private Integer createdBy;
+    private Integer assignedTo;
     private Integer specializationId;
     public Schedule() {
     }

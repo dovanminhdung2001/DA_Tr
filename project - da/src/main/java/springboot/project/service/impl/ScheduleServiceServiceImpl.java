@@ -263,6 +263,31 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         return shiftToday;
     }
 
+    @Override
+    public Page<Schedule> getAllUnassigned(Pageable pageable, Integer doctorId) {
+        return scheduleRepository.findAllByDoctorUser_IdAndAssignedToAndStatus(
+                pageable, doctorId, null, Const.SCHEDULE_STATUS_BOOKED
+        );
+    }
+
+    @Override
+    public String assign(Integer employeeId, Integer scheduleId) {
+        User user = userRepository.findByIdAndRole_IdAndIsActive(employeeId, Const.ROLE_ID_EMPLOYEE, true);
+
+        if (user == null)
+            throw new RuntimeException("Employee not found");
+
+        Schedule schedule = scheduleRepository.findByIdAndStatus(scheduleId, Const.SCHEDULE_STATUS_BOOKED);
+
+        if (schedule == null)
+            throw new RuntimeException("Schedule not found  or cancelled or resulted");
+
+        schedule.setAssignedTo(user.getId());
+        scheduleRepository.save(schedule);
+
+        return "Assign success";
+    }
+
     private ScheduleDTO convert(Schedule schedule) {
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         scheduleDTO.setId(schedule.getId());
@@ -296,6 +321,7 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
 //        scheduleDTO.setDoctorUser(schedule.getDoctorUser());
         scheduleDTO.setDate(DateUtils.sdf.format(schedule.getDate()));
         scheduleDTO.setDoctorName(schedule.getDoctorUser().getUser().getName());
+        scheduleDTO.setAssignedTo(schedule.getAssignedTo());
         return scheduleDTO;
     }
 

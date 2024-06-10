@@ -99,5 +99,16 @@ public class DateShiftController {
     ) {
         return ResponseEntity.ok(scheduleService.getAllForDoctorInPast(pageable, status, date, type));
     }
+
+    @GetMapping("/doctor/schedule/list-unassigned")
+    public ResponseEntity<?> listUnassigned (Pageable pageable, @RequestParam Integer doctorId) {
+        return ResponseEntity.ok(scheduleService.getAllUnassigned(pageable, doctorId));
+    }
+
+    @PostMapping("/doctor/schedule/assign")
+    public ResponseEntity<?> assign (@RequestParam Integer employeeId, @RequestParam Integer scheduleId) {
+        return ResponseEntity.ok(new MessageResponseDTO(scheduleService.assign(employeeId, scheduleId)));
+    }
+
 }
 

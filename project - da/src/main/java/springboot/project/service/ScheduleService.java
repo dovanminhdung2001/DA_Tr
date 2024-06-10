@@ -33,4 +33,8 @@ public interface ScheduleService {
     Page<ScheduleDTO> getAllForDoctorInPast(Pageable pageable, Integer status, Date date, Integer type);
 
     List<Integer> scheduleDay(ScheduleDTO atClinic);
+
+    Page<Schedule> getAllUnassigned(Pageable pageable, Integer doctorId);
+
+    String assign(Integer employeeId, Integer scheduleId);
 }
