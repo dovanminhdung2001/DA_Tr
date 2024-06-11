@@ -277,7 +277,7 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         if (!userRepository.existsByIdAndRole_Id(employeeId, Const.ROLE_ID_EMPLOYEE))
             throw new RuntimeException("Employee not found or deleted");
 
-        Page<Schedule> page = scheduleRepository.findAllByAssignedToAndStatus(pageable, employeeId, Const.SCHEDULE_STATUS_BOOKED);
+        Page<Schedule> page = scheduleRepository.findAllByAssignedToAndTestResultsIsNull(pageable, employeeId);
 
         return page.map(this::convert);
     }
