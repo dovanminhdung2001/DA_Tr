@@ -35,15 +35,26 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
             "or (s.date = current_date and s.time > extract(hour from current_time)))", nativeQuery = true)
     Page<Schedule> getAllForUserInFuture(Pageable pageable, int id, Integer type);
 
+//    @Query(value = "select s.* " +
+//            "from schedules s " +
+//            "join users u " +
+//            "on u.id = s.created_by " +
+//            "where u.id = ?1 " +
+//            "and s.type = ?2 " +
+//            "and (s.date = current_date + interval '1 day' " +
+//            "or s.date = current_date + interval '2 day' " +
+//            "or (s.date = current_date and s.time > extract(hour from current_time))) ", nativeQuery = true)
+//    Page<Schedule> getAllForUserIn3NextDays(Pageable pageable, int id, Integer type);
+
     @Query(value = "select s.* " +
             "from schedules s " +
             "join users u " +
             "on u.id = s.created_by " +
             "where u.id = ?1 " +
             "and s.type = ?2 " +
-            "and (s.date = current_date + interval '1 day' " +
-            "or s.date = current_date + interval '2 day' " +
-            "or (s.date = current_date and s.time > extract(hour from current_time)))", nativeQuery = true)
+            "and (s.date = curdate() + interval 1 day " +
+            "or s.date = curdate() + interval 2 day " +
+            "or (s.date = curdate() and s.time > hour(current_time()))) ", nativeQuery = true)
     Page<Schedule> getAllForUserIn3NextDays(Pageable pageable, int id, Integer type);
 
     @Query(value = "select s.* " +
