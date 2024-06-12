@@ -9,7 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import springboot.project.dao.DoctorUserRepository;
 import springboot.project.entity.DateShift;
-import springboot.project.entity.Schedule;
 import springboot.project.model.DateShiftDTO;
 import springboot.project.model.MessageResponseDTO;
 import springboot.project.model.ScheduleDTO;
@@ -105,6 +104,11 @@ public class DateShiftController {
         return ResponseEntity.ok(scheduleService.getAllUnassigned(pageable, doctorId));
     }
 
+    @GetMapping("/doctor/schedule/user-list-resulted")
+    public ResponseEntity<?> listResultedScheduleOfUser(Pageable pageable, @RequestParam String phone) {
+        return ResponseEntity.ok(scheduleService.getAllResultedScheduleOfUser(pageable, phone));
+    }
+
     @GetMapping("/employee/schedule/list-assigned")
     public ResponseEntity<?> listAssigned (Pageable pageable, @RequestParam Integer employeeId) {
         return ResponseEntity.ok(scheduleService.getAllAssigned(pageable, employeeId));
@@ -121,7 +125,7 @@ public class DateShiftController {
     }
 
     @DeleteMapping("/employee/schedule/cancel-assigned")
-    public ResponseEntity<?> cacelAssign(@RequestParam Integer scheduleId) {
+    public ResponseEntity<?> cancelAssign(@RequestParam Integer scheduleId) {
         return ResponseEntity.ok(new MessageResponseDTO(scheduleService.cancelAssign(scheduleId)));
     }
 }

@@ -320,6 +320,15 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         return page.map(this::convert);
     }
 
+    @Override
+    public Page<?> getAllResultedScheduleOfUser(Pageable pageable, String phone) {
+        Page<Schedule> page = scheduleRepository.findAllByStatusAndUserPhone(
+                pageable, Const.SCHEDULE_STATUS_RESULTED, phone
+        );
+
+        return page.map(this::convert);
+    }
+
     private ScheduleDTO convert(Schedule schedule) {
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         scheduleDTO.setId(schedule.getId());
