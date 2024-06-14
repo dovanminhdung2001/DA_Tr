@@ -31,4 +31,14 @@ public class DateShift {
         this.shiftTime = shiftTime;
         this.isActive = activate;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "\"id\"=" + id +
+                ", \"dateId\"=" + doctorDate.getId() +
+                ", \"shiftTime\"=\"" + shiftTime + "\"" +
+                ", \"activate\"=" + isActive +
+                '}';
+    }
 }

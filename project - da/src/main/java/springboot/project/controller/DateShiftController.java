@@ -40,6 +40,11 @@ public class DateShiftController {
         return ResponseEntity.ok(dateShift);
     }
 
+    @PostMapping("/doctor/dateShift/createAES")
+    public ResponseEntity<?> createAES(@RequestBody String reqAES) {
+        return ResponseEntity.ok(dateShiftService.createAES(reqAES));
+    }
+
     @DeleteMapping("/doctor/dataShift/delete")
     public ResponseEntity<?> delete(@RequestParam int dateShiftId) {
         return ResponseEntity.ok(dateShiftService.delete(dateShiftId));
