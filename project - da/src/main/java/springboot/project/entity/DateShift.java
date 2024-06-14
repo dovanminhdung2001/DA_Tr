@@ -35,10 +35,10 @@ public class DateShift {
     @Override
     public String toString() {
         return "{" +
-                "\"id\"=" + id +
-                ", \"dateId\"=" + doctorDate.getId() +
-                ", \"shiftTime\"=\"" + shiftTime + "\"" +
-                ", \"activate\"=" + isActive +
+                "\"id\":" + id +
+                ", \"dateId\":" + doctorDate.getId() +
+                ", \"shiftTime\":\"" + shiftTime + "\"" +
+                ", \"activate\":" + isActive +
                 '}';
     }
 }
