@@ -42,7 +42,7 @@ public class DateShiftController {
 
     @PostMapping("/doctor/dateShift/createAES")
     public ResponseEntity<?> createAES(@RequestBody MessageResponseDTO dto) {
-        return ResponseEntity.ok(dateShiftService.createAES(dto));
+        return ResponseEntity.ok(new MessageResponseDTO(dateShiftService.createAES(dto)));
     }
 
     @DeleteMapping("/doctor/dataShift/delete")
