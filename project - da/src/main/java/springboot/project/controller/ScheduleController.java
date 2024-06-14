@@ -1,5 +1,6 @@
 package springboot.project.controller;
 
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,12 +41,12 @@ public class ScheduleController {
 
     // dat lich kham
     @PostMapping("/user/schedule/booking")
-    public ResponseEntity<?> booking(@RequestBody ScheduleDTO dto) {
-        try {
+    public ResponseEntity<?> booking(@RequestBody ScheduleDTO dto)  {
+//        try {
             return ResponseEntity.ok(scheduleService.booking(dto));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new MessageResponseDTO(e.getMessage()));
-        }
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(new MessageResponseDTO(e.getMessage()));
+//        }
     }
 
     // huy lich kham

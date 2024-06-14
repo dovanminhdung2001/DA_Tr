@@ -15,7 +15,7 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
-    @GetMapping({"/doctor/blog/list", "/admin/blog/list"})
+    @GetMapping({"/doctor/blog/list", "/admin/blog/list","/user/blog/list"})
     ResponseEntity<?> list (
         Pageable pageable,
         @RequestParam(required = false) Integer blogId,

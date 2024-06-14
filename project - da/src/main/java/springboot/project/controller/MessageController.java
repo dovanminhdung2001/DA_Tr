@@ -27,7 +27,7 @@ public class MessageController {
     }
 
     @PostMapping("/message/send")
-    public ResponseEntity<?> sendMessage(@RequestBody MessageDTO dto) throws FirebaseMessagingException {
+    public ResponseEntity<?> sendMessage(@RequestBody MessageDTO dto) {
         return ResponseEntity.ok(messageService.saveMessage(dto));
     }
 }

@@ -36,7 +36,7 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
     private final FcmService fcmService;
 
     @Override
-    public ScheduleDTO booking(ScheduleDTO dto) throws FirebaseMessagingException {
+    public ScheduleDTO booking(ScheduleDTO dto) {
         DoctorUser doctorUser = doctorUserRepository.findById(dto.getDoctorId()).get();
         DoctorDate doctorDate = doctorDateRepository.findByDoctorUserAndWorkingDate(doctorUser, dto.getWorkingDate());
         DateShift dateShift = dateShiftRepository.findById(dto.getShiftId()).get();
@@ -97,7 +97,11 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
         doctorUserRepository.save(doctorUser);
         schedule = scheduleRepository.save(schedule);
 
-        sendNotify(doctorUser, user, schedule);
+        try {
+            sendNotify(doctorUser, user, schedule);
+        } catch (FirebaseMessagingException e) {
+            System.out.println("device not found");
+        }
 
         return convert(schedule);
     }
@@ -232,9 +236,9 @@ public class ScheduleServiceServiceImpl implements ScheduleService {
 
         if (type != null )
             if (date != null)
-                repo = scheduleRepository.findAllByDateBeforeAndTestResults_Status(pageable, date, type);
+                repo = scheduleRepository.findAllByDateBeforeAndTestResults_StatusAndDoctorUser_Id(pageable, date, type, doctorId);
             else
-                repo = scheduleRepository.findAllByTestResults_Status(pageable, type);
+                repo = scheduleRepository.findAllByTestResults_StatusAndDoctorUser_Id(pageable, type, doctorId);
         else if (status != null && date != null)
             repo = scheduleRepository.getPageForDoctorInPastByTypeAt(pageable, doctorId, status, date);
         else if (status != null)

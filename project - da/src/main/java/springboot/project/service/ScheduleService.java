@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface ScheduleService {
 
-    ScheduleDTO booking (ScheduleDTO dto) throws FirebaseMessagingException;
+    ScheduleDTO booking (ScheduleDTO dto);
     ScheduleDTO unBooking (ScheduleDTO dto);
 
 

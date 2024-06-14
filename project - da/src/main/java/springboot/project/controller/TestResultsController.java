@@ -55,12 +55,12 @@ public class TestResultsController {
     // thêm kq khám
     @PostMapping("/api/doctor/add-testResult")
     public ResponseEntity<?> addResultDoctor(@RequestBody TestResultsDTO testResultsDTO) {
-        try {
+//        try {
             TestResults testResults = testResultsService.addResultDoctor(testResultsDTO);
 
             return ResponseEntity.ok(testResults);
-        } catch (Exception ex) {
-            return ResponseEntity.badRequest().body(new MessageResponseDTO("Error"));
-        }
+//        } catch (Exception ex) {
+//            return ResponseEntity.badRequest().body(new MessageResponseDTO("Error"));
+//        }
     }
 }

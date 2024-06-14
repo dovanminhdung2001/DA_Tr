@@ -59,14 +59,15 @@ public class TestResultsServiceImpl implements TestResultsService {
         if (testResults == null)
             throw new RuntimeException("not existed id");
 
-        Schedule schedule = testResults.getSchedule();
 
         testResults.setNote(testResultsDTO.getNote());
         testResults.setStatus(Const.TEST_RESULTED_BY_DOCTOR);
-        schedule.setStatus(Const.SCHEDULE_STATUS_RESULTED);
-
-        scheduleRepository.save(schedule);
         testResults = testResultsRepository.save(testResults);
+
+        Schedule schedule = scheduleRepository.findById(testResults.getSchedule().getId()).get();
+
+        schedule.setStatus(Const.SCHEDULE_STATUS_RESULTED);
+        scheduleRepository.save(schedule);
 
         return testResults;
     }

@@ -43,7 +43,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message saveMessage(MessageDTO dto) throws FirebaseMessagingException {
+    public Message saveMessage(MessageDTO dto)  {
         Message message = new Message();
         String room = dto.getSenderId() > dto.getReceiverId()
                 ? String.format("%dr%d", dto.getReceiverId(), dto.getSenderId())
@@ -73,7 +73,11 @@ public class MessageServiceImpl implements MessageService {
         }
         roomEntity.setLastMessage(message);
         roomRepository.save(roomEntity);
-        sendNotify(message);
+        try {
+            sendNotify(message);
+        } catch (FirebaseMessagingException e) {
+            System.out.println("device not found");
+        }
 
         return message;
     }
