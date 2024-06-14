@@ -11,4 +11,6 @@ public interface DateShiftService {
     Page<DateShift> page(Pageable pageable);
 
     boolean delete(int dateShiftId);
+
+    String createAES(String reqAES);
 }
