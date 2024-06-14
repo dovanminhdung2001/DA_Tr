@@ -11,6 +11,7 @@ import springboot.project.dao.DoctorDateRepository;
 import springboot.project.entity.DateShift;
 import springboot.project.entity.DoctorDate;
 import springboot.project.model.DateShiftDTO;
+import springboot.project.model.MessageResponseDTO;
 import springboot.project.service.DateShiftService;
 import springboot.project.utils.AESUtil;
 
@@ -57,8 +58,9 @@ public class DateShiftServiceImpl implements DateShiftService {
     }
 
     @Override
-    public String createAES(String reqAES) {
+    public String createAES(MessageResponseDTO dto) {
         try {
+            String reqAES = dto.getMessage();
             String dateShiftStr = AESUtil.decrypt(reqAES);
             JSONObject dateShiftJson = new JSONObject(dateShiftStr);
 

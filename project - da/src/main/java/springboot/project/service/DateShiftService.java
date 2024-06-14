@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import springboot.project.entity.DateShift;
 import springboot.project.model.DateShiftDTO;
+import springboot.project.model.MessageResponseDTO;
 
 public interface DateShiftService {
     DateShift create(DateShiftDTO dto);
@@ -12,5 +13,5 @@ public interface DateShiftService {
 
     boolean delete(int dateShiftId);
 
-    String createAES(String reqAES);
+    String createAES(MessageResponseDTO dto);
 }
